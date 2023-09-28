@@ -21,10 +21,10 @@ export default function RootLayout({
       <body
         className={'text-xl relative h-[100vh] flex flex-col overflow-x-hidden ' + mainFont.className}>
         <Nav/>
-        <main className=" grow basis-auto">
+        <main className="grow basis-auto">
           {children}
         </main>
-      <footer>sdg</footer>
+        <footer>2023</footer>
       </body>
     </html>
   );
