@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    @apply text-t-main tracking-[0.3px]
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        @apply text-t-main bg-t-main-2
+    }
+}
+
+body {
+    @apply text-t-main bg-t-main-2
+}
+
+
+
+
