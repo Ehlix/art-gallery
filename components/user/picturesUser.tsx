@@ -6,9 +6,10 @@ export function PicturesUser(props: Props) {
     <div
       className="grid grid-cols-5 gap-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {
-        aaa.map(() => {
+        aaa.map((a, i) => {
           return (
             <div
+              key={i}
               className="cursor-pointer overflow-hidden group aspect-[1/1] relative flex flex-col justify-end rounded-[3px] w-[100%] h-[100%] bg-t-main transition-all duration-1000 ease-in-out hover:shadow-[inset_0px_-270px_100px_-230px_rgba(0,0,0,0.60)] md:hover:shadow-none">
               <div
                 className="relative flex h-fit w-full opacity-0 transition-all ease-in-out top-[100%] gap-[5px] duration-[600ms] px-[2%] pb-[2%] group-hover:top-0 group-hover:opacity-100 md:hidden">

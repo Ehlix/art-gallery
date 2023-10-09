@@ -1,5 +1,5 @@
 import React from "react";
-import {PicturesUser} from "@/components/picturesUser";
+import {PicturesUser} from "@/components/user/picturesUser";
 
 
 export default function Home() {

@@ -4,7 +4,7 @@ import Link from "next/link";
 import {MdCreate} from "react-icons/md";
 
 import {PiList, PiX} from "react-icons/pi";
-import NavInput from "@/components/NavInput";
+import NavInput from "@/components/navigation/NavInput";
 
 export default function NavMobileButton() {
   const [status, setStatus] = useState<boolean>(false);
@@ -26,7 +26,7 @@ export default function NavMobileButton() {
         <div className="flex gap-[20px]">
           <NavInput/>
           <Link href="/auth/signup"
-                onClick={()=>setStatus(false)}
+                onClick={() => setStatus(false)}
                 className="flex items-center justify-center transition-all min-w-[100px] gap-[5px] text-t-hover-4 rounded-[5px] hover:text-t-hover-1 md:text-[16px]">
             <div className="text-xl pb-[2px]"><MdCreate/></div>
             <span>Sing up</span>

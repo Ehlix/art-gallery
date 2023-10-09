@@ -11,9 +11,7 @@ import {useRouter} from "next/navigation";
 export default function SignIn() {
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
-
   const supabase = createClientComponentClient();
-
   const {register, handleSubmit, formState: {errors}} = useForm<LoginType>({
     resolver: yupResolver(loginSchema)
   });
@@ -23,11 +21,10 @@ export default function SignIn() {
       email: payload.email,
       password: payload.password,
     });
+    setLoading(false);
     if (error) {
       toast.error(error.message, {theme: 'colored'});
-      setLoading(false);
     } else if (data.user) {
-      setLoading(false);
       router.refresh();
       router.push('/');
     }

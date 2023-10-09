@@ -46,9 +46,11 @@ const config: Config = {
       xs: {max: "400px"},
       // => @media (max-width: 400px) { ... }
     },
-    container: {
-      padding: '1.5vw'
-    }
+  container: {
+    padding: {
+      DEFAULT: '1.3vw'
+    },
+  },
   },
   plugins: [],
 };

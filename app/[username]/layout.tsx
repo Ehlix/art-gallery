@@ -2,20 +2,35 @@ import {Metadata} from "next";
 import Image from "next/image";
 import {HiMapPin} from "react-icons/hi2";
 import {PiLinkBold} from "react-icons/pi";
-import {UserNav} from "@/components/userNav";
+import {UserNav} from "@/components/user/userNav";
 import React, {Suspense} from "react";
+import {notFound} from "next/navigation";
+import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
+import {cookies} from "next/headers";
 
 export const metadata: Metadata = {
   title: 'Art',
   description: 'App gallery',
 };
 
-export default function RootLayout({
-                                     children, params
-                                   }: {
+export default async function RootLayout({
+                                           children,
+                                           params
+                                         }: {
   children: React.ReactNode
-  params: { user: string }
+  params: { username: string }
 }) {
+  const supabase = createServerComponentClient({cookies});
+  let {data: users} = await supabase
+    .from('users')
+    .select().eq('metadata->>site', params.username);
+  // console.log('getUser: ', users);
+
+  if (!users || users.length <= 0 || users[0].metadata.site !== params.username) {
+    return notFound();
+  }
+  const user = users?.length === 1 && users[0];
+
   return (
     <>
       <div
@@ -34,8 +49,8 @@ export default function RootLayout({
           <div
             className="mb-5 rounded-full relatives w-[100px] h-[100px] bg-t-main"></div>
           <div className="flex flex-col items-center">
-            <h3
-              className="font-bold capitalize text-t-hover-1 text-[33px]">{params.user}</h3>
+            <h2
+              className="font-bold capitalize text-t-hover-1 text-[33px]">{user.metadata.name}</h2>
             <span>Small description</span>
             <div className="flex"><span className="mr-1">Location</span><HiMapPin/>
             </div>
@@ -45,7 +60,7 @@ export default function RootLayout({
           </div>
         </div>
       </div>
-      <UserNav username={params.user}/>
+      <UserNav username={user.metadata.site}/>
       <Suspense>
         {children}
       </Suspense>

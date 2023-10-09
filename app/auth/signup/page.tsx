@@ -29,11 +29,11 @@ export default function Signup() {
       password: payload.password,
       options: {
         data: {
+          site: payload.email.replace(new RegExp(`(.*)${'@'}.*`), '$1'),
           name: payload.name,
         }
       }
     });
-
     setLoading(false);
     if (error) {
       toast.error(error.message, {theme: 'colored'});

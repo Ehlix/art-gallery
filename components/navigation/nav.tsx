@@ -1,18 +1,17 @@
 import Link from "next/link";
 import React from "react";
-import {BiLogIn} from "react-icons/bi";
-import {MdCreate} from "react-icons/md";
-import NavMobileButton from "@/components/navMobileButton";
+import NavMobileButton from "@/components/navigation/navMobileButton";
 import Image from "next/image";
-import NavInput from "@/components/NavInput";
+import NavInput from "@/components/navigation/NavInput";
 import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
 import {cookies} from "next/headers";
-import SignOutButton from "@/components/SignOutButton";
+import UserNavPanel from "@/components/navigation/userNavPanel";
+import {AuthButton} from "@/components/navigation/authButton";
 
 export async function Nav() {
   const supabase = createServerComponentClient({cookies});
   const {data, error} = await supabase.auth.getSession();
-  console.log('111111111', data);
+  // console.log('nav', data);
 
 
   return (
@@ -53,21 +52,9 @@ export async function Nav() {
 
         <div className="flex w-auto gap-[20px] h-[35px] text-[15px]">
           {data?.session?.user ?
-
-            <SignOutButton/> :
-
-            <><Link href="/auth/signup"
-                    className="flex items-center justify-center transition-all w-[100px] gap-[5px] bg-t-main/70 text-t-hover-1 rounded-[5px] hover:bg-t-hover-4/70 md:hidden">
-              <div className="text-xl pb-[2px]"><MdCreate/></div>
-              <span>Sing up</span>
-            </Link>
-              <Link href="/auth/sign_in"
-                    className="flex items-center justify-center transition-all w-[100px] gap-[5px] bg-grad-1 text-t-main-2 rounded-[5px] hover:bg-grad-2">
-                <div className="text-xl pb-[2px]"><BiLogIn/></div>
-                <span>Sing in</span>
-              </Link>
-            </>}
-
+            <UserNavPanel/> :
+            <AuthButton/>
+          }
         </div>
       </nav>
 
