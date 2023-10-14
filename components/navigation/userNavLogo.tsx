@@ -2,20 +2,18 @@
 import * as React from 'react';
 import {useRef, useState} from 'react';
 import Image from "next/image";
-import Link from "next/link";
-import * as Separator from '@radix-ui/react-separator';
 import {useClickOutside} from "@/hooks/useClickOutside";
 import {ModalUserOption} from "@/components/navigation/modalUserOption";
 
 type Props = {};
 
 export function UserNavLogo(props: Props) {
+  const menuRef = useRef(null);
   const [open, setOpen] = useState<boolean>(false);
 
-  const menuRef = useRef(null);
 
   useClickOutside(menuRef, () => {
-    if (open) setTimeout(() => setOpen(false), 200);
+    if (open) setTimeout(() => setOpen(false), 170);
   });
 
 
@@ -39,7 +37,7 @@ export function UserNavLogo(props: Props) {
 
       {open && <div
         ref={menuRef}
-        className="absolute right-0 z-50 flex flex-col rounded-t-none shadow-black/50 top-[60px] text-[20px] bg-t-main-2/95 rounded-[5px] w-[300px] p-[10px] text-t-hover-1 sm:w-[100%]">
+        className="absolute right-0 z-50 flex flex-col rounded-t-none shadow-black/25 shadow-[inset_0_-500px_150px_-200px] backdrop-blur-[10px] top-[60px] text-[20px] bg-t-main-2/80 rounded-[5px] w-[300px] p-[10px] text-t-hover-1 sm:top-[45px] sm:bg-t-main-2 sm:backdrop-blur-[0px] sm:w-[100%] sm:rounded-none sm:shadow-black/30">
         <ModalUserOption/>
 
       </div>
