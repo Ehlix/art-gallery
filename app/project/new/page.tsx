@@ -6,6 +6,7 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from '@hookform/resolvers/yup';
 import {newProjectSchema, NewProjectType} from "@/validations/newProjectSchema";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
+import {generateRandomNum} from "@/utils/utils";
 
 type Props = {};
 
@@ -45,7 +46,7 @@ type ChosenCategories = {
   medium: string[]
   subject: string[]
 }
-
+const uniquePath = Date.now() + '_' + generateRandomNum();
 export default function Page(props: Props) {
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
@@ -54,7 +55,6 @@ export default function Page(props: Props) {
     subject: []
   });
   const supabase = createClientComponentClient();
-
 
   // * Validation project
   const {
@@ -115,7 +115,7 @@ export default function Page(props: Props) {
         </div>
         <span className="text-t-error">{errors.image?.message}</span>
 
-        <ImageUploadZone register={register('image')}
+        <ImageUploadZone uniquePath={uniquePath} register={register('image')}
                          setImage={(file: File[]) => setImage(file)}/>
 
 

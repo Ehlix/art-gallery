@@ -19,7 +19,7 @@
 }
 
 body {
-    @apply text-t-main bg-t-main-2
+    @apply text-t-main bg-t-main-2;
 }
 
 

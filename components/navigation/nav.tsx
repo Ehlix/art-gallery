@@ -19,13 +19,13 @@ export async function Nav() {
   return (
     <>
       <nav
-        className="container fixed top-0 z-40 flex w-full select-none items-center justify-between text-t-main bg-t-main-2 gap-[28px] h-[60px] sm:h-[45px] no-wrap">
+        className="container fixed top-0 z-40 flex w-full select-none items-center justify-between text-t-main bg-t-main-2 gap-[28px] h-[60px] md:h-[45px] no-wrap">
 
         <NavMobileButton isAuthorized={isAuthorized}/>
 
         <Link href="/ogog223"
               className="min-w-[40px] min-h-[40px] md:w-[40px] md:absolute md:right-0 md:left-0 md:mx-auto">
-          <Image src="/logo.svg" alt="1231" width={0}
+          <img src="/logo.svg" alt="1231" width={0}
                  height={0}
                  sizes="100vw"
                  className="w-[40px] h-[40px]"
@@ -53,7 +53,7 @@ export async function Nav() {
       </nav>
 
       <div
-        className="top-0 w-full min-h-[60px] sm:min-h-[45px]">
+        className="top-0 w-full min-h-[60px] md:min-h-[45px]">
       </div>
     </>
   );

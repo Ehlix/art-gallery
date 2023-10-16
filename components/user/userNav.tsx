@@ -6,7 +6,7 @@ export const UserNav = ({username}: { username: string }) => {
   return (
     <>
       <div
-        className="container sticky z-30 flex w-full select-none items-center justify-center overflow-x-auto overflow-y-hidden text-t-hover-1 text-[16px] top-[69px] pt-[10px] pb-[10px] bg-t-main-2 gap-[33px] h-[45px] no-wrap content md:h-[55px] lg:h-[50px] lg:justify-start">
+        className="container sticky z-30 flex w-full select-none items-center justify-center overflow-x-auto overflow-y-hidden text-t-hover-1 text-[16px] top-[60px] pt-[10px] pb-[10px] bg-t-main-2 gap-[33px] h-[45px] no-wrap content md:top-[45px] lg:h-[60px] lg:justify-start">
         <div className="flex w-fit items-center gap-7">
           <Link href={`/${username}`}
                 className="relative transition-all decoration-t-hover-2 decoration-[2.5px] hover:text-t-hover-2
