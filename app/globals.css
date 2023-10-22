@@ -20,7 +20,29 @@
 
 body {
     @apply text-t-main bg-t-main-2;
+    overflow-x: hidden;
 }
+@layer base {
+    *::-webkit-scrollbar {
+        @apply h-[17px] w-[10px] md:h-[10px]
+        /*height: 17px;*/
+        /*width: 10px; !* ширина всей полосы прокрутки *!*/
+    }
+
+    *::-webkit-scrollbar-track {
+        @apply bg-opacity-0 bg-t-main;
+        /* цвет зоны отслеживания */
+    }
+
+    *::-webkit-scrollbar-thumb {
+        background-color: blue;    /* цвет бегунка */
+        /*border-radius: 20px;       !* округлось бегунка *!*/
+        /*border: 3px solid orange;  !* отступ вокруг бегунка *!*/
+        @apply bg-t-main rounded-[3px]
+    }
+}
+
+
 
 
 

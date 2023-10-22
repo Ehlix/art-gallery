@@ -37,7 +37,7 @@ export function UserNavLogo(props: Props) {
 
       {open && <div
         ref={menuRef}
-        className="absolute right-0 z-50 flex flex-col rounded-t-none shadow-black/25 shadow-[inset_0_-500px_150px_-200px] backdrop-blur-[10px] top-[60px] text-[20px] bg-t-main-2/80 rounded-[5px] w-[300px] p-[10px] text-t-hover-1 sm:top-[45px] sm:bg-t-main-2 sm:backdrop-blur-[0px] sm:w-[100%] sm:rounded-none sm:shadow-black/30">
+        className="absolute right-0 z-50 flex flex-col rounded-t-none shadow-black/25 shadow-[inset_0_-500px_150px_-200px] backdrop-blur-[10px] top-[60px] text-[20px] bg-t-main-2/80 rounded-[5px] w-[300px] pt-[0px] p-[10px] text-t-hover-1 sm:top-[45px] sm:bg-t-main-2 sm:backdrop-blur-[0px] sm:w-[100%] sm:rounded-none sm:shadow-black/30">
         <ModalUserOption/>
 
       </div>

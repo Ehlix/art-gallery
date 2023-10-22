@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={'text-xl relative w-[100%] h-[100vh] flex flex-col overflow-x-hidden ' + mainFont.className}>
+        className={'text-xl relative mr-[calc(-1*(100vw-100%))] w-[100%] h-[100vh] flex flex-col overflow-x-hidden ' + mainFont.className}>
         <header>
           <Nav/>
         </header>

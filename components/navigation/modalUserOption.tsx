@@ -76,28 +76,30 @@ export function ModalUserOption() {
         {/*<div className="mt-[-1.7px]">{'dh'}</div>*/}
         <span>{user?.name}</span>
       </Link>
+<div className='mt-[15px]'>
+  {modalItems.map((v, i) => {
+    if (v.separator) {
+      return (
+        <Separator.Root
+          key={i}
+          className="bg-t-main data-[orientation=horizontal]:h-px ml-[0px] my-[15px] mr-[-100px]"
+          decorative orientation="horizontal"
+        />);
+    }
+    if (v.href) {
+      return (
+        <Link key={i}
+              href={v.href}
+              className="flex items-center justify-start transition-all w-[100%] gap-[12px] rounded-[3px] p-[10px] hover:bg-t-main/70"
+        >
+          <div className="mt-[-1.7px]">{v.icon}</div>
+          <span>{v.title}</span>
+        </Link>
+      );
+    }
+  })}
+</div>
 
-      {modalItems.map((v, i) => {
-        if (v.separator) {
-          return (
-            <Separator.Root
-              key={i}
-              className="bg-t-main data-[orientation=horizontal]:h-px ml-[0px] my-[15px] mr-[-100px]"
-              decorative orientation="horizontal"
-            />);
-        }
-        if (v.href) {
-          return (
-            <Link key={i}
-                  href={v.href}
-                  className="flex items-center justify-start transition-all w-[100%] gap-[12px] rounded-[3px] p-[10px] hover:bg-t-main/70"
-            >
-              <div className="mt-[-1.7px]">{v.icon}</div>
-              <span>{v.title}</span>
-            </Link>
-          );
-        }
-      })}
       <button
         onClick={logout}
         className="flex items-center justify-start transition-all w-[100%] gap-[12px] rounded-[3px] p-[10px] hover:bg-t-main/70">
