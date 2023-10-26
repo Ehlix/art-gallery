@@ -40,6 +40,7 @@ export function ModalUserOption() {
   const logout = async () => {
     await supabase.auth.signOut();
     router.refresh();
+    router.push('/')
   };
 
   useEffect(() => {

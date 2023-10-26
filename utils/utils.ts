@@ -1,4 +1,4 @@
-import {SelectedFileType} from "@/components/newProject/imageUploadZone";
+import {SelectedFileType} from "@/components/newProject/newProject";
 
 export function bytesToMb(bytes: number): number {
   const MB = 1048576;

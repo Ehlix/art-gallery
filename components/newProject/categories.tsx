@@ -1,9 +1,11 @@
 import * as React from 'react';
 import {useState} from 'react';
 import {cn} from "@/utils/twMergeClsx";
-import {medium, subject, Subject} from "@/config/categories_data";
-import {ChosenCategories} from "@/app/project/new/page";
+import {medium, Subject, subjects} from "@/config/categories_data";
+import {ChosenCategories} from "@/components/newProject/newProject";
 import {MdAdd, MdClose} from "react-icons/md";
+import Image from "next/image";
+import {useRouter} from "next/navigation";
 
 type Props = {
   chosenCategories: ChosenCategories
@@ -13,6 +15,7 @@ type Props = {
 
 export function Categories({chosenCategories, setChosenCategories, errors}: Props) {
   const [currentSubject, setCurrentSubject] = useState<Subject | null>(null);
+  const router = useRouter();
 
   function categoriesChangeHandler(e: React.ChangeEvent<HTMLInputElement>, v: string) {
     if (e.currentTarget.checked) {
@@ -28,7 +31,7 @@ export function Categories({chosenCategories, setChosenCategories, errors}: Prop
   }
 
   function onMouseOverHandler(v: Subject) {
-    setCurrentSubject(v);
+    setCurrentSubject({...v});
   }
 
   function onMouseLeaveHandler() {
@@ -91,11 +94,11 @@ export function Categories({chosenCategories, setChosenCategories, errors}: Prop
       <span className="text-t-error">{errors.medium?.message}</span>
       <h4 className="text-[16px]">Subject</h4>
 
-      <div className="flex items-center gap-[20px]">
+      <div className="flex flex-wrap items-center gap-[10px]">
         {chosenCategories.subject && chosenCategories.subject.map((v => {
           return (
             <div key={v}
-                 className="flex items-center capitalize border-[1px] border-t-main rounded-[3px] bg-t-main/20 text-t-main gap-[3px] h-[40px] px-[10px]">
+                 className="flex items-center capitalize border-[1px] border-t-main rounded-[5px] bg-t-main/20 text-t-main gap-[3px] h-[50px] px-[10px]">
               <span>{v}</span>
               <button onClick={e => removeSubjectHandler(e, v)}
                       className="flex items-center justify-center caz-20 gap-[3px] ml-[5px] border-t-main">
@@ -114,7 +117,7 @@ export function Categories({chosenCategories, setChosenCategories, errors}: Prop
           <div
             className="flex flex-col overflow-y-scroll px-[10px] h-[91%]">
 
-            {subject.map(v => {
+            {subjects.map(v => {
               const subjectStatus = chosenCategories.subject.includes(v.name);
               return (
                 <div
@@ -156,20 +159,24 @@ export function Categories({chosenCategories, setChosenCategories, errors}: Prop
                 <div
                   className="grid grid-cols-4 h-[100%] gap-[10px] lg:gap-[5px] lg:grid-rows-[150px_150px] lg:grid-cols-2">
                   <div className="overflow-hidden rounded-[5px] h-[100%] w-[100%]">
-                    <img className="object-cover w-[100%] h-[100%]"
-                         src={currentSubject.link + '/1.jpg'}/>
+                    <Image className="object-cover w-[100%] h-[100%]"
+                           src={currentSubject.link + '/1.jpg'} height={50} width={50}
+                           alt="1" quality={50}/>
                   </div>
                   <div className="overflow-hidden rounded-[5px] h-[100%] w-[100%]">
-                    <img className="object-cover w-[100%] h-[100%]"
-                         src={currentSubject.link + '/2.jpg'}/>
+                    <Image className="object-cover w-[100%] h-[100%]"
+                           src={currentSubject.link + '/2.jpg'} height={50} width={50}
+                           alt="2" quality={50}/>
                   </div>
                   <div className="overflow-hidden rounded-[5px] h-[100%] w-[100%]">
-                    <img className="object-cover w-[100%] h-[100%]"
-                         src={currentSubject.link + '/3.jpg'}/>
+                    <Image className="object-cover w-[100%] h-[100%]"
+                           src={currentSubject.link + '/3.jpg'} height={50} width={50}
+                           alt="3" quality={50}/>
                   </div>
                   <div className="overflow-hidden rounded-[5px] h-[100%] w-[100%]">
-                    <img className="object-cover w-[100%] h-[100%]"
-                         src={currentSubject.link + '/4.jpg'}/>
+                    <Image className="object-cover w-[100%] h-[100%]"
+                           src={currentSubject.link + '/4.jpg'} height={50} width={50}
+                           alt="4" quality={50}/>
                   </div>
                 </div>
               </div>

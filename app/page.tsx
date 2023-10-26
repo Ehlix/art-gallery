@@ -1,7 +1,7 @@
 import {PicturesMain} from "@/components/main/picturesMain";
 import {Suspense} from "react";
 
-export default async function Home() {
+export default async function HomePage() {
 
 
   return (

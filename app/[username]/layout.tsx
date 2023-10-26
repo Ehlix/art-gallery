@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description: 'App gallery',
 };
 
-export default async function RootLayout({
+export default async function UserLayout({
                                            children,
                                            params
                                          }: {

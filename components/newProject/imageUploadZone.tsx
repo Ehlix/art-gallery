@@ -6,24 +6,19 @@ import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import {RiLoader3Line} from "react-icons/ri";
 import RemoveConfirmation from "@/components/removeConfirmation";
+import {SelectedFileType} from "@/components/newProject/newProject";
+import {cn} from "@/utils/twMergeClsx";
 
 type Props = {
-  setImage: (file: SelectedFileType[]) => void
-  register: any
+  selectedFiles: SelectedFileType[]
+  setSelectedFiles: React.Dispatch<React.SetStateAction<SelectedFileType[]>>
   uniquePath: string
 };
 
-export type SelectedFileType = {
-  id: string
-  order: number
-  file: File,
-  isLoaded: boolean | 'error'
-}
 
-
-export function ImageUploadZone({uniquePath, setImage, register}: Props) {
+export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: Props) {
   const inputFile = useRef(null);
-  const [selectedFiles, setSelectedFiles] = useState<SelectedFileType[]>([]);
+
   const supabase = createClientComponentClient();
   const [currentTarget, setCurrentTarget] = useState<SelectedFileType>({} as SelectedFileType);
 
@@ -64,11 +59,6 @@ export function ImageUploadZone({uniquePath, setImage, register}: Props) {
       console.log('end: ', newFiles);
     });
   };
-
-  useEffect(() => {
-    setImage(selectedFiles);
-
-  }, [selectedFiles]);
 
   function clickHandler() {
     // @ts-ignore
@@ -195,10 +185,13 @@ export function ImageUploadZone({uniquePath, setImage, register}: Props) {
               }
             }
 
+            const isFullLoad = selectedFiles.every((v) => v.isLoaded === true);
             return (
               <div key={target.id}
-                   draggable
-                   className="relative flex cursor-move select-none flex-col items-center justify-end overflow-hidden border-t-main border-[4px] aspect-[1/1] rounded-[5px] bg-t-main/20 h-[100%] w-[100%]"
+                   draggable={isFullLoad}
+                   className={cn("relative flex cursor-move select-none flex-col items-center justify-end overflow-hidden border-t-main border-[4px] aspect-[1/1] rounded-[5px] bg-t-main/20 h-[100%] w-[100%]", {
+                     'cursor-default': !isFullLoad
+                   })}
                    onDragStart={e => dragStartHandler(e, target)}
                    onDragEnd={e => dragEndHandler(e)}
                    onDragOver={e => dragOverHandler(e)}
@@ -220,9 +213,9 @@ export function ImageUploadZone({uniquePath, setImage, register}: Props) {
                 }
                 <div
                   className="pointer-events-none absolute top-0 left-0 shadow-black/40 shadow-[inset_-10px_100px_30px_-70px] w-[100%] h-[100%]"></div>
-                <RemoveConfirmation
+                {isFullLoad && <RemoveConfirmation
                   className="absolute top-0 right-0 m-[7px] text-t-error text-[22px]"
-                  callback={confirmHandler}/>
+                  callback={confirmHandler}/>}
               </div>
             );
           })}
