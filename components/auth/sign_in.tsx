@@ -3,15 +3,14 @@ import * as Form from '@radix-ui/react-form';
 import {useForm} from "react-hook-form";
 import {loginSchema, LoginType} from "@/validations/authSchema";
 import {yupResolver} from "@hookform/resolvers/yup";
+import * as React from "react";
 import {useState} from "react";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 import {toast, ToastContainer} from "react-toastify";
 import {useRouter} from "next/navigation";
-import * as React from 'react';
 
-type Props = {};
 
-export function SignIn(props: Props) {
+export function SignIn() {
 
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -92,4 +91,4 @@ export function SignIn(props: Props) {
       </Form.Root>
     </>
   );
-};
+}

@@ -5,8 +5,6 @@ import {MdMoreVert, MdNotifications, MdSend, MdUpload} from "react-icons/md";
 import {UserNavLogo} from "@/components/navigation/userNavLogo";
 
 export default function UserNavPanel() {
-
-
   return (
 
     <div className="flex w-full items-center gap-[15px]">

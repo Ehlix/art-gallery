@@ -10,10 +10,9 @@ import {useRouter} from "next/navigation";
 import * as React from "react";
 import {useState} from "react";
 
-type Props = {};
 
-export function SignUp(props: Props) {
-  
+export function SignUp() {
+
   const [loading, setLoading] = useState<boolean>(false);
   const supabase = createClientComponentClient();
   const router = useRouter();
@@ -32,7 +31,7 @@ export function SignUp(props: Props) {
       password: payload.password,
       options: {
         data: {
-          site: payload.email.replace(new RegExp(`(.*)${'@'}.*`), '$1'),
+          site: payload.email.replace(new RegExp(`(.*)@.*`), '$1'),
           name: payload.name,
         }
       }
@@ -140,4 +139,4 @@ export function SignUp(props: Props) {
       </Form.Root>
     </>
   );
-};
+}

@@ -32,7 +32,7 @@ export default function NavMobileButton({isAuthorized}: Status) {
       </div>
       {open && <div
         ref={menuRef}
-        className="container fixed left-0 z-50 hidden h-fit w-full flex-col bg-t-main-2 pt-[15px] pb-[20px] top-[60px] sm:top-[45px] gap-[20px] md:pb-[10px] md:flex">
+        className="container fixed left-0 z-50 hidden h-fit w-full flex-col bg-t-main-2 pt-[15px] pb-[20px] top-[45px] sm:top-[45px] gap-[20px] md:pb-[10px] md:flex">
         <div className="flex gap-[20px]">
           <NavInput/>
 

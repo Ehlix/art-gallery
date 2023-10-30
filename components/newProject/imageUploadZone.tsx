@@ -1,13 +1,14 @@
 import * as React from 'react';
 import {useEffect, useRef, useState} from 'react';
-import {generateRandomNum, renameFile, sortSelectedFiles} from "@/utils/utils";
+import {bytesToMb, renameFile, sortSelectedFiles} from "@/utils/utils";
 import Env from "@/config/env";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import {RiLoader3Line} from "react-icons/ri";
 import RemoveConfirmation from "@/components/removeConfirmation";
-import {SelectedFileType} from "@/components/newProject/newProject";
+import {SelectedFileType} from "@/components/newProject/projectMain";
 import {cn} from "@/utils/twMergeClsx";
+import {v4} from "uuid";
 
 type Props = {
   selectedFiles: SelectedFileType[]
@@ -27,38 +28,51 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
     const newFiles: SelectedFileType[] = [...selectedFiles];
     if (files) {
       for (const file of files) {
-        const uniqueName = Date.now() + '_' + generateRandomNum();
+        if (bytesToMb(file.size) > 15) {
+          console.log('file >15 mb deleted');
+          return;
+        }
+        const uniqueName = v4();
         const newFile = renameFile(file, uniqueName);
         newFiles.push({
           id: newFile.name,
           order: newFiles.length > 0 ? (newFiles[newFiles.length - 1].order + 1) : 0,
           file: newFile,
-          isLoaded: false
+          status: 'notLoaded'
         });
       }
     }
     setSelectedFiles([...newFiles]);
-    console.log('start: ', newFiles);
-    newFiles.map(async (target) => {
-      if (!target.isLoaded) {
-        const {
-          data,
-          error
-        } = await supabase.storage.from(`${Env.PROJECTS_BUCKET}/cache`).upload(`${uniquePath}/${target.file.name}`, target.file);
-        if (data) {
-          console.log(data);
-          target.isLoaded = true;
-          setSelectedFiles([...newFiles]);
-        }
-        if (error) {
-          console.log(error);
-          target.isLoaded = 'error';
-          setSelectedFiles([...newFiles]);
-        }
-      }
-      console.log('end: ', newFiles);
-    });
   };
+  useEffect(() => {
+    if (selectedFiles.length > 0) {
+      console.log('start: ', selectedFiles);
+      selectedFiles.map(async (target) => {
+        if (target.status === 'notLoaded') {
+          target.status = 'loading';
+          const {
+            data,
+            error
+          } = await supabase.storage.from(`${Env.PROJECTS_BUCKET}/cache`).upload(`${uniquePath}/${target.file.name}`, target.file, {
+            cacheControl: '180',
+            upsert: false
+          });
+          if (data) {
+            console.log(data);
+            target.status = 'loaded';
+            setSelectedFiles([...selectedFiles]);
+          }
+          if (error) {
+            console.log(error);
+            target.status = 'error';
+            setSelectedFiles([...selectedFiles]);
+          }
+        }
+      });
+      console.log('end: ', selectedFiles);
+    }
+
+  }, [selectedFiles]);
 
   function clickHandler() {
     // @ts-ignore
@@ -136,8 +150,7 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
 
   return (
     <>
-      <div className="border-dotted border-t-main border-[3px]">
-        <button onClick={clickHandler}>Chose image
+        <button className="border-dotted text-t-hover-1 border-t-main h-[50px] border-[3px] rounded-[5px] hover:border-t-hover-2 transition-all duration-300 hover:text-t-hover-2" onClick={clickHandler}>Chose image
           to upload
         </button>
         <input
@@ -147,45 +160,28 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
           accept="image/,.png,.jpg,.jpeg"
           multiple
         />
-      </div>
-
-      <div className="flex flex-wrap gap-[10px]">
-        {
-          selectedFiles && selectedFiles.sort(sortSelectedFiles).map((target, i) => {
-            return (
-              <div key={i} className="bg-t-main text-t-main-2">
-                <div>{target.file.name}</div>
-                <div>{target.id}</div>
-                <div>{target.order}</div>
-              </div>
-            );
-          })
-        }
-      </div>
 
       <div>
 
         <div
-          className="grid grid-cols-3 gap-[1vw] sm:gap-[3.3vw] sm:grid-cols-1 md:grid-cols-2 lg:gap-[2vw] lg:grid-cols-2 xl:grid-cols-3"
+          className="grid grid-cols-5 gap-[1vw] sm:gap-[3.3vw] sm:grid-cols-1 md:grid-cols-2 lg:gap-[2vw] lg:grid-cols-3 xl:grid-cols-4"
         >
           {selectedFiles.sort(sortSelectedFiles).map((target) => {
             async function confirmHandler(status: boolean) {
-              if (true) {
-                console.log("confirm!!!");
-                const {
-                  data,
-                  error
-                } = await supabase.storage.from(Env.PROJECTS_BUCKET).remove([`cache/${uniquePath}/${target.id}`]);
-                if (data) {
-                  console.log(data);
-                  const newFiles = selectedFiles.filter((t) => t.id !== target.id);
-                  setSelectedFiles(newFiles);
-                }
-                error && console.log(error);
+              console.log("confirm!!!");
+              const {
+                data,
+                error
+              } = await supabase.storage.from(Env.PROJECTS_BUCKET).remove([`cache/${uniquePath}/${target.id}`]);
+              if (data) {
+                console.log(data);
+                const newFiles = selectedFiles.filter((t) => t.id !== target.id);
+                setSelectedFiles(newFiles);
               }
+              error && console.log(error);
             }
 
-            const isFullLoad = selectedFiles.every((v) => v.isLoaded === true);
+            const isFullLoad = selectedFiles.every((v) => v.status === 'loaded');
             return (
               <div key={target.id}
                    draggable={isFullLoad}
@@ -198,7 +194,7 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
                    onDragLeave={e => dragEndHandler(e)}
                    onDrop={e => dropHandler(e, target)}
               >
-                {target.isLoaded === true ?
+                {target.status === 'loaded' ?
                   <Image
                     // className="pointer-events-none object-cover object-center w-[100%] h-[100%]"
                     className="pointer-events-none w-fit h-[100%]"
@@ -224,4 +220,4 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
       </div>
     </>
   );
-};
+}

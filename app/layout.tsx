@@ -1,7 +1,7 @@
 import './globals.css';
 import type {Metadata} from 'next';
 import {Heebo} from 'next/font/google';
-import {Nav} from "@/components/navigation/nav";
+import {NavMain} from "@/components/navigation/navMain";
 import React from "react";
 
 const mainFont = Heebo({subsets: ['latin'], weight: ['400']});
@@ -21,7 +21,7 @@ export default function RootLayout({
       <body
         className={'text-xl relative mr-[calc(-1*(100vw-100%))] w-[100%] h-[100vh] flex flex-col overflow-x-hidden ' + mainFont.className}>
         <header>
-          <Nav/>
+          <NavMain/>
         </header>
         <main className="grow basis-auto">
           {children}

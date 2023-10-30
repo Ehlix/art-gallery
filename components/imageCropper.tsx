@@ -11,7 +11,6 @@ interface Props {
 
   onZoomChange(zoomValue: number): void;
 
-  onRotationChange(rotationValue: number): void;
 
   onCrop(image: Blob): void;
 }
@@ -39,7 +38,6 @@ const ImageCropper: FC<Props> = ({
                                    rotation,
                                    onCrop,
                                    onZoomChange,
-                                   onRotationChange,
                                  }) => {
   const [loading, setLoading] = useState(true);
   const [crop, setCrop] = useState({x: 0, y: 0, width, height});
@@ -118,8 +116,8 @@ const ImageCropper: FC<Props> = ({
 
     const {width, height, orientation} = await loadImage(
       source,
-      containerRect.width * (9 / 16),
-      containerRect.height * (9 / 16)
+      containerRect.width * (1),
+      containerRect.height * (1)
     );
 
     const isPortrait = orientation === "portrait";
@@ -149,12 +147,11 @@ const ImageCropper: FC<Props> = ({
             image={source}
             crop={crop}
             zoom={zoom}
-            aspect={1 / 1}
+            aspect={1}
             showGrid={true}
             rotation={rotation}
             onCropChange={(props) => setCrop({...props, width, height})}
             onZoomChange={onZoomChange}
-            onRotationChange={onRotationChange}
             onCropComplete={handleCrop}
           />
         </div>

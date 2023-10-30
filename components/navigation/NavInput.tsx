@@ -1,9 +1,7 @@
 import * as React from 'react';
 import {ImSearch} from "react-icons/im";
 
-type Props = {};
-
-export default function NavInput(props: Props) {
+export default function NavInput() {
   return (
     <div
       className="flex shrink grow items-center rounded-full bg-neutral-800 group h-[35px] bg-grad-1">

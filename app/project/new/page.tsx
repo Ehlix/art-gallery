@@ -1,14 +1,9 @@
-import {NewProject} from "@/components/newProject/newProject";
+import {ProjectMain} from "@/components/newProject/projectMain";
 
-type Props = {};
-
-
-export default function NewProjectPage(props: Props) {
-
-
+export default function NewProjectPage() {
   return (
     <section className="container flex justify-center pt-[30px]">
-      <NewProject/>
+      <ProjectMain/>
     </section>
   );
 };

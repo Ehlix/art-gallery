@@ -1,27 +1,38 @@
+'use client';
+import * as React from "react";
 import {useCallback, useEffect, useState} from "react";
-
 import ImageCropper from "@/components/imageCropper";
 import AppSlider from "@/components/appSlider";
-import {SelectedFileType} from "@/components/newProject/newProject";
+import {Thumbnail} from "@/components/newProject/projectMain";
+import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
+import {v4} from "uuid";
+import Env from "@/config/env";
 
 interface Props {
-  selectedFile: SelectedFileType;
+  uniquePath: string
+  setThumbnail: React.Dispatch<React.SetStateAction<Thumbnail | null>>;
+  thumbnail: Thumbnail | null;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function CropImage({selectedFile}: Props) {
+export default function CropImage({thumbnail, uniquePath, setThumbnail, setOpen}: Props) {
   const [remoteImage, setRemoteImage] = useState("");
   const [localImage, setLocalImage] = useState("");
   const [zoom, setZoom] = useState(1);
   const [croppedImage, setCroppedImage] = useState<Blob>();
   const [rotation, setRotation] = useState(0);
+  const supabase = createClientComponentClient();
 
-  const isImageSelected = remoteImage || localImage ? true : false;
+  const isImageSelected = !!(remoteImage || localImage);
 
   useEffect(() => {
-    setRemoteImage("");
-    setLocalImage(URL.createObjectURL(selectedFile.file));
-    console.log('createLocalImageUrl...');
-  }, [selectedFile]);
+    if (thumbnail) {
+      setRemoteImage("");
+      setLocalImage(URL.createObjectURL(thumbnail.file));
+      console.log('createLocalImageUrl...');
+    }
+
+  }, [thumbnail]);
 
   const handleOnZoom = useCallback((zoomValue: number) => {
     setZoom(zoomValue);
@@ -32,14 +43,40 @@ export default function CropImage({selectedFile}: Props) {
   }, []);
 
   const downloadImage = async () => {
-    if (!croppedImage) return;
-    const link = document.createElement("a");
-    const name = `${Date.now()}_wallpaper`;
-    link.download = name;
-    link.href = URL.createObjectURL(croppedImage);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    if (!croppedImage) {
+      setOpen(false);
+    }
+    if (croppedImage && thumbnail) {
+      const {
+        data,
+        error
+      } = await supabase.storage.from(Env.PROJECTS_BUCKET).remove([`cache/${uniquePath}/${thumbnail.file.name}`]);
+      if (data) {
+        console.log('cropped start..');
+        const file = new File([croppedImage], `thumbnail_${v4()}`, {
+          lastModified: new Date().getTime(),
+          type: thumbnail.file.type
+        });
+        setThumbnail({
+          id: file.name,
+          file: file,
+          status: 'notLoaded'
+        });
+        setOpen(false)
+      }
+      if (error) {
+        console.log(error);
+      }
+
+    }
+
+    // const link = document.createElement("a");
+    // const name = `${Date.now()}_wallpaper`;
+    // link.download = name;
+    // link.href = URL.createObjectURL(croppedImage);
+    // document.body.appendChild(link);
+    // link.click();
+    // document.body.removeChild(link);
   };
 
   return (
@@ -63,24 +100,23 @@ export default function CropImage({selectedFile}: Props) {
         />
       </div>
 
-      <div className="flex items-center justify-center">
+      <div className="flex items-center w-[100%] justify-center">
         <ImageCropper
           zoom={zoom}
           onZoomChange={handleOnZoom}
           rotation={rotation}
-          onRotationChange={setRotation}
           source={remoteImage || localImage}
           onCrop={setCroppedImage}
           width={1080}
-          height={1920}
+          height={1080}
         />
       </div>
 
       <button
-        className="flex w-full items-center justify-center rounded bg-gray-400 p-2 uppercase text-white drop-shadow transition space-x-1 hover:bg-gray-700"
+        className="flex w-full items-center justify-center rounded p-2 uppercase drop-shadow transition bg-grad-1 text-t-main-2 hover:bg-grad-2"
         onClick={downloadImage}
       >
-        <span>Download</span>
+        <span>Crop</span>
       </button>
     </div>
   );

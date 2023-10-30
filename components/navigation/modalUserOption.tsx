@@ -16,8 +16,6 @@ import {
 } from "react-icons/md";
 import Image from "next/image";
 
-
-type Props = {};
 const modalItems = [
   {title: 'My learning', icon: <MdSchool/>, href: '/'},
   {title: 'My connections', icon: <MdGroups/>, href: '/'},
@@ -40,7 +38,7 @@ export function ModalUserOption() {
   const logout = async () => {
     await supabase.auth.signOut();
     router.refresh();
-    router.push('/')
+    router.push('/');
   };
 
   useEffect(() => {
@@ -50,7 +48,7 @@ export function ModalUserOption() {
       setUser({name: metadata?.name, site: metadata?.site} || null);
 
     };
-    getData();
+    getData().then();
   }, []);
   return (
     <>
@@ -61,45 +59,41 @@ export function ModalUserOption() {
         hover:before:absolute hover:before:top-[80px] hover:before:w-[100%] hover:before:l-[0px] hover:before:h-[1.3px] hover:before:rounded-[5px] hover:before:bg-grad-1
 
         befor:text-t-hover-1 before:absolute before:top-[80px] before:w-[110%] before:ml-[-10px] before:h-[1px]
-        before:rounded-[5px] before:bg-t-main
-
-        "
+        before:rounded-[5px] before:bg-t-main"
       >
         <Image
-          src="/123.jpg"
+          src="subjects/abstract/2.jpg"
           alt="navigation profile image"
           width={100}
           height={100}
-          className="object-cover object-center w-[40px] h-[40px] rounded-full
-
-        "
+          className="object-cover object-center w-[40px] h-[40px] rounded-full"
         />
         {/*<div className="mt-[-1.7px]">{'dh'}</div>*/}
         <span>{user?.name}</span>
       </Link>
-<div className='mt-[15px]'>
-  {modalItems.map((v, i) => {
-    if (v.separator) {
-      return (
-        <Separator.Root
-          key={i}
-          className="bg-t-main data-[orientation=horizontal]:h-px ml-[0px] my-[15px] mr-[-100px]"
-          decorative orientation="horizontal"
-        />);
-    }
-    if (v.href) {
-      return (
-        <Link key={i}
-              href={v.href}
-              className="flex items-center justify-start transition-all w-[100%] gap-[12px] rounded-[3px] p-[10px] hover:bg-t-main/70"
-        >
-          <div className="mt-[-1.7px]">{v.icon}</div>
-          <span>{v.title}</span>
-        </Link>
-      );
-    }
-  })}
-</div>
+      <div className="mt-[15px]">
+        {modalItems.map((v, i) => {
+          if (v.separator) {
+            return (
+              <Separator.Root
+                key={i}
+                className="bg-t-main data-[orientation=horizontal]:h-px ml-[0px] my-[15px] mr-[-100px]"
+                decorative orientation="horizontal"
+              />);
+          }
+          if (v.href) {
+            return (
+              <Link key={i}
+                    href={v.href}
+                    className="flex items-center justify-start transition-all w-[100%] gap-[12px] rounded-[3px] p-[10px] hover:bg-t-main/70"
+              >
+                <div className="mt-[-1.7px]">{v.icon}</div>
+                <span>{v.title}</span>
+              </Link>
+            );
+          }
+        })}
+      </div>
 
       <button
         onClick={logout}

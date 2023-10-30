@@ -1,34 +1,35 @@
 import Link from "next/link";
 import React from "react";
 import NavMobileButton from "@/components/navigation/navMobileButton";
-import Image from "next/image";
 import NavInput from "@/components/navigation/NavInput";
 import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
 import {cookies} from "next/headers";
 import UserNavPanel from "@/components/navigation/userNavPanel";
 import {AuthButton} from "@/components/navigation/authButton";
+import Image from "next/image";
 
 const navItem = ['explore', 'blogs', 'shop', 'jobs'];
 
-export async function Nav() {
+export async function NavMain() {
   const supabase = createServerComponentClient({cookies});
   const {data, error} = await supabase.auth.getSession();
   // console.log('nav-data', data?.session?.user.aud);
   const isAuthorized = data?.session !== null;
-  console.log('Autorizated: ',isAuthorized);
+  console.log('Authorized: ', isAuthorized);
   return (
     <>
       <nav
-        className="container fixed top-0 z-40 flex w-full select-none items-center justify-between text-t-main bg-t-main-2 gap-[28px] h-[60px] md:h-[45px] no-wrap">
+        className="container fixed top-0 z-40 flex w-full select-none items-center justify-between text-t-main bg-t-main-2 gap-[28px] h-[60px] no-wrap md:h-[45px]">
 
         <NavMobileButton isAuthorized={isAuthorized}/>
 
         <Link href="/ogog223"
               className="min-w-[40px] min-h-[40px] md:w-[40px] md:absolute md:right-0 md:left-0 md:mx-auto">
-          <img src="/logo.svg" alt="1231" width={0}
-                 height={0}
+          <Image src="/logo.svg" alt="1231" width={100}
+                 height={100}
                  sizes="100vw"
                  className="w-[40px] h-[40px]"
+                 unoptimized
           />
         </Link>
 
@@ -57,4 +58,4 @@ export async function Nav() {
       </div>
     </>
   );
-};
+}

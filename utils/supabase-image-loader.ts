@@ -8,6 +8,9 @@ type SupabaseLoaderType = {
   quality:string
 }
 export default function supabaseLoader({ src, width, quality }:SupabaseLoaderType):string {
+  if (src[0] === '/') {
+    return src
+  }
   return `https://${projectId}.supabase.co/storage/v1/object/public/projects/${src}?width=${width}&quality=${
     quality || 75
   }`

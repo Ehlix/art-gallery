@@ -1,12 +1,10 @@
-// @flow
 import * as React from 'react';
 import Link from "next/link";
 import {MdCreate} from "react-icons/md";
 import {BiLogIn} from "react-icons/bi";
 
-type Props = {};
 
-export function AuthButton(props: Props) {
+export function AuthButton() {
   return (
     <>
       <Link href="/auth/signup"
@@ -21,4 +19,4 @@ export function AuthButton(props: Props) {
       </Link>
     </>
   );
-};
+}

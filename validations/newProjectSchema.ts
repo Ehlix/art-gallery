@@ -1,31 +1,32 @@
 import * as yup from 'yup';
 import {bytesToMb} from "@/utils/utils";
-import {SelectedFileType} from "@/components/newProject/imageUploadZone";
+import {SelectedFileType, Thumbnail} from "@/components/newProject/projectMain";
 
 export const newProjectSchema = yup.object({
   title: yup.string().min(5).max(50).required(),
+  thumbnail: yup.mixed<Thumbnail>().test('thumbnailLength', 'please upload thumbnail', (thumbnail) => {
+    return !!thumbnail;
+  }).test('thumbnail', 'only JPEG, PNG image are allowed',
+    (thumbnail) => {
+      return thumbnail && (thumbnail.file.type === 'image/jpg' || thumbnail.file.type === 'image/jpeg' || thumbnail.file.type === 'image/png');
+    }),
   image: yup.mixed<Array<SelectedFileType>>().test('image', 'only JPEG, PNG image are allowed', (selectedFiles) => {
-    const isValid = selectedFiles ? selectedFiles.every((v) => {
+    return selectedFiles ? selectedFiles.every((v) => {
       return v.file.type === 'image/jpg' || v.file.type === 'image/jpeg' || v.file.type === 'image/png';
     }) : false;
-    return isValid;
   }).test('imageSize', 'image must ve less than 15mb', (selectedFiles) => {
-    const isValid = selectedFiles ? selectedFiles.every((v) => {
+    return selectedFiles ? selectedFiles.every((v) => {
       return bytesToMb(v.file.size) <= 15;
     }) : false;
-    return isValid;
-  }).test('length', 'please load 1-5 images', (file) => {
-    const isValid = file && file?.length > 0 && file?.length <= 5;
-    return isValid;
+  }).test('length', 'please upload 1-5 images', (file) => {
+    return file && file?.length > 0 && file?.length <= 5;
   }),
   description: yup.string().min(5).max(500).required(),
-  medium: yup.mixed<Array<string> | []>().test('categories', 'please select 3 category', (data: any) => {
-    const isValid = data?.length === 3;
-    return isValid;
+  medium: yup.mixed<Array<string> | []>().test('categories', 'please select 1-3 categories', (data: any) => {
+    return data?.length > 0 && data?.length <= 3;
   }),
-  subject: yup.mixed<Array<string> | []>().test('categories', 'please select 3 category', (data: any) => {
-    const isValid = data?.length === 3;
-    return isValid;
+  subject: yup.mixed<Array<string> | []>().test('categories', 'please select 1-3 categories', (data: any) => {
+    return data?.length > 0 && data?.length <= 3;
   }),
 }).required();
 
