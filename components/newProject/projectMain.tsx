@@ -7,7 +7,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {newProjectSchema, NewProjectType} from "@/validations/newProjectSchema";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 import {Categories} from "@/components/newProject/categories";
-import Env from "@/config/env";
+import Env from "@/dictionaries/env";
 import {Thumbnail} from "@/components/newProject/thumbnail";
 import {v4} from 'uuid';
 

@@ -4,7 +4,7 @@ export type Subject = {
   link: string
 }
 
-export const subjects: Subject[] = [
+export const SUBJECTS: Subject[] = [
   {
     name: 'abstract',
     description: 'Artwork that does not attempt to represent a visual reality but focuses on shapes, colors, and forms.',
@@ -306,4 +306,4 @@ export const subjects: Subject[] = [
 
 
 type Medium = string[]
-export const medium: Medium = ['digital 2d', 'digital 3d', 'animation', 'real-time', 'live action cg/vgx', 'rd printing', 'traditional ink', 'traditional dry media', 'traditional paint', 'traditional sculpture', 'mixed media',];
+export const MEDIUM: Medium = ['digital 2d', 'digital 3d', 'animation', 'real-time', 'live action cg/vgx', 'rd printing', 'traditional ink', 'traditional dry media', 'traditional paint', 'traditional sculpture', 'mixed media',];

@@ -1,17 +1,21 @@
-import Env from "@/config/env";
+import Env from "@/dictionaries/env";
 
-const projectId = Env.PROJECTS_ID
+const projectId = Env.PROJECTS_ID;
 
 type SupabaseLoaderType = {
-  src:string
-  width:string
-  quality:string
+  src: string
+  width: string
+  quality: string
 }
-export default function supabaseLoader({ src, width, quality }:SupabaseLoaderType):string {
+export default function supabaseLoader({
+                                         src,
+                                         width,
+                                         quality
+                                       }: SupabaseLoaderType): string {
   if (src[0] === '/') {
-    return src
+    return src;
   }
   return `https://${projectId}.supabase.co/storage/v1/object/public/projects/${src}?width=${width}&quality=${
     quality || 75
-  }`
+  }`;
 }

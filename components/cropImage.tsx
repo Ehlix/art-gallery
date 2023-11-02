@@ -6,10 +6,10 @@ import AppSlider from "@/components/appSlider";
 import {Thumbnail} from "@/components/newProject/projectMain";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 import {v4} from "uuid";
-import Env from "@/config/env";
+import Env from "@/dictionaries/env";
 
 interface Props {
-  uniquePath: string
+  uniquePath: string;
   setThumbnail: React.Dispatch<React.SetStateAction<Thumbnail | null>>;
   thumbnail: Thumbnail | null;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,8 +22,6 @@ export default function CropImage({thumbnail, uniquePath, setThumbnail, setOpen}
   const [croppedImage, setCroppedImage] = useState<Blob>();
   const [rotation, setRotation] = useState(0);
   const supabase = createClientComponentClient();
-
-  const isImageSelected = !!(remoteImage || localImage);
 
   useEffect(() => {
     if (thumbnail) {
@@ -62,7 +60,7 @@ export default function CropImage({thumbnail, uniquePath, setThumbnail, setOpen}
           file: file,
           status: 'notLoaded'
         });
-        setOpen(false)
+        setOpen(false);
       }
       if (error) {
         console.log(error);
@@ -100,7 +98,7 @@ export default function CropImage({thumbnail, uniquePath, setThumbnail, setOpen}
         />
       </div>
 
-      <div className="flex items-center w-[100%] justify-center">
+      <div className="flex items-center justify-center w-[100%]">
         <ImageCropper
           zoom={zoom}
           onZoomChange={handleOnZoom}

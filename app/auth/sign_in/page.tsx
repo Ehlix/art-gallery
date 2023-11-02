@@ -12,7 +12,7 @@ export default async function SignInPage() {
   }
 
   return (
-    <section className="flex justify-center pt-[30px]">
+    <section className="flex h-full w-full items-center justify-center">
       <SignIn/>
     </section>
   );

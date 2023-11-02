@@ -9,7 +9,7 @@ import Image from "next/image";
 import {bytesToMb, renameFile} from "@/utils/utils";
 import {v4} from "uuid";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
-import Env from "@/config/env";
+import Env from "@/dictionaries/env";
 
 type Props = {
   thumbnail: Thumbnail | null
@@ -70,7 +70,7 @@ export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
           data,
           error
         } = await supabase.storage.from(`${Env.PROJECTS_BUCKET}/cache`).upload(`${uniquePath}/${thumbnail.file.name}`, thumbnail.file,{
-          cacheControl: '180',
+          cacheControl: '3600',
           upsert: false
         });
         if (data) {
@@ -133,7 +133,7 @@ export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>
-      <button className="border-dotted text-t-hover-1 border-t-main border-[3px] p-[2px] rounded-[5px] hover:border-t-hover-2 transition-all duration-300 hover:text-t-hover-2" onClick={clickHandler}>
+      <button className="border-dotted transition-all duration-300 text-t-hover-1 border-t-main border-[3px] p-[2px] rounded-[5px] hover:border-t-hover-2 hover:text-t-hover-2" onClick={clickHandler}>
         Upload thumbnail
       </button>
       <input

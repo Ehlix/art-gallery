@@ -12,8 +12,9 @@ export default async function SignUpPage() {
   }
 
   return (
-    <section className="flex justify-center pt-[30px]">
-      <SignUp/>
+    <section className='flex h-full w-full items-center justify-center'>
+        <SignUp/>
     </section>
+
   );
 }

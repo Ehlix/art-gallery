@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useState} from 'react';
 import {cn} from "@/utils/twMergeClsx";
-import {medium, Subject, subjects} from "@/config/categories_data";
+import {MEDIUM, Subject, SUBJECTS} from "@/dictionaries/categories_data";
 import {ChosenCategories} from "@/components/newProject/projectMain";
 import {MdAdd, MdClose} from "react-icons/md";
 import Image from "next/image";
@@ -71,7 +71,7 @@ export function Categories({chosenCategories, setChosenCategories, errors}: Prop
       <h3 className="">Categorization</h3>
       <h4 className="text-[16px]">Medium</h4>
       <div className="flex flex-wrap gap-[10px]">
-        {medium.map((v) => {
+        {MEDIUM.map((v) => {
           const disableStatus = chosenCategories.medium.length >= 3 && !(chosenCategories?.medium as string[]).includes(v);
           return (
             <label
@@ -102,7 +102,7 @@ export function Categories({chosenCategories, setChosenCategories, errors}: Prop
         {chosenCategories?.subject.map((v => {
           return (
             <div key={v}
-                 className="flex items-center capitalize border-[1px] border-t-main rounded-[3px] bg-t-main/20 text-t-main gap-[3px] text-[16px] h-[30px] px-[10px]">
+                 className="flex h-fit items-center capitalize border-[1px] border-t-main rounded-[3px] bg-t-main/20 text-t-main gap-[3px] text-[16px] px-[10px]">
               <span>{v}</span>
               <button onClick={() => removeSubjectHandler(v)}
                       className="flex items-center justify-center caz-20 gap-[3px] ml-[5px] border-t-main">
@@ -128,7 +128,7 @@ export function Categories({chosenCategories, setChosenCategories, errors}: Prop
             <div
               className="flex flex-col overflow-x-hidden overflow-y-scroll px-[10px] h-[91%]">
 
-              {subjects.filter((v) => v.name.includes(searchSubject)
+              {SUBJECTS.filter((v) => v.name.toLowerCase().includes(searchSubject.toLowerCase())
               ).map(v => {
                 const subjectStatus = chosenCategories.subject.includes(v.name);
                 return (

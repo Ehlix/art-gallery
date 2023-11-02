@@ -13,7 +13,7 @@ const config: Config = {
         't-main-2': '#1e1e1e',
         't-hover-1': '#c7c7c7',
         't-hover-2': '#cc67ff',
-        't-hover-3': '#ca92ff',
+        't-hover-3': '#d886fc',
         't-hover-4': '#9f9f9f',
         't-hover-5': '#71C2FF',
         't-hover-6': '#7fdaff',

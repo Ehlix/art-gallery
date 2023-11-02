@@ -64,7 +64,7 @@ export function SignUp() {
           </Form.Label>
           <Form.Control asChild>
             <input
-              className={(errors.name && "shadow-t-error hover:shadow-t-error ") + "inline-flex w-full appearance-none items-center justify-center leading-none outline-none bg-t-main-2 shadow-t-main h-[35px] rounded-[4px] px-[10px] text-[15px] text-t-hover-1 shadow-[0_0_0_1.5px] placeholder:text-t-main/40 hover:shadow-t-hover-1 focus:shadow-t-hover-2"}
+              className={(errors.name && "shadow-t-error hover:shadow-t-error ") + "inline-flex w-full appearance-none items-center justify-center leading-none outline-none bg-t-main-2 shadow-t-main h-[35px] rounded-[4px] px-[10px] text-[15px] text-t-hover-1 shadow-[0_0_0_1.5px] placeholder:text-t-main/40 focus:shadow-t-hover-1 transition-all duration-200"}
               placeholder="Mark Serunov"
               {...register("name")}
             />
@@ -80,7 +80,7 @@ export function SignUp() {
           </Form.Label>
           <Form.Control asChild>
             <input
-              className={(errors.email && "shadow-t-error hover:shadow-t-error ") + "inline-flex w-full appearance-none items-center justify-center leading-none outline-none bg-t-main-2 shadow-t-main h-[35px] rounded-[4px] px-[10px] text-[15px] text-t-hover-1 shadow-[0_0_0_1.5px] placeholder:text-t-main/40 hover:shadow-t-hover-1 focus:shadow-t-hover-2"}
+              className={(errors.email && "shadow-t-error hover:shadow-t-error ") + "inline-flex w-full appearance-none items-center justify-center leading-none outline-none bg-t-main-2 shadow-t-main h-[35px] rounded-[4px] px-[10px] text-[15px] text-t-hover-1 shadow-[0_0_0_1.5px] placeholder:text-t-main/40 focus:shadow-t-hover-1 transition-all duration-200"}
               type="email"
               placeholder="serunov@email.com"
               {...register("email")}
@@ -98,7 +98,7 @@ export function SignUp() {
           </Form.Label>
           <Form.Control asChild>
             <input
-              className={(errors.password && "shadow-t-error hover:shadow-t-error ") + "inline-flex w-full appearance-none items-center justify-center leading-none outline-none bg-t-main-2 shadow-t-main h-[35px] rounded-[4px] px-[10px] text-[15px] text-t-hover-1 shadow-[0_0_0_1.5px] placeholder:text-t-main/40 hover:shadow-t-hover-1 focus:shadow-t-hover-2"}
+              className={(errors.password && "shadow-t-error hover:shadow-t-error ") + "inline-flex w-full appearance-none items-center justify-center leading-none outline-none bg-t-main-2 shadow-t-main h-[35px] rounded-[4px] px-[10px] text-[15px] text-t-hover-1 shadow-[0_0_0_1.5px] placeholder:text-t-main/40 focus:shadow-t-hover-1 transition-all duration-200"}
               type="password"
               placeholder="*********"
               {...register("password")}
@@ -116,7 +116,7 @@ export function SignUp() {
           </Form.Label>
           <Form.Control asChild>
             <input
-              className={(errors.passwordConfirm && "shadow-t-error hover:shadow-t-error ") + "inline-flex w-full appearance-none items-center justify-center leading-none outline-none bg-t-main-2 shadow-t-main h-[35px] rounded-[4px] px-[10px] text-[15px] text-t-hover-1 shadow-[0_0_0_1.5px] placeholder:text-t-main/40 hover:shadow-t-hover-1 focus:shadow-t-hover-2"}
+              className={(errors.passwordConfirm && "shadow-t-error hover:shadow-t-error ") + "inline-flex w-full appearance-none items-center justify-center leading-none outline-none bg-t-main-2 shadow-t-main h-[35px] rounded-[4px] px-[10px] text-[15px] text-t-hover-1 shadow-[0_0_0_1.5px] placeholder:text-t-main/40 focus:shadow-t-hover-1 transition-all duration-200"}
               type="password"
               placeholder="*********"
               {...register('passwordConfirm')}
@@ -130,7 +130,7 @@ export function SignUp() {
 
         <Form.Submit asChild>
           <button
-            className={"disabled:bg-grad-6 disabled:text-t-hover-1 flex items-center justify-center font-medium bg-grad-1 leading-none  w-[150px] text-t-main-2 h-[35px] rounded-[4px] px-[10px] mt-[10px] hover:bg-grad-2"}
+            className={"disabled:bg-grad-6  leading-none disabled:text-t-hover-1 flex items-center justify-center font-medium bg-t-hover-2  w-[150px] text-t-main-2 h-[35px] rounded-[4px] px-[10px] mt-[10px] hover:bg-t-hover-3 transition-all duration-200"}
             disabled={loading}
           >
             {loading ? 'Loading . . .' : 'Create account'}

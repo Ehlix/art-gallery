@@ -50,7 +50,7 @@ export function SignIn() {
           </Form.Label>
           <Form.Control asChild>
             <input
-              className="inline-flex w-full appearance-none items-center justify-center leading-none outline-none bg-t-main-2 shadow-t-main h-[35px] rounded-[4px] px-[10px] text-[15px] text-t-hover-1 shadow-[0_0_0_1.5px] placeholder:text-t-main/40 hover:shadow-t-hover-1 focus:shadow-t-hover-2"
+              className="inline-flex w-full appearance-none items-center justify-center leading-none outline-none transition-all duration-200 bg-t-main-2 shadow-t-main h-[35px] rounded-[4px] px-[10px] text-[15px] text-t-hover-1 shadow-[0_0_0_1.5px] placeholder:text-t-main/40 focus:shadow-t-hover-1"
               type="email"
               placeholder="serunov@email.com"
               {...register('email')}
@@ -69,7 +69,7 @@ export function SignIn() {
           </Form.Label>
           <Form.Control asChild>
             <input
-              className="inline-flex w-full appearance-none items-center justify-center leading-none outline-none bg-t-main-2 shadow-t-main h-[35px] rounded-[4px] px-[10px] text-[15px] text-t-hover-1 shadow-[0_0_0_1.5px] placeholder:text-t-main/40 hover:shadow-t-hover-1 focus:shadow-t-hover-2"
+              className="inline-flex w-full appearance-none items-center justify-center leading-none outline-none transition-all duration-200 bg-t-main-2 shadow-t-main h-[35px] rounded-[4px] px-[10px] text-[15px] text-t-hover-1 shadow-[0_0_0_1.5px] placeholder:text-t-main/40 focus:shadow-t-hover-1"
               type="password"
               placeholder="******"
               {...register('password')}
@@ -82,7 +82,7 @@ export function SignIn() {
 
         <Form.Submit asChild>
           <button
-            className={"disabled:bg-grad-6 disabled:text-t-hover-1 flex items-center justify-center font-medium bg-grad-1 leading-none  w-[150px] text-t-main-2 h-[35px] rounded-[4px] px-[10px] mt-[10px] hover:bg-grad-2"}
+            className={"disabled:bg-grad-6 disabled:text-t-hover-1 flex items-center justify-center font-medium bg-t-hover-2 leading-none  w-[150px] text-t-main-2 h-[35px] rounded-[4px] px-[10px] mt-[10px] hover:bg-t-hover-3 transition-all duration-200"}
             disabled={loading}
           >
             {loading ? 'Please await . . .' : 'Sign in'}

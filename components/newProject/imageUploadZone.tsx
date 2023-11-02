@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useEffect, useRef, useState} from 'react';
 import {bytesToMb, renameFile, sortSelectedFiles} from "@/utils/utils";
-import Env from "@/config/env";
+import Env from "@/dictionaries/env";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import {RiLoader3Line} from "react-icons/ri";
@@ -54,7 +54,7 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
             data,
             error
           } = await supabase.storage.from(`${Env.PROJECTS_BUCKET}/cache`).upload(`${uniquePath}/${target.file.name}`, target.file, {
-            cacheControl: '180',
+            cacheControl: '3600',
             upsert: false
           });
           if (data) {
@@ -150,16 +150,18 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
 
   return (
     <>
-        <button className="border-dotted text-t-hover-1 border-t-main h-[50px] border-[3px] rounded-[5px] hover:border-t-hover-2 transition-all duration-300 hover:text-t-hover-2" onClick={clickHandler}>Chose image
-          to upload
-        </button>
-        <input
-          className="hidden" type="file"
-          onChange={imagesChangeHandler}
-          ref={inputFile}
-          accept="image/,.png,.jpg,.jpeg"
-          multiple
-        />
+      <button
+        className="border-dotted transition-all duration-300 text-t-hover-1 border-t-main h-[50px] border-[3px] rounded-[5px] hover:border-t-hover-2 hover:text-t-hover-2"
+        onClick={clickHandler}>Chose image
+        to upload
+      </button>
+      <input
+        className="hidden" type="file"
+        onChange={imagesChangeHandler}
+        ref={inputFile}
+        accept="image/,.png,.jpg,.jpeg"
+        multiple
+      />
 
       <div>
 
@@ -167,7 +169,7 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
           className="grid grid-cols-5 gap-[1vw] sm:gap-[3.3vw] sm:grid-cols-1 md:grid-cols-2 lg:gap-[2vw] lg:grid-cols-3 xl:grid-cols-4"
         >
           {selectedFiles.sort(sortSelectedFiles).map((target) => {
-            async function confirmHandler(status: boolean) {
+            async function confirmHandler() {
               console.log("confirm!!!");
               const {
                 data,
