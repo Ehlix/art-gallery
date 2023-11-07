@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import * as Checkbox from '@radix-ui/react-checkbox';
 import {CheckedState} from '@radix-ui/react-checkbox';
 import {MdCheck, MdClose} from "react-icons/md";
-import {Resume} from "@/components/user/newProfile/UserNewProfile";
+import {Resume} from "@/components/user/newProfile/newProfileMain";
 import {cn} from "@/utils/twMergeClsx";
 import {v4} from "uuid";
 
@@ -59,6 +59,9 @@ export function Resume({resume, setResume}: Props) {
   function addSkillHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const newSkills = [...resume.skills];
+    if (newSkills.length >= 5) {
+      return
+    }
     newSkills.push({id: v4(), title: currentSkill});
     setResume({...resume, skills: newSkills});
     setCurrentSkill('');
@@ -106,7 +109,6 @@ export function Resume({resume, setResume}: Props) {
         Professional Summary:
         <textarea
           onChange={summaryHandler}
-          className="w-full appearance-none leading-none outline-none transition-colors duration-200 bg-t-main-2 border-[2px] border-t-main min-h-[105px] max-h-[400px] rounded-[4px] p-[10px] text-[15px] text-t-hover-1 placeholder:text-t-main/40 focus:border-t-hover-1 md:min-h-[100px]"
           value={resume.summary}
           placeholder="A summary of youe professional skills and experience as an artist"
         />
@@ -133,7 +135,8 @@ export function Resume({resume, setResume}: Props) {
         </div>}
         <form onSubmit={e => addSkillHandler(e)}>
           <input
-            className={cn("flex w-full appearance-none items-center justify-center leading-none outline-none bg-t-main-2 shadow-t-main h-[35px] rounded-[4px] px-[10px] text-[15px] text-t-hover-1 border-t-main border-[2px] placeholder:text-t-main/40 focus:border-t-hover-1 transition-colors duration-200", {
+            disabled={resume.skills.length>=5}
+            className={cn("transition-colors", {
               'border-b-0 rounded-b-none focus:border-t-main': currentSkill
             })}
             type="text"

@@ -193,7 +193,6 @@ export function ProjectMain() {
             <div className="flex flex-col gap-[10px]">
               Enter your project name
               <input
-                className="flex w-full appearance-none items-center justify-center leading-none outline-none bg-t-main-2 shadow-t-main h-[35px] rounded-[4px] px-[10px] text-[15px] text-t-hover-1 shadow-[0_0_0_1.5px] placeholder:text-t-main/40 hover:shadow-t-hover-1 focus:shadow-t-hover-2"
                 type="text"
                 {...register('title')}
                 placeholder="your title"
@@ -204,7 +203,6 @@ export function ProjectMain() {
               <div className="flex flex-col gap-[10px]">
                 Enter project description
                 <textarea
-                  className="w-full appearance-none leading-none outline-none bg-t-main-2 shadow-t-main min-h-[105px] max-h-[400px] rounded-[4px] p-[10px] text-[15px] text-t-hover-1 shadow-[0_0_0_1.5px] placeholder:text-t-main/40 hover:shadow-t-hover-1 focus:shadow-t-hover-2 md:min-h-[100px]"
                   placeholder="your description"
                   {...register('description')}
                   onChange={newDescription}

@@ -1,13 +1,13 @@
-'use client';
 import {cn} from "@/utils/twMergeClsx";
 import {COUNTRIES} from "@/dictionaries/countries";
 import React, {useRef, useState} from "react";
 import {useClickOutside} from "@/hooks/useClickOutside";
-import {Profile} from "@/components/user/newProfile/UserNewProfile";
+import {FaAsterisk} from "react-icons/fa";
+import {ProfileObject} from "@/components/user/newProfile/profile";
 
 type Props = {
   country: string
-  setProfile: React.Dispatch<React.SetStateAction<Profile>>
+  setProfile: React.Dispatch<React.SetStateAction<ProfileObject>>
 };
 
 export function SelectCountry({country, setProfile}: Props) {
@@ -36,7 +36,10 @@ export function SelectCountry({country, setProfile}: Props) {
 
   return (
     <div className="relative w-full">
-      <h3 className="mb-[5px]">* Country</h3>
+      <h3 className="flex mb-[5px] gap-[5px]">
+        <FaAsterisk size={10} title="Required" className="cursor-help"/>
+        Country
+      </h3>
       {/*<span className="text-[13px] text-t-error tracking-[0.5px]">*/}
       {/*      {'error'}*/}
       {/*    </span>*/}

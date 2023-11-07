@@ -19,5 +19,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/project/new', '/user/create_profile']
+  matcher: ['/project/new']
 };

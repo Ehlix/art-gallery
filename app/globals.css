@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+    input {
+        @apply inline-flex w-full appearance-none items-center justify-center leading-none outline-none transition-all duration-200 bg-t-main-2 border-t-main h-[35px] rounded-[4px] px-[10px] text-[15px] border-[2px] text-t-hover-1 placeholder:text-t-main/40 focus:border-t-hover-1
+    }
+
+    textarea {
+        @apply w-full appearance-none leading-none outline-none transition-colors duration-200 bg-t-main-2 border-[2px] border-t-main min-h-[105px] max-h-[400px] rounded-[4px] p-[10px] text-[15px] text-t-hover-1 placeholder:text-t-main/40 focus:border-t-hover-1 md:min-h-[100px]
+    }
+
+    button {
+        @apply transition duration-200
+    }
+}
 
 * {
     margin: 0;

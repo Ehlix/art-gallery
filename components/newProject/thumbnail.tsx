@@ -51,7 +51,7 @@ export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
           console.log(error);
         }
         return;
-      }
+  }
       const thumb: Thumbnail = {
         id: v4(),
         file: renameFile(file, `thumbnail_${v4()}`),

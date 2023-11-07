@@ -80,7 +80,7 @@ export function Categories({chosenCategories, setChosenCategories, errors}: Prop
             >
               <input
                 disabled={disableStatus}
-                className="cursor-pointer appearance-none group group-aria-disabled:bg-t-error h-[15px] w-[15px] border-t-main border-[1.7px] rounded-[3px] checked:bg-t-hover-2 checked:border-none disabled:border-t-main/20 disabled:cursor-auto"
+                className="p-0 cursor-pointer appearance-none group group-aria-disabled:bg-t-error h-[15px] w-[15px] border-t-main border-[1.7px] rounded-[3px] checked:bg-t-hover-2 checked:border-none disabled:border-t-main/20 disabled:cursor-auto"
                 type="checkbox"
                 id={v}
                 value={v}
@@ -113,7 +113,7 @@ export function Categories({chosenCategories, setChosenCategories, errors}: Prop
         }))}
 
         <input
-          className="z-20 flex w-full appearance-none items-center justify-center leading-none outline-none border-t-main border-[2px] mb-[-7px] bg-t-main-2 shadow-t-main h-[35px] rounded-t-[3px] px-[10px] text-[15px] text-t-hover-1 placeholder:text-t-main/40"
+          className="z-20 flex w-full focus:border-t-main appearance-none items-center justify-center leading-none outline-none border-t-main border-[2px] mb-[-7px] bg-t-main-2 shadow-t-main h-[35px] rounded-t-[3px] px-[10px] text-[15px] text-t-hover-1 placeholder:text-t-main/40"
           type="text"
           placeholder="search subject"
           onChange={searchHandler}

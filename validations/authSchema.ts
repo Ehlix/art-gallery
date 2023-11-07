@@ -2,7 +2,7 @@ import * as yup from "yup";
 
 export const registerSchema = yup.object({
   name: yup.string().min(4).max(50).required(),
-  email: yup.string().email('enter valid email').required('req'),
+  email: yup.string().email('enter valid email').required('required email'),
   password: yup.string().min(6).max(30).required(),
   passwordConfirm: yup.string().oneOf([yup.ref('password'), 'qq']).required(),
 }).required();

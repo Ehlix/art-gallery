@@ -64,7 +64,7 @@ export function SignUp() {
           </Form.Label>
           <Form.Control asChild>
             <input
-              className={(errors.name && "shadow-t-error hover:shadow-t-error ") + "inline-flex w-full appearance-none items-center justify-center leading-none outline-none bg-t-main-2 shadow-t-main h-[35px] rounded-[4px] px-[10px] text-[15px] text-t-hover-1 shadow-[0_0_0_1.5px] placeholder:text-t-main/40 focus:shadow-t-hover-1 transition-all duration-200"}
+              className={(errors.name && "border-t-error hover:border-t-error ")}
               placeholder="Mark Serunov"
               {...register("name")}
             />
@@ -80,7 +80,7 @@ export function SignUp() {
           </Form.Label>
           <Form.Control asChild>
             <input
-              className={(errors.email && "shadow-t-error hover:shadow-t-error ") + "inline-flex w-full appearance-none items-center justify-center leading-none outline-none bg-t-main-2 shadow-t-main h-[35px] rounded-[4px] px-[10px] text-[15px] text-t-hover-1 shadow-[0_0_0_1.5px] placeholder:text-t-main/40 focus:shadow-t-hover-1 transition-all duration-200"}
+              className={(errors.email && "border-t-error hover:border-t-error ")}
               type="email"
               placeholder="serunov@email.com"
               {...register("email")}
@@ -98,7 +98,7 @@ export function SignUp() {
           </Form.Label>
           <Form.Control asChild>
             <input
-              className={(errors.password && "shadow-t-error hover:shadow-t-error ") + "inline-flex w-full appearance-none items-center justify-center leading-none outline-none bg-t-main-2 shadow-t-main h-[35px] rounded-[4px] px-[10px] text-[15px] text-t-hover-1 shadow-[0_0_0_1.5px] placeholder:text-t-main/40 focus:shadow-t-hover-1 transition-all duration-200"}
+              className={(errors.password && "border-t-error hover:border-t-error ")}
               type="password"
               placeholder="*********"
               {...register("password")}
@@ -116,11 +116,10 @@ export function SignUp() {
           </Form.Label>
           <Form.Control asChild>
             <input
-              className={(errors.passwordConfirm && "shadow-t-error hover:shadow-t-error ") + "inline-flex w-full appearance-none items-center justify-center leading-none outline-none bg-t-main-2 shadow-t-main h-[35px] rounded-[4px] px-[10px] text-[15px] text-t-hover-1 shadow-[0_0_0_1.5px] placeholder:text-t-main/40 focus:shadow-t-hover-1 transition-all duration-200"}
+              className={(errors.passwordConfirm && "border-t-error hover:border-t-error ")}
               type="password"
               placeholder="*********"
               {...register('passwordConfirm')}
-              required
             />
           </Form.Control>
           <span className="text-[13px] text-t-error tracking-[0.5px]">

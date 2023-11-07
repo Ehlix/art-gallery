@@ -42,6 +42,7 @@ export function UserHeader({headerData}: Props) {
           </div>
           <div className="flex transition-all text-t-hover-5 hover:text-t-hover-6">
             <a
+              target='_blank'
               className="flex"
               href={"https://" + headerData.userSite}>
               {headerData.userSite}
