@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {MdBookmarkBorder, MdFavoriteBorder, MdPersonAdd} from "react-icons/md";
 import React from "react";
+import {ArtworkData} from "@/app/artwork/[id]/page";
 
 const artMocha = {
   id: 1,
@@ -21,18 +22,14 @@ const artMocha = {
   ]
 };
 
-const userMocha = {name: 'wqr ew', site: 'eee'};
-
-
 type ArtType = typeof artMocha
-type UserType = typeof userMocha
 
 type Props = {
   artwork: ArtType
-  user: UserType
+  artworkData: ArtworkData
 };
 
-export function ArtworkMain({artwork, user}: Props) {
+export function ArtworkMain({artwork, artworkData}: Props) {
   function createdAt(): string {
     const dateNow = new Date();
     const dateCreate = new Date(artwork.created_at);
@@ -66,32 +63,50 @@ export function ArtworkMain({artwork, user}: Props) {
                    height={1000}
                    width={1000}/>
           );
-
         })}
       </div>
       <div className="h-fit w-[600px] md:w-[100%]">
         <div
           className="flex h-fit flex-col p-[20px] bg-t-main/20 rounded-[5px] gap-[20px]">
           <div className="flex gap-[20px]">
-            <Link href={`/${user.site}`}>
-              <Image src={'subjects/abstract/2.jpg'} alt={'2'}
-                     className="rounded-full h-[70px] w-[70px]" height={300}
-                     width={300}/>
+            <Link href={`/${artworkData.site}`}
+                  className="overflow-hidden rounded-full h-[110px] w-[110px] bg-t-main">
+              {artworkData.avatarLink
+                ?
+                <Image
+                  className="h-full w-full object-cover"
+                  src={artworkData.avatarLink}
+                  alt="avatar"
+                  height={500}
+                  width={500}/>
+                :
+                <Image
+                  unoptimized
+                  className="h-full w-full object-cover"
+                  src="/default_avatar.png"
+                  alt="avatar"
+                  height={500}
+                  width={500}/>
+              }
             </Link>
             <div className="flex flex-col">
-              <Link href={`/${user.site}`}>
+              <Link href={`/${artworkData.site}`}>
               <span className="text-t-hover-1 text-[25px]">
-                {user.name}
+                {artworkData.name}
               </span>
               </Link>
-              <span className="text-[18px]">hasefuhk@wreasef.it</span>
-
+              {artworkData.website &&
+                <span className="text-[18px]">
+                {artworkData.website}
+                </span>
+              }
             </div>
-
           </div>
           <button
             className="flex items-center justify-center bg-none transition-all duration-300 mt-[-10px] border-t-hover-2 border-[1px] text-t-hover-2 text-[16px] h-[25px] min-w-[100px] gap-[5px] rounded-[3px] hover:border-t-hover-3 hover:text-t-hover-3">
-            <div className="text-xl pb-[2px]"><MdPersonAdd/></div>
+            <div className="text-xl pb-[2px]">
+              <MdPersonAdd/>
+            </div>
             <span>
               Follow
             </span>
@@ -99,14 +114,18 @@ export function ArtworkMain({artwork, user}: Props) {
           <div className="flex justify-between gap-[20px]">
             <button
               className="flex grow items-center justify-center transition-all duration-1000 text-t-main-2 min-w-[100px] gap-[5px] bg-grad-3 rounded-[3px] h-[35px] hover:bg-grad-4">
-              <div className="text-xl pb-[2px]"><MdFavoriteBorder/></div>
+              <div className="text-xl pb-[2px]">
+                <MdFavoriteBorder/>
+              </div>
               <span>
                 Like
               </span>
             </button>
             <button
               className="flex grow items-center justify-center transition-all text-t-main-2 min-w-[100px] gap-[5px] bg-t-main rounded-[3px] h-[35px] hover:bg-t-hover-1/70">
-              <div className="text-xl pb-[2px]"><MdBookmarkBorder/></div>
+              <div className="text-xl pb-[2px]">
+                <MdBookmarkBorder/>
+              </div>
               <span>
                 Save
               </span>
@@ -120,7 +139,9 @@ export function ArtworkMain({artwork, user}: Props) {
               {artwork.description}
             </p>
           </div>
-          <p className="italic text-[14px]">{createdAt()}</p>
+          <p className="italic text-[14px]">
+            {createdAt()}
+          </p>
         </div>
       </div>
     </div>

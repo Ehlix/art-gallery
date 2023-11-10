@@ -1,12 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
+import {ProfileData} from "@/app/[username]/page";
+import * as React from "react";
 
 type Props = {
   artworks: any[]
-  userName: string
+  profileData: ProfileData
 };
 
-export function PicturesUser({artworks, userName}: Props) {
+export function UserPictures({artworks, profileData}: Props) {
   return (
     <div
       className="grid grid-cols-5 gap-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -26,15 +28,34 @@ export function PicturesUser({artworks, userName}: Props) {
                 <div className="h-full w-full"></div>
                 <div
                   className="relative z-20 flex h-fit w-full items-center opacity-0 transition-all ease-in-out top-[100%] gap-[5px] duration-[600ms] px-[2%] pb-[2%] group-hover:top-[0%] group-hover:opacity-100 md:hidden">
-                  <div
-                    className="shrink-0 grow-0 rounded-full bg-black h-[40px] w-[40px]"></div>
+                  {profileData.avatarLink
+                    ?
+                    <Image
+                      src={profileData.avatarLink}
+                      alt="navigation profile image"
+                      width={100}
+                      height={100}
+                      className="rounded-full object-cover object-center w-[40px] h-[40px]"/>
+                    :
+                    <Image
+                      unoptimized
+                      src="/default_avatar.png"
+                      alt="navigation profile image"
+                      width={100}
+                      height={100}
+                      className="rounded-full object-cover object-center w-[40px] h-[40px]"/>
+                  }
                   <div className="flex flex-col items-start text-t-hover-1 text-[14px]">
-                    <p className="font-bold leading-none tracking-[1.1px]">{a.title}</p>
-                    <p className="leading-5 text-t-hover-1/70 text-[12px]">{userName}</p>
+                    <p className="font-bold leading-none tracking-[1.1px]">
+                      {a.title}
+                    </p>
+                    <p
+                      className="leading-5 text-t-hover-1/70 text-[12px]">
+                      {profileData.name}
+                    </p>
                   </div>
                 </div>
               </div>
-
             </Link>
           );
         })

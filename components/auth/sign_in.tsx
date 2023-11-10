@@ -40,9 +40,9 @@ export function SignIn() {
         className="flex flex-col rounded-[5px] bg-t-main/20 p-[40px] text-[18px] w-[40vw] gap-[15px] sm:w-full md:w-[70vw] lg:w-[60vw]">
         <ToastContainer/>
         <h3
-          className="font-bold text-[33px] text-t-hover-1 mb-[20px] tracking-[0.7px]">Sign
-          In</h3>
-
+          className="font-bold text-[33px] text-t-hover-1 mb-[20px] tracking-[0.7px]">
+          Sign In
+        </h3>
 
         <Form.Field className="" name="email">
           <Form.Label className="font-medium text-[15px] leading-[35px] text-t-hover-1">
@@ -52,26 +52,22 @@ export function SignIn() {
             <input
               type="email"
               placeholder="serunov@email.com"
-              {...register('email')}
-            />
+              {...register('email')}/>
           </Form.Control>
           <span className="text-[13px] text-t-error tracking-[0.5px]">
             {errors.email?.message}
           </span>
         </Form.Field>
 
-
         <Form.Field className="" name="email">
-          <Form.Label
-            className="font-medium text-[15px] leading-[35px] text-t-hover-1">
+          <Form.Label className="font-medium text-[15px] leading-[35px] text-t-hover-1">
             Password
           </Form.Label>
           <Form.Control asChild>
             <input
               type="password"
               placeholder="******"
-              {...register('password')}
-            />
+              {...register('password')}/>
           </Form.Control>
           <span className="text-[13px] text-t-error tracking-[0.5px]">
             {errors.password?.message}
@@ -80,10 +76,13 @@ export function SignIn() {
 
         <Form.Submit asChild>
           <button
-            className="disabled:bg-grad-6 disabled:text-t-hover-1 flex items-center justify-center font-medium bg-t-hover-2 leading-none  w-[150px] text-t-main-2 h-[35px] rounded-[4px] px-[10px] mt-[10px] hover:bg-t-hover-3 transition-all duration-200"
-            disabled={loading}
-          >
-            {loading ? 'Please await . . .' : 'Sign in'}
+            className="flex items-center justify-center font-medium leading-none transition-all duration-200 bg-t-hover-2 w-[150px] text-t-main-2 h-[35px] rounded-[4px] px-[10px] mt-[10px] hover:bg-t-hover-3 disabled:bg-grad-6 disabled:text-t-hover-1"
+            disabled={loading}>
+            {loading
+              ?
+              'Please await . . .'
+              :
+              'Sign in'}
           </button>
         </Form.Submit>
       </Form.Root>

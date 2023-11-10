@@ -12,9 +12,13 @@ export async function middleware(req: NextRequest) {
   if (!user.user) {
     return NextResponse.redirect(new URL('/auth/sign_in', req.url));
   }
-  // if (user.user && newProfile) {
-  //   return NextResponse.redirect(new URL('/auth/sign_in', req.url))
-  // }
+  if (user.user) {
+    const {data: profile} = await supabase.from('profiles').select().eq('user_id', user.user.id)
+
+    if (!profile || !profile[0]) {
+      return NextResponse.redirect(new URL('/user/create_profile', req.url))
+    }
+  }
   return NextResponse.next();
 }
 

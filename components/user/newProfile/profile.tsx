@@ -7,10 +7,24 @@ import {FieldErrors, UseFormSetValue} from "react-hook-form";
 import {useIsMount} from "@/hooks/useIsMount";
 import {v4} from "uuid";
 import {FaAsterisk} from "react-icons/fa";
+import {NewProfilePictures} from "@/components/user/newProfile/newProfileMain";
 
 type Props = {
-  setValue: UseFormSetValue<{ name: string, headline: string, city: string, country: string, avatar: File, cover: File }>
-  errors: FieldErrors<{ headline: string, city: string, country: string, avatar: File, cover: File, name: string }>
+  name: string
+  setValue: UseFormSetValue<{
+    name: string,
+    headline: string,
+    city: string,
+    country: string,
+  }>
+  errors: FieldErrors<{
+    headline: string,
+    city: string,
+    country: string,
+    name: string
+  }>
+  setPictures: React.Dispatch<React.SetStateAction<NewProfilePictures>>
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>
 };
 
 export type ProfileObject = {
@@ -24,17 +38,27 @@ export type ProfileObject = {
 
 const uniquePath = v4();
 
-export function Profile({setValue, errors}: Props) {
+export function Profile({
+                          name,
+                          setValue,
+                          setPictures,
+                          setLoading,
+                          errors
+                        }: Props) {
   const isMount = useIsMount();
   const [profile, setProfile
   ] = useState<ProfileObject>({
-    name: '',
+    name: name,
     headline: '',
     city: '',
     country: '',
     avatar: null,
     cover: null
   });
+
+  useEffect(() => {
+    isMount && setValue('name', name, {shouldValidate: true});
+  }, []);
 
   function nameHandler(e: React.ChangeEvent<HTMLInputElement>) {
     setValue('name', e.currentTarget.value.trimStart(), {shouldValidate: true});
@@ -75,17 +99,20 @@ export function Profile({setValue, errors}: Props) {
 
   return (
     <div
-      className="flex h-fit mt-[30px] rounded-[5px] bg-t-main/20 p-[40px] text-[18px] w-[85vw] gap-[20px] sm:p-[5px] sm:w-full md:p-[20px] lg:flex-col">
+      className="flex h-fit rounded-[5px] bg-t-main/20 p-[40px] text-[18px] w-[85vw] gap-[20px] sm:p-[5px] sm:w-full md:p-[20px] lg:flex-col">
       <div className="flex shrink grow flex-col justify-between gap-[20px]">
-        <h3
-          className="font-bold text-[33px] text-t-hover-1 tracking-[0.7px]">
-          Profile
-        </h3>
-        <p>
-          Fill in your hiring information to appear in search results.
-          <br/>
-          This is required fields.
-        </p>
+        <div>
+          <h3
+            className="font-bold text-[33px] mb-[10px] text-t-hover-1 tracking-[0.7px]">
+            Profile
+          </h3>
+          <p>
+            Fill in your hiring information to appear in search results.
+            <br/>
+            This is required fields.
+          </p>
+        </div>
+
         <div className="">
           <h3 className="flex mb-[5px] gap-[5px]">
             <FaAsterisk size={10} title="Required" className="cursor-help"/>
@@ -144,14 +171,10 @@ export function Profile({setValue, errors}: Props) {
           </span>
       </div>
       <div className="flex flex-col gap-[20px]">
-        <UploadAvatar uniquePath={uniquePath} setValue={setValue}/>
-        <span className="text-[14px] text-t-error tracking-[0.5px]">
-            {errors.avatar?.message}
-          </span>
-        <UploadCover uniquePath={uniquePath} setValue={setValue}/>
-        <span className="text-[14px] text-t-error tracking-[0.5px]">
-            {errors.cover?.message}
-          </span>
+        <UploadAvatar setLoading={setLoading}
+                      setPictures={setPictures} uniquePath={uniquePath}/>
+        <UploadCover setLoading={setLoading} uniquePath={uniquePath}
+                     setPictures={setPictures}/>
       </div>
 
     </div>

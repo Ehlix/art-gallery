@@ -1,18 +1,18 @@
-'use client';
 import * as React from "react";
 import {useEffect, useRef, useState} from "react";
 import {MdArrowUpward} from "react-icons/md";
-import {UseFormSetValue} from "react-hook-form";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 import {bytesToMb, renameFile} from "@/utils/utils";
 import Env from "@/dictionaries/env";
 import {v4} from "uuid";
 import Image from "next/image";
 import {canvasRatio} from "@/utils/canvasRatio";
+import {NewProfilePictures} from "@/components/user/newProfile/newProfileMain";
 
 type Props = {
-  setValue: UseFormSetValue<{ name: string, headline: string, city: string, country: string, avatar: File, cover: File }>
   uniquePath: string
+  setPictures: React.Dispatch<React.SetStateAction<NewProfilePictures>>
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>
 };
 
 type Cover = {
@@ -21,7 +21,7 @@ type Cover = {
   status: "error" | "notLoaded" | "loading" | "loaded"
 }
 
-export function UploadCover({setValue, uniquePath}: Props) {
+export function UploadCover({uniquePath, setPictures, setLoading}: Props) {
   const supabase = createClientComponentClient();
   const inputFile = useRef(null);
   const [cover, setCover] = useState<Cover | null>(null);
@@ -38,10 +38,13 @@ export function UploadCover({setValue, uniquePath}: Props) {
         console.log('file >15 mb deleted');
         return;
       }
-      const file = await canvasRatio(inputFile,4)
+      const file = await canvasRatio(inputFile, 4);
 
       if (cover) {
-        const {data, error} = await supabase.storage.from(Env.PROJECTS_BUCKET).remove([`cache/${uniquePath}/${cover.file.name}`]);
+        const {
+          data,
+          error
+        } = await supabase.storage.from(Env.PROJECTS_BUCKET).remove([`cache/${uniquePath}/${cover.file.name}`]);
         if (data) {
           const newAvatar: Cover = {
             id: v4(),
@@ -68,6 +71,7 @@ export function UploadCover({setValue, uniquePath}: Props) {
   useEffect(() => {
     if (cover?.status === 'notLoaded') {
       (async () => {
+        setLoading(true);
         setCover({...cover, status: 'loading'});
         console.log('cover start loading..');
         const {
@@ -81,10 +85,18 @@ export function UploadCover({setValue, uniquePath}: Props) {
           setCover({
             ...cover, status: 'loaded'
           });
-          setValue("avatar", cover.file, {shouldValidate: true});
+          setPictures((prev) => {
+            return {
+              ...prev,
+              coverId: cover.file.name,
+              folderId: uniquePath
+            };
+          });
+          setLoading(false);
           console.log('cover uploaded!');
         }
         if (error) {
+          setLoading(false);
           console.log(error);
         }
       })();
@@ -105,6 +117,7 @@ export function UploadCover({setValue, uniquePath}: Props) {
         }
       </div>
       <button
+        disabled={cover?.status === 'loading'}
         className="flex items-center justify-center transition-all duration-300 text-t-hover-1 gap-[5px] border-t-main border-[1px] px-[20px] rounded-[4px] hover:border-t-hover-3 hover:text-t-hover-3"
         onClick={clickHandler}>
         <MdArrowUpward size={20}/>Upload cover

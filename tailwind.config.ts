@@ -11,6 +11,8 @@ const config: Config = {
       colors: {
         't-main': '#888888',
         't-main-2': '#1e1e1e',
+        't-main-3': '#2c2c2c',
+        't-pop-1': '#b27a62',
         't-hover-1': '#c7c7c7',
         't-hover-2': '#cc67ff',
         't-hover-3': '#d886fc',

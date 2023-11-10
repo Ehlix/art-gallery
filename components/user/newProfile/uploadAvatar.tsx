@@ -1,18 +1,18 @@
-'use client';
 import * as React from "react";
 import {useEffect, useRef, useState} from "react";
 import {MdArrowUpward} from "react-icons/md";
 import {bytesToMb, renameFile} from "@/utils/utils";
-import {UseFormSetValue} from "react-hook-form";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 import Env from "@/dictionaries/env";
 import {v4} from "uuid";
 import Image from "next/image";
 import {canvasRatio} from "@/utils/canvasRatio";
+import {NewProfilePictures} from "@/components/user/newProfile/newProfileMain";
 
 type Props = {
-  setValue: UseFormSetValue<{ name: string, headline: string, city: string, country: string, avatar: File, cover: File }>
   uniquePath: string
+  setPictures: React.Dispatch<React.SetStateAction<NewProfilePictures>>
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>
 };
 
 type Avatar = {
@@ -21,7 +21,7 @@ type Avatar = {
   status: "error" | "notLoaded" | "loading" | "loaded"
 }
 
-export function UploadAvatar({setValue, uniquePath}: Props) {
+export function UploadAvatar({uniquePath, setPictures, setLoading}: Props) {
   const supabase = createClientComponentClient();
   const inputFile = useRef(null);
   const [avatar, setAvatar] = useState<Avatar | null>(null);
@@ -38,10 +38,13 @@ export function UploadAvatar({setValue, uniquePath}: Props) {
         console.log('file >15 mb deleted');
         return;
       }
-      const file = await canvasRatio(inputFile,1)
+      const file = await canvasRatio(inputFile, 1);
 
       if (avatar) {
-        const {data, error} = await supabase.storage.from(Env.PROJECTS_BUCKET).remove([`cache/${uniquePath}/${avatar.file.name}`]);
+        const {
+          data,
+          error
+        } = await supabase.storage.from(Env.PROJECTS_BUCKET).remove([`cache/${uniquePath}/${avatar.file.name}`]);
         if (data) {
           const newAvatar: Avatar = {
             id: v4(),
@@ -67,7 +70,8 @@ export function UploadAvatar({setValue, uniquePath}: Props) {
   useEffect(() => {
     if (avatar?.status === 'notLoaded') {
       (async () => {
-        setAvatar({...avatar, status: 'loading'})
+        setLoading(true);
+        setAvatar({...avatar, status: 'loading'});
         console.log('avatar start loading..');
         const {
           data, error
@@ -80,10 +84,18 @@ export function UploadAvatar({setValue, uniquePath}: Props) {
           setAvatar({
             ...avatar, status: 'loaded'
           });
-          setValue("avatar", avatar.file, {shouldValidate: true});
+          setPictures((prev) => {
+            return {
+              ...prev,
+              avatarId: avatar.file.name,
+              folderId: uniquePath
+            };
+          });
+          setLoading(false);
           console.log('avatar uploaded!');
         }
         if (error) {
+          setLoading(false);
           console.log(error);
         }
       })();

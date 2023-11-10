@@ -1,6 +1,6 @@
 import * as React from "react";
 import {useState} from "react";
-import {MdAdd, MdDelete, MdEdit, MdMail} from "react-icons/md";
+import {MdAdd, MdDelete, MdEdit} from "react-icons/md";
 import {validateEmail} from "@/validations/validateEmail";
 import {isUrlValid} from "@/validations/validateUrl";
 import {useIsMount} from "@/hooks/useIsMount";
@@ -34,18 +34,24 @@ export function Social({social, setSocial}: Props) {
     if (type === 'site') {
       const isValid = isUrlValid(inputs[tag]);
       if (isValid) {
-        setSocial({...social, [tag]: isValid[0].replace(/(^\w+:|^)\/\//, '')});
+        const site = isValid[0].replace(/(^\w+:|^)\/\//, '');
+        setSocial({...social, [tag]: `https://${site}`});
       }
+      return;
     }
     if (type === 'email') {
       const isValid = validateEmail(inputs[tag]);
       if (isValid) {
         setSocial({...social, [tag]: isValid[0]});
       }
+      return;
     }
     if (type === 'text') {
-      setSocial({...social, [tag]: inputs[tag].toLowerCase()});
+      const validName = inputs[tag].replaceAll(/\s/g, '').toLowerCase();
+      const name = `https://www.${tag}.com/${validName}`;
+      setSocial({...social, [tag]: name});
     }
+    return;
   }
 
   function changeHandler(tag: Tag) {
@@ -62,10 +68,16 @@ export function Social({social, setSocial}: Props) {
     <div
       className="flex h-fit rounded-[5px] bg-t-main/20 p-[40px] text-[18px] w-[85vw] gap-[20px] sm:p-[5px] sm:w-full md:p-[20px] lg:flex-col">
       <div className="flex shrink grow flex-col justify-between gap-[20px]">
-        <h3
-          className="font-bold text-[33px] text-t-hover-1 tracking-[0.7px]">
-          Social
-        </h3>
+        <div>
+          <h3
+            className="font-bold mb-[10px] text-[33px] text-t-hover-1 tracking-[0.7px]">
+            Social
+          </h3>
+          <p>
+            This fields is not required.
+          </p>
+        </div>
+
 
         {tags.map((v) => {
           return (
@@ -78,9 +90,9 @@ export function Social({social, setSocial}: Props) {
                     className="flex items-center transition-all duration-200 text-t-hover-5 hover:text-t-hover-6">
                     <a
                       target="_blank"
-                      className="flex items-center gap-[10px]"
-                      href={`https://${social[v.tag]}`}>
-                      <MdMail/>
+                      className="flex gap-[10px]"
+                      href={v.type === 'email' ? `mailto:${social[v.tag]}` : social[v.tag]}>
+                      <v.icon size={25}/>
                       {social[v.tag]}
                     </a>
                   </div>

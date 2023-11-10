@@ -1,6 +1,5 @@
 "use client";
 import * as React from 'react';
-import {useEffect, useState} from 'react';
 import * as Separator from "@radix-ui/react-separator";
 import Link from "next/link";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
@@ -15,8 +14,9 @@ import {
   MdSettings
 } from "react-icons/md";
 import Image from "next/image";
+import {NavUser} from "@/components/navigation/userNavPanel";
 
-const modalItems = [
+const modalTags = [
   {title: 'My learning', icon: <MdSchool/>, href: '/'},
   {title: 'My connections', icon: <MdGroups/>, href: '/'},
   {title: 'My library', icon: <MdLibraryBooks/>, href: '/'},
@@ -26,13 +26,8 @@ const modalItems = [
   {separator: true},
   {title: 'Setting', icon: <MdSettings/>, href: '/'},
 ];
-type User = {
-  name: string
-  site: string
-}
 
-export function ModalUserOption() {
-  const [user, setUser] = useState<User | null>(null);
+export function ModalUserOption({user}: { user: NavUser }) {
   const supabase = createClientComponentClient();
   const router = useRouter();
   const logout = async () => {
@@ -40,16 +35,6 @@ export function ModalUserOption() {
     router.refresh();
     router.push('/');
   };
-
-  useEffect(() => {
-    const getData = async () => {
-      const {data} = await supabase.auth.getSession();
-      const metadata = data?.session?.user?.user_metadata;
-      setUser({name: metadata?.name, site: metadata?.site} || null);
-
-    };
-    getData().then();
-  }, []);
   return (
     <>
       <Link
@@ -59,20 +44,30 @@ export function ModalUserOption() {
         hover:before:absolute hover:before:top-[80px] hover:before:w-[100%] hover:before:l-[0px] hover:before:h-[1.3px] hover:before:rounded-[5px] hover:before:bg-grad-1
 
         befor:text-t-hover-1 before:absolute before:top-[80px] before:w-[110%] before:ml-[-10px] before:h-[1px]
-        before:rounded-[5px] before:bg-t-main"
-      >
-        <Image
-          src="subjects/abstract/2.jpg"
-          alt="navigation profile image"
-          width={100}
-          height={100}
-          className="object-cover object-center w-[40px] h-[40px] rounded-full"
-        />
-        {/*<div className="mt-[-1.7px]">{'dh'}</div>*/}
-        <span>{user?.name}</span>
+        before:rounded-[5px] before:bg-t-main">
+        {user.avatarLink
+          ?
+          <Image
+            src={user.avatarLink}
+            alt="navigation profile image"
+            width={100}
+            height={100}
+            className="rounded-full object-cover object-center w-[40px] h-[40px]"/>
+          :
+          <Image
+            unoptimized
+            src="/default_avatar.png"
+            alt="navigation profile image"
+            width={100}
+            height={100}
+            className="rounded-full object-cover object-center w-[40px] h-[40px]"/>
+        }
+        <span>
+          {user?.name}
+        </span>
       </Link>
       <div className="mt-[15px]">
-        {modalItems.map((v, i) => {
+        {modalTags.map((v, i) => {
           if (v.separator) {
             return (
               <Separator.Root
@@ -85,10 +80,13 @@ export function ModalUserOption() {
             return (
               <Link key={i}
                     href={v.href}
-                    className="flex items-center justify-start transition-all w-[100%] gap-[12px] rounded-[3px] p-[10px] hover:bg-t-main/70"
-              >
-                <div className="mt-[-1.7px]">{v.icon}</div>
-                <span>{v.title}</span>
+                    className="flex items-center justify-start transition-all w-[100%] gap-[12px] rounded-[3px] p-[10px] hover:bg-t-main/70">
+                <div className="mt-[-1.7px]">
+                  {v.icon}
+                </div>
+                <span>
+                  {v.title}
+                </span>
               </Link>
             );
           }
@@ -98,9 +96,12 @@ export function ModalUserOption() {
       <button
         onClick={logout}
         className="flex items-center justify-start transition-all w-[100%] gap-[12px] rounded-[3px] p-[10px] hover:bg-t-main/70">
-        <div className="mt-[-1.5px]"><MdLogout/></div>
-        <span>Sign
-        out</span>
+        <div className="mt-[-1.5px]">
+          <MdLogout/>
+        </div>
+        <span>
+          Sign out
+        </span>
       </button>
     </>
   );

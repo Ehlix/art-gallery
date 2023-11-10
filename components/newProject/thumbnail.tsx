@@ -1,4 +1,3 @@
-'use client';
 import * as React from 'react';
 import {useEffect, useRef, useState} from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
@@ -51,7 +50,7 @@ export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
           console.log(error);
         }
         return;
-  }
+      }
       const thumb: Thumbnail = {
         id: v4(),
         file: renameFile(file, `thumbnail_${v4()}`),
@@ -69,7 +68,7 @@ export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
         const {
           data,
           error
-        } = await supabase.storage.from(`${Env.PROJECTS_BUCKET}/cache`).upload(`${uniquePath}/${thumbnail.file.name}`, thumbnail.file,{
+        } = await supabase.storage.from(`${Env.PROJECTS_BUCKET}/cache`).upload(`${uniquePath}/${thumbnail.file.name}`, thumbnail.file, {
           cacheControl: '3600',
           upsert: false
         });
@@ -91,7 +90,8 @@ export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
 
   return (
     <div className="flex w-fit flex-col gap-[10px]">
-      <div className="border-t-main border-[2px] rounded-[4px] h-[300px] w-[300px] md:h-[200px] md:w-[200px]">
+      <div
+        className="border-t-main border-[2px] rounded-[4px] h-[300px] w-[300px] md:h-[200px] md:w-[200px]">
         {thumbnail?.status === 'loaded' &&
           <Image src={`cache/${uniquePath}/${thumbnail.file.name}`}
                  alt={'thumbnail'}
@@ -125,23 +125,23 @@ export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
             <Dialog.Close asChild>
               <button
                 className="absolute inline-flex appearance-none items-center justify-center rounded-full text-violet11 top-[10px] right-[10px] h-[25px] w-[25px] hover:bg-violet4 focus:shadow-violet7 focus:shadow-[0_0_0_2px] focus:outline-none"
-                aria-label="Close"
-              >
+                aria-label="Close">
                 X
               </button>
             </Dialog.Close>
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>
-      <button className="border-dotted transition-all duration-300 text-t-hover-1 border-t-main border-[3px] p-[2px] rounded-[5px] hover:border-t-hover-2 hover:text-t-hover-2" onClick={clickHandler}>
+      <button
+        className="border-dotted transition-all duration-300 text-t-hover-1 border-t-main border-[3px] p-[2px] rounded-[5px] hover:border-t-hover-2 hover:text-t-hover-2"
+        onClick={clickHandler}>
         Upload thumbnail
       </button>
       <input
         className="hidden" type="file"
         onChange={imagesChangeHandler}
         ref={inputFile}
-        accept="image/,.png,.jpg,.jpeg"
-      />
+        accept="image/,.png,.jpg,.jpeg"/>
     </div>
   );
 }

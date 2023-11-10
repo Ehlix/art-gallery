@@ -160,14 +160,11 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
         onChange={imagesChangeHandler}
         ref={inputFile}
         accept="image/,.png,.jpg,.jpeg"
-        multiple
-      />
+        multiple/>
 
       <div>
-
         <div
-          className="grid grid-cols-5 gap-[1vw] sm:gap-[3.3vw] sm:grid-cols-1 md:grid-cols-2 lg:gap-[2vw] lg:grid-cols-3 xl:grid-cols-4"
-        >
+          className="grid grid-cols-5 gap-[1vw] sm:gap-[3.3vw] sm:grid-cols-1 md:grid-cols-2 lg:gap-[2vw] lg:grid-cols-3 xl:grid-cols-4">
           {selectedFiles.sort(sortSelectedFiles).map((target) => {
             async function confirmHandler() {
               console.log("confirm!!!");
@@ -196,29 +193,33 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
                    onDragLeave={e => dragEndHandler(e)}
                    onDrop={e => dropHandler(e, target)}
               >
-                {target.status === 'loaded' ?
+                {target.status === 'loaded'
+                  ?
                   <Image
                     // className="pointer-events-none object-cover object-center w-[100%] h-[100%]"
                     className="pointer-events-none w-fit h-[100%]"
                     src={`cache/${uniquePath}/${target.file.name}`} alt="jop"
                     width={100}
-                    height={100} quality={100}/> :
+                    height={100} quality={100}/>
+                  :
                   <div
                     className="pointer-events-none flex items-center justify-center rounded-[1.5px] bg-t-main-2 w-[100%] h-[100%]">
-                    <span
-                      className="animate-spin text-t-main text-[50px]"><RiLoader3Line/></span>
+                    <span className="animate-spin text-t-main text-[50px]">
+                      <RiLoader3Line/>
+                    </span>
                   </div>
                 }
                 <div
                   className="pointer-events-none absolute top-0 left-0 shadow-black/40 shadow-[inset_-10px_100px_30px_-70px] w-[100%] h-[100%]"></div>
-                {isFullLoad && <RemoveConfirmation
-                  className="absolute top-0 right-0 m-[7px] text-t-error text-[22px]"
-                  callback={confirmHandler}/>}
+                {isFullLoad &&
+                  <RemoveConfirmation
+                    className="absolute top-0 right-0 m-[7px] text-t-error text-[22px]"
+                    callback={confirmHandler}/>
+                }
               </div>
             );
           })}
         </div>
-
       </div>
     </>
   );

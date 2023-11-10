@@ -66,7 +66,6 @@ export function ProjectMain() {
   };
 
   const onSubmit = async (payload: NewProjectType) => {
-    console.log('123');
     moveHandler().then(async () => {
       const user = await supabase.auth.getUser();
       const {} = await supabase.from('artworks').insert({
@@ -102,86 +101,11 @@ export function ProjectMain() {
       data && console.log('thumb moved', data);
       error && console.log(error);
     }
-
   }
-
-  // useEffect(() => {
-  //   console.log('use effect thumb');
-  //
-  //   async function upload(target: SelectedFileType) {
-  //     if (thumbnail) {
-  //       return;
-  //     }
-  //     const {
-  //       data,
-  //       error
-  //     } = await supabase.storage.from(`${Env.PROJECTS_BUCKET}/cache`).upload(`${uniquePath}/${target.file.name}`, target.file);
-  //     if (data) {
-  //       target.status = 'loaded';
-  //       setThumbnail(target);
-  //       console.log('thumb set');
-  //     }
-  //     if (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  //
-  //   async function replace(target: SelectedFileType) {
-  //
-  //     console.log('thumb replacing...');
-  //     const {
-  //       data,
-  //       error
-  //     } = await supabase.storage.from(Env.PROJECTS_BUCKET).update(`cache/${uniquePath}/${target.file.name}`, target.file);
-  //     if (data) {
-  //       target.status = 'loaded';
-  //       setThumbnail(target);
-  //       console.log('thumb replace');
-  //     }
-  //     if (error) {
-  //       console.log(error);
-  //     }
-  //
-  //
-  //   }
-  //
-  //   async function remove() {
-  //     console.log('thumb removing...');
-  //
-  //     const {
-  //       data,
-  //       error
-  //     } = await supabase.storage.from(Env.PROJECTS_BUCKET).remove([`cache/${uniquePath}/thumbnail`]);
-  //     if (data) {
-  //       setThumbnail(null);
-  //       console.log('thumb: null');
-  //     }
-  //     if (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  //
-  //   if (selectedFiles[0]?.status === 'loaded' && thumbnail === null) {
-  //     const newFile = renameFile(selectedFiles[0].file, 'thumbnail');
-  //     const thumb: SelectedFileType = {...selectedFiles[0], file: newFile, status: 'notLoaded'};
-  //     setThumbnail(thumb);
-  //     upload(thumb).then();
-  //   }
-  //   if (selectedFiles[0]?.status === 'loaded' && thumbnail && selectedFiles[0].id !== thumbnail.id && thumbnail.status === 'loaded') {
-  //     const newFile = renameFile(selectedFiles[0].file, 'thumbnail');
-  //     const thumb: SelectedFileType = {...selectedFiles[0], file: newFile, status: 'notLoaded'};
-  //     setThumbnail(thumb);
-  //     replace(thumb).then();
-  //   }
-  //   if (!selectedFiles[0] && thumbnail) {
-  //     remove().then();
-  //   }
-  // }, [selectedFiles]);
 
   return (
     <>
-      <div className="flex flex-col text-[18px] w-[90vw] gap-[50px] xl:w-[95%]"
-      >
+      <div className="flex flex-col text-[18px] w-[90vw] gap-[50px] xl:w-[95%]">
         <button onClick={() => console.log(uniquePath)}>path</button>
         <button onClick={moveHandler}>move</button>
         <button onClick={() => console.log(selectedFiles)}>files</button>
@@ -197,8 +121,7 @@ export function ProjectMain() {
                 {...register('title')}
                 placeholder="your title"
                 onChange={newTitle}
-                value={title.trimStart()}
-              />
+                value={title.trimStart()}/>
               <span className="text-t-error">{errors?.title?.message}</span>
               <div className="flex flex-col gap-[10px]">
                 Enter project description
@@ -206,33 +129,36 @@ export function ProjectMain() {
                   placeholder="your description"
                   {...register('description')}
                   onChange={newDescription}
-                  value={description.trimStart()}
-                />
-                <span className="text-t-error">{errors.description?.message}</span>
+                  value={description.trimStart()}/>
+                <span className="text-t-error">
+                  {errors.description?.message}
+                </span>
               </div>
             </div>
           </div>
           <div className="relative">
             <span
-              className="absolute top-[10px] left-[10px] text-t-error">{errors.thumbnail?.message}</span>
+              className="absolute top-[10px] left-[10px] text-t-error">
+              {errors.thumbnail?.message}
+            </span>
             <Thumbnail thumbnail={thumbnail}
                        setThumbnail={setThumbnail}
                        uniquePath={uniquePath}/>
           </div>
         </div>
         <div className="flex flex-col gap-[10px]">
-          <span className="text-t-error">{errors.image?.message}</span>
-
+          <span className="text-t-error">
+            {errors.image?.message}
+          </span>
           <ImageUploadZone uniquePath={uniquePath}
                            selectedFiles={selectedFiles}
                            setSelectedFiles={setSelectedFiles}/>
         </div>
-
-
         <Categories chosenCategories={chosenCategories}
                     setChosenCategories={setChosenCategories} errors={errors}/>
-
-        <button onClick={handleSubmit(onSubmit)}>submit</button>
+        <button onClick={handleSubmit(onSubmit)}>
+          submit
+        </button>
       </div>
     </>
   );

@@ -3,7 +3,12 @@ import {BsInstagram} from "react-icons/bs";
 import {FaXTwitter} from "react-icons/fa6";
 import {AiOutlineGlobal} from "react-icons/ai";
 
-export default function About() {
+export default async function About({params}: {
+  params: {
+    username: string;
+  }
+}) {
+  console.log(params, 'about params')
   return (
     <section className="flex justify-center pt-[30px]">
       <div className="flex flex-col text-[18px] w-[55vw] gap-[50px]">

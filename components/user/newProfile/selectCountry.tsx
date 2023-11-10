@@ -60,6 +60,7 @@ export function SelectCountry({country, setProfile}: Props) {
           ref={menuRef}
           className="absolute z-20 h-fit w-full rounded-t-none border-t-0 bg-t-main-2 border-t-main border-[2px] rounded-[4px]">
           <input
+            autoFocus
             onChange={searchHandler}
             value={searchCountry}
             className="border-t-main border-[1px] m-[8px] flex w-[calc(100%-16px)] appearance-none items-center justify-center leading-none outline-none bg-t-main-2 text-t-hover-1  h-[35px] rounded-[3px] px-[10px] text-[15px] placeholder:text-t-main/40 hover:shadow-t-hover-1 focus:shadow-t-hover-2"
