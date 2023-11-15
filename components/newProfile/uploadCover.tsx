@@ -1,13 +1,13 @@
 import * as React from "react";
 import {useEffect, useRef, useState} from "react";
 import {MdArrowUpward} from "react-icons/md";
-import {bytesToMb, renameFile} from "@/utils/utils";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
+import {bytesToMb, renameFile} from "@/utils/utils";
 import Env from "@/dictionaries/env";
 import {v4} from "uuid";
 import Image from "next/image";
 import {canvasRatio} from "@/utils/canvasRatio";
-import {NewProfilePictures} from "@/components/user/newProfile/newProfileMain";
+import {NewProfilePictures} from "@/components/newProfile/newProfileMain";
 
 type Props = {
   uniquePath: string
@@ -15,16 +15,16 @@ type Props = {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
 };
 
-type Avatar = {
+type Cover = {
   id: string
   file: File
   status: "error" | "notLoaded" | "loading" | "loaded"
 }
 
-export function UploadAvatar({uniquePath, setPictures, setLoading}: Props) {
+export function UploadCover({uniquePath, setPictures, setLoading}: Props) {
   const supabase = createClientComponentClient();
   const inputFile = useRef(null);
-  const [avatar, setAvatar] = useState<Avatar | null>(null);
+  const [cover, setCover] = useState<Cover | null>(null);
 
   function clickHandler() {
 // @ts-ignore
@@ -38,61 +38,62 @@ export function UploadAvatar({uniquePath, setPictures, setLoading}: Props) {
         console.log('file >15 mb deleted');
         return;
       }
-      const file = await canvasRatio(inputFile, 1);
+      const file = await canvasRatio(inputFile, 4);
 
-      if (avatar) {
+      if (cover) {
         const {
           data,
           error
-        } = await supabase.storage.from(Env.PROJECTS_BUCKET).remove([`cache/${uniquePath}/${avatar.file.name}`]);
+        } = await supabase.storage.from(Env.PROJECTS_BUCKET).remove([`cache/${uniquePath}/${cover.file.name}`]);
         if (data) {
-          const newAvatar: Avatar = {
+          const newAvatar: Cover = {
             id: v4(),
-            file: renameFile(file, `avatar_${v4()}`),
+            file: renameFile(file, `cover_${v4()}`),
             status: "notLoaded"
           };
-          setAvatar(newAvatar);
+          setCover(newAvatar);
         }
         if (error) {
           console.log(error);
         }
         return;
       }
-      const newAvatar: Avatar = {
+
+      const newAvatar: Cover = {
         id: v4(),
-        file: renameFile(file, `avatar_${v4()}`),
+        file: renameFile(file, `cover_${v4()}`),
         status: "notLoaded"
       };
-      setAvatar(newAvatar);
+      setCover(newAvatar);
     }
   }
 
   useEffect(() => {
-    if (avatar?.status === 'notLoaded') {
+    if (cover?.status === 'notLoaded') {
       (async () => {
         setLoading(true);
-        setAvatar({...avatar, status: 'loading'});
-        console.log('avatar start loading..');
+        setCover({...cover, status: 'loading'});
+        console.log('cover start loading..');
         const {
           data, error
-        } = await supabase.storage.from(`${Env.PROJECTS_BUCKET}/cache`).upload(`${uniquePath}/${avatar.file.name}`, avatar.file, {
+        } = await supabase.storage.from(`${Env.PROJECTS_BUCKET}/cache`).upload(`${uniquePath}/${cover.file.name}`, cover.file, {
           cacheControl: '3600',
           upsert: false
         });
         if (data) {
           console.log(data);
-          setAvatar({
-            ...avatar, status: 'loaded'
+          setCover({
+            ...cover, status: 'loaded'
           });
           setPictures((prev) => {
             return {
               ...prev,
-              avatarId: avatar.file.name,
+              coverId: cover.file.name,
               folderId: uniquePath
             };
           });
           setLoading(false);
-          console.log('avatar uploaded!');
+          console.log('cover uploaded!');
         }
         if (error) {
           setLoading(false);
@@ -100,28 +101,28 @@ export function UploadAvatar({uniquePath, setPictures, setLoading}: Props) {
         }
       })();
     }
-  }, [avatar]);
+  }, [cover]);
 
   return (
     <div
-      className="flex h-fit w-full flex-col items-center justify-center border-t-main gap-[20px] border-[2px] rounded-[4px] p-[20px]">
-      <div className="overflow-hidden rounded-full h-[110px] w-[110px] bg-t-main/50">
-        {avatar?.status === 'loaded' &&
+      className="flex h-fit w-full flex-col items-center justify-center overflow-hidden p-[20px] border-t-main gap-[20px] border-[2px] rounded-[4px]">
+      <div
+        className="h-full w-full overflow-hidden min-w-[550px] aspect-[4/1] bg-t-main/50 xl:min-w-[400px]">
+        {cover?.status === 'loaded' &&
           <Image
             className="h-full w-full object-cover"
-            src={`cache/${uniquePath}/${avatar.file.name}`} alt="avatar"
-            height={500}
-            width={500}/>
+            src={`cache/${uniquePath}/${cover.file.name}`} alt="avatar"
+            height={800}
+            width={800}/>
         }
       </div>
       <button
-        disabled={avatar?.status === 'loading'}
-        className="flex items-center justify-center transition-all duration-300 gap-[5px] text-t-hover-1 border-t-main border-[1px] px-[20px] rounded-[4px] hover:border-t-hover-3 hover:text-t-hover-3"
+        disabled={cover?.status === 'loading'}
+        className="flex items-center justify-center transition-all duration-300 text-t-hover-1 gap-[5px] border-t-main border-[1px] px-[20px] rounded-[4px] hover:border-t-hover-3 hover:text-t-hover-3"
         onClick={clickHandler}>
-        <MdArrowUpward size={20}/>Upload avatar
+        <MdArrowUpward size={20}/>Upload cover
       </button>
       <input
-        disabled={avatar?.status === 'loading'}
         className="hidden" type="file"
         onChange={imagesChangeHandler}
         ref={inputFile}

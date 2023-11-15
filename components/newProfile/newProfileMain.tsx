@@ -1,16 +1,16 @@
 'use client';
 import React, {useState} from "react";
-import {Resume} from "@/components/user/newProfile/resume";
-import {Profile} from "@/components/user/newProfile/profile";
+import {Resume} from "@/components/newProfile/resume";
+import {Profile} from "@/components/newProfile/profile";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {createProfileSchema, CreateProfileType} from "@/validations/createProfileSchema";
-import {Social} from "@/components/user/newProfile/social";
+import {Social} from "@/components/newProfile/social";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 import Env from "@/dictionaries/env";
 import {useRouter} from "next/navigation";
 
-export type Resume = {
+export type ResumeObject = {
   hiring: string[]
   summary: string
   skills: { id: string, title: string }[]
@@ -35,7 +35,7 @@ export function NewProfileMain({name}: { name: string }) {
   const supabase = createClientComponentClient();
   const [pictures, setPictures] = useState<NewProfilePictures>({});
   const [resume, setResume
-  ] = useState<Resume>({
+  ] = useState<ResumeObject>({
     hiring: [],
     summary: '',
     skills: []

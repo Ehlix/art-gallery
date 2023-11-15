@@ -1,5 +1,5 @@
-"use client";
 import * as React from 'react';
+import {useRef} from 'react';
 import * as Separator from "@radix-ui/react-separator";
 import Link from "next/link";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
@@ -15,6 +15,7 @@ import {
 } from "react-icons/md";
 import Image from "next/image";
 import {NavUser} from "@/components/navigation/userNavPanel";
+import {useClickOutside} from "@/hooks/useClickOutside";
 
 const modalTags = [
   {title: 'My learning', icon: <MdSchool/>, href: '/'},
@@ -27,7 +28,13 @@ const modalTags = [
   {title: 'Setting', icon: <MdSettings/>, href: '/'},
 ];
 
-export function ModalUserOption({user}: { user: NavUser }) {
+type Props = {
+  user: NavUser,
+  closeHandler: () => void
+}
+
+export function ModalUserOption({user, closeHandler}:Props) {
+  const menuRef = useRef(null);
   const supabase = createClientComponentClient();
   const router = useRouter();
   const logout = async () => {
@@ -35,15 +42,20 @@ export function ModalUserOption({user}: { user: NavUser }) {
     router.refresh();
     router.push('/');
   };
+
+  useClickOutside(menuRef, () => {
+    closeHandler();
+  });
+
   return (
-    <>
+    <div
+      ref={menuRef}
+      className="absolute right-0 z-50 flex flex-col rounded-t-none shadow-black/25 shadow-[inset_0_-500px_150px_-200px] backdrop-blur-[10px] top-[60px] text-[20px] bg-t-main-2/80 rounded-[5px] w-[300px] pt-[5px] p-[10px] text-t-hover-1 sm:bg-t-main-2 sm:backdrop-blur-[0px] sm:w-[100%] sm:rounded-none sm:shadow-black/30 md:top-[45px]">
       <Link
         href={`/${user?.site}`}
         className="text-t-hover-1/80 flex items-center justify-start transition-all w-[100%] h-[50px] gap-[12px] hover:text-t-hover-1
          rounded-[3px] pl-[10px] mt-[10px] mb-[20px]
-        hover:before:absolute hover:before:top-[80px] hover:before:w-[100%] hover:before:l-[0px] hover:before:h-[1.3px] hover:before:rounded-[5px] hover:before:bg-grad-1
-
-        befor:text-t-hover-1 before:absolute before:top-[80px] before:w-[110%] before:ml-[-10px] before:h-[1px]
+        hover:before:absolute hover:before:top-[80px] hover:before:w-[100%] hover:before:l-[0px] hover:before:h-[1.3px] hover:before:rounded-[5px] hover:before:bg-grad-1 befor:text-t-hover-1 before:absolute before:top-[80px] before:w-[110%] before:ml-[-10px] before:h-[1px]
         before:rounded-[5px] before:bg-t-main">
         {user.avatarLink
           ?
@@ -103,6 +115,6 @@ export function ModalUserOption({user}: { user: NavUser }) {
           Sign out
         </span>
       </button>
-    </>
+    </div>
   );
 }

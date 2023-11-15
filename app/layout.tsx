@@ -26,7 +26,9 @@ export default function RootLayout({
         <main className="grow basis-auto">
           {children}
         </main>
-        <footer>2023</footer>
+        <footer>
+          2023
+        </footer>
       </body>
     </html>
   );

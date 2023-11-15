@@ -1,10 +1,10 @@
 import {Metadata} from "next";
-import {UserNav} from "@/components/user/userNav";
+import {UserNav} from "@/components/userMain/userNav";
 import React, {Suspense} from "react";
 import {notFound, redirect} from "next/navigation";
 import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
 import {cookies} from "next/headers";
-import {UserHeader} from "@/components/user/userHeader";
+import {UserHeader} from "@/components/userMain/userHeader";
 
 export type HeaderDataType = {
   username: string
@@ -21,15 +21,17 @@ export const metadata: Metadata = {
   description: 'App gallery',
 };
 
+type Props = {
+  children: React.ReactNode
+  params: { username: string }
+}
+
 export default async function UserLayout({
                                            children,
                                            params
-                                         }: {
-  children: React.ReactNode
-  params: { username: string }
-}) {
+                                         }: Props) {
   const supabase = createServerComponentClient({cookies});
-  const {data:autoUser} = await supabase.auth.getUser()
+  const {data: autoUser} = await supabase.auth.getUser();
   const {data: users} = await supabase
     .from('users')
     .select().eq('metadata->>site', params.username);
@@ -43,10 +45,10 @@ export default async function UserLayout({
   const profile = profiles && profiles[0];
 
   if (!profile && (!autoUser.user || autoUser.user?.id !== user.id)) {
-    return notFound()
+    return notFound();
   }
   if (!profile && (autoUser.user?.id === user.id)) {
-    redirect('/user/create_profile')
+    redirect('/user/create_profile');
   }
 
   const headerData: HeaderDataType = {

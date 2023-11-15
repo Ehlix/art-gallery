@@ -3,7 +3,7 @@ import {COUNTRIES} from "@/dictionaries/countries";
 import React, {useRef, useState} from "react";
 import {useClickOutside} from "@/hooks/useClickOutside";
 import {FaAsterisk} from "react-icons/fa";
-import {ProfileObject} from "@/components/user/newProfile/profile";
+import {ProfileObject} from "@/components/newProfile/profile";
 
 type Props = {
   country: string

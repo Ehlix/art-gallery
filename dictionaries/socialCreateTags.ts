@@ -1,4 +1,4 @@
-import {SocialObject} from "@/components/user/newProfile/newProfileMain";
+import {SocialObject} from "@/components/newProfile/newProfileMain";
 import {MdLanguage, MdMailOutline} from "react-icons/md";
 import {IconType} from "react-icons";
 import {RiFacebookFill, RiInstagramLine, RiTwitterXFill} from "react-icons/ri";

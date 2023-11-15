@@ -43,18 +43,6 @@ export function Categories({chosenCategories, setChosenCategories, errors}: Prop
       const newSubject = [...chosenCategories.subject, v.name];
       setChosenCategories({...chosenCategories, subject: newSubject});
     }
-
-
-    // if (e.currentTarget.checked) {
-    //   const newMedium = [...chosenCategories.medium, v];
-    //   setChosenCategories({...chosenCategories, medium: [...newMedium]});
-    // } else {
-    //   const filterCategories = chosenCategories.medium.filter((item) => item !== e.currentTarget.value);
-    //   setChosenCategories({
-    //     ...chosenCategories,
-    //     medium: [...filterCategories]
-    //   });
-    // }
   }
 
   function removeSubjectHandler(v: string) {

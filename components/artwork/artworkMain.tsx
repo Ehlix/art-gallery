@@ -3,30 +3,16 @@ import Image from "next/image";
 import Link from "next/link";
 import {MdBookmarkBorder, MdFavoriteBorder, MdPersonAdd} from "react-icons/md";
 import React from "react";
-import {ArtworkData} from "@/app/artwork/[id]/page";
+import {ArtworkProfileData} from "@/app/artwork/[id]/page";
+import {Database} from "@/lib/database.types";
+import ArtworkComments from "@/components/artwork/artworkComments";
 
-const artMocha = {
-  id: 1,
-  created_at: '123123132123132',
-  user_id: '23f5324235d234tc2534',
-  title: 'sdrgseg',
-  description: 'sdrgsrdgo',
-  medium: ['digital 2d', 'mixed media'],
-  subject: ['abstract', 'sketches'],
-  folder: 'srdg4se4gse4g',
-  thumbnail: 'sdrgsrgd333g',
-  files: [
-    '234qestsggerer',
-    '2tsegege',
-    'g4seg342344',
-  ]
-};
+type ArtType2 = Database['public']['Tables']['artworks']['Row']
 
-type ArtType = typeof artMocha
 
 type Props = {
-  artwork: ArtType
-  artworkData: ArtworkData
+  artwork: ArtType2
+  artworkData: ArtworkProfileData
 };
 
 export function ArtworkMain({artwork, artworkData}: Props) {
@@ -56,7 +42,7 @@ export function ArtworkMain({artwork, artworkData}: Props) {
     <div className="flex h-[100%] w-[100%] gap-[20px] md:flex-col">
       <div
         className="h-fit overflow-hidden bg-t-main/20 w-[100%] rounded-[5px] md:order-2">
-        {artwork.files.map(v => {
+        {artwork.files?.map(v => {
           return (
             <Image key={v} src={`artworks/${artwork.folder}/${v}`} alt="art"
                    className="w-[100%]"
@@ -65,7 +51,7 @@ export function ArtworkMain({artwork, artworkData}: Props) {
           );
         })}
       </div>
-      <div className="h-fit w-[600px] md:w-[100%]">
+      <div className="flex flex-col gap-[20px] h-fit w-[600px] md:w-[100%]">
         <div
           className="flex h-fit flex-col p-[20px] bg-t-main/20 rounded-[5px] gap-[20px]">
           <div className="flex gap-[20px]">
@@ -89,7 +75,7 @@ export function ArtworkMain({artwork, artworkData}: Props) {
                   width={500}/>
               }
             </Link>
-            <div className="flex flex-col">
+            <div className="flex justify-center flex-col">
               <Link href={`/${artworkData.site}`}>
               <span className="text-t-hover-1 text-[25px]">
                 {artworkData.name}
@@ -113,7 +99,7 @@ export function ArtworkMain({artwork, artworkData}: Props) {
           </button>
           <div className="flex justify-between gap-[20px]">
             <button
-              className="flex grow items-center justify-center transition-all duration-1000 text-t-main-2 min-w-[100px] gap-[5px] bg-grad-3 rounded-[3px] h-[35px] hover:bg-grad-4">
+              className="flex grow items-center justify-center transition-all duration-300 text-t-main-2 min-w-[100px] gap-[5px] bg-t-hover-5 rounded-[3px] h-[35px] hover:bg-t-hover-6">
               <div className="text-xl pb-[2px]">
                 <MdFavoriteBorder/>
               </div>
@@ -122,7 +108,7 @@ export function ArtworkMain({artwork, artworkData}: Props) {
               </span>
             </button>
             <button
-              className="flex grow items-center justify-center transition-all text-t-main-2 min-w-[100px] gap-[5px] bg-t-main rounded-[3px] h-[35px] hover:bg-t-hover-1/70">
+              className="flex grow items-center justify-center transition-all duration-300 text-t-main-2 min-w-[100px] gap-[5px] bg-t-main rounded-[3px] h-[35px] hover:bg-t-hover-1/70">
               <div className="text-xl pb-[2px]">
                 <MdBookmarkBorder/>
               </div>
@@ -142,6 +128,21 @@ export function ArtworkMain({artwork, artworkData}: Props) {
           <p className="italic text-[14px]">
             {createdAt()}
           </p>
+        </div>
+        <ArtworkComments/>
+        <div className="flex flex-col h-fit p-[20px] bg-t-main/20 rounded-[5px] gap-[10px]">
+          <span>Tags</span>
+          <div className='flex gap-[10px]'>
+            {artwork.medium?.map((v)=>{
+              return (
+                <Link href='/'
+                      key={v}
+                      className='bg-t-main/80 text-[18px] p-[5px] leading-none px-[10px] rounded-[4px] text-t-main-2 hover:bg-t-hover-4 transition-all duration-300'>
+                  {`#${v}`}
+                </Link>
+              )
+            })}
+          </div>
         </div>
       </div>
     </div>

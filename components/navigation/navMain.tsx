@@ -13,7 +13,7 @@ const navMainTags = ['explore', 'blogs', 'shop', 'jobs'];
 export async function NavMain() {
   const supabase = createServerComponentClient({cookies});
   const {data} = await supabase.auth.getSession();
-  // console.log('nav-data', data?.session?.user.aud);
+  // console.log('nav-data', data?.session?.userMain.aud);
   const isAuthorized = data?.session !== null;
   const {data: profile} = await supabase.from('profiles').select().eq('user_id', data?.session?.user.id);
   const createProfileLink = !!data.session && !!profile && !profile[0];

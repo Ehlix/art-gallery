@@ -1,62 +1,34 @@
 import React from "react";
-import {BsInstagram} from "react-icons/bs";
-import {FaXTwitter} from "react-icons/fa6";
-import {AiOutlineGlobal} from "react-icons/ai";
+import UserAboutMain from "@/components/userAbout/userAboutMain";
+import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
+import {cookies} from "next/headers";
+import {Database} from "@/lib/database.types";
+import {ResumeObject, SocialObject} from "@/components/newProfile/newProfileMain";
 
-export default async function About({params}: {
-  params: {
-    username: string;
-  }
-}) {
-  console.log(params, 'about params')
+export type {Database} from "@/lib/database.types";
+
+type Profile = Database['public']['Tables']['profiles']['Row'] & {
+  resume: ResumeObject,
+  social: SocialObject
+}
+
+type Props = {
+  params: { username: string };
+}
+
+export default async function About({params}: Props) {
+  const supabase = createServerComponentClient<Database>({cookies});
+  const {data: users} = await supabase
+    .from('users')
+    .select().eq('metadata->>site', params.username);
+  const user = users?.length === 1 && users[0];
+
+  const {data: profiles} = await supabase.from('profiles').select().eq('user_id', user && user.id);
+  const profile: Profile | null = profiles && profiles[0] as Profile;
+
   return (
-    <section className="flex justify-center pt-[30px]">
-      <div className="flex flex-col text-[18px] w-[55vw] gap-[50px]">
-        <div>
-          <h3 className="text-[33px] text-t-hover-1 mb-[20px]">Summary</h3>
-          <p>Lorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum
-            dolor sit amet.</p>
-        </div>
-
-        <div>
-          <h3 className="text-[33px] text-t-hover-1 mb-[20px]">Contact</h3>
-          <div
-            className="flex items-center rounded-[3px] bg-t-main/20 px-[20px] h-[40px] mb-[15px]">Email@email.com
-          </div>
-          <div
-            className="flex items-center rounded-[3px] text-[18px] text-t-hover-1 gap-[20px] bg-t-main/20 px-[20px] h-[40px]">
-            <a className="hover:text-t-hover-6" href="#"><FaXTwitter/></a>
-            <a className="hover:text-t-hover-6" href="#"><BsInstagram/></a>
-            <a className="hover:text-t-hover-6" href="#"><AiOutlineGlobal/></a>
-          </div>
-        </div>
-
-        <div>
-          <h3 className="text-[33px] text-t-hover-1 mb-[20px]">Hiring Info</h3>
-          <h2 className="mb-[10px]">Interested in:</h2>
-          <div
-            className="flex items-center rounded-[3px] gap-[20px] bg-t-main/20 px-[20px] h-[40px]">
-            <span>Freelance</span>
-            <span hidden>Full Time</span>
-            <span hidden>Part-time</span>
-          </div>
-        </div>
-
-        <div>
-          <h3 className="text-[33px] text-t-hover-1 mb-[20px]">Skills</h3>
-          <p>
-            <span>Concept Art</span>
-            <span>Sketching</span>
-          </p>
-        </div>
-
-        <div>
-          <h3 className="text-[33px] text-t-hover-1 mb-[20px]">Software</h3>
-          <p></p>
-        </div>
-
-      </div>
-
+    <section className="flex justify-center py-[30px]">
+      {profile && <UserAboutMain profile={profile}/>}
     </section>
   );
 }

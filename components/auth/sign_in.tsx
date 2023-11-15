@@ -8,6 +8,7 @@ import {useState} from "react";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 import {toast, ToastContainer} from "react-toastify";
 import {useRouter} from "next/navigation";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export function SignIn() {
@@ -24,8 +25,8 @@ export function SignIn() {
       email: payload.email,
       password: payload.password,
     });
-    setLoading(false);
     if (error) {
+      setLoading(false);
       toast.error(error.message, {theme: 'colored'});
     } else if (data.user) {
       router.refresh();
@@ -35,6 +36,7 @@ export function SignIn() {
 
   return (
     <>
+
       <Form.Root
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col rounded-[5px] bg-t-main/20 p-[40px] text-[18px] w-[40vw] gap-[15px] sm:w-full md:w-[70vw] lg:w-[60vw]">

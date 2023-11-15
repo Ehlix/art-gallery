@@ -1,5 +1,5 @@
 import React from "react";
-import {UserPictures} from "@/components/user/userPictures";
+import {UserPictures} from "@/components/userMain/userPictures";
 import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
 import {cookies} from "next/headers";
 

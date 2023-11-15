@@ -264,7 +264,7 @@ export const SUBJECTS: Subject[] = [
   },
   {
     name: 'user interface (UI) art',
-    description: 'Projects focusing on the art of user interfaces such as game UI and in-game/movie UI screens.',
+    description: 'Projects focusing on the art of userMain interfaces such as game UI and in-game/movie UI screens.',
     link: 'subjects/user_interface_art'
   },
   {

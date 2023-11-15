@@ -1,13 +1,13 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
-import {SelectCountry} from "@/components/user/newProfile/selectCountry";
-import {UploadAvatar} from "@/components/user/newProfile/uploadAvatar";
-import {UploadCover} from "@/components/user/newProfile/uploadCover";
+import {SelectCountry} from "@/components/newProfile/selectCountry";
+import {UploadAvatar} from "@/components/newProfile/uploadAvatar";
+import {UploadCover} from "@/components/newProfile/uploadCover";
 import {FieldErrors, UseFormSetValue} from "react-hook-form";
 import {useIsMount} from "@/hooks/useIsMount";
 import {v4} from "uuid";
 import {FaAsterisk} from "react-icons/fa";
-import {NewProfilePictures} from "@/components/user/newProfile/newProfileMain";
+import {NewProfilePictures} from "@/components/newProfile/newProfileMain";
 
 type Props = {
   name: string

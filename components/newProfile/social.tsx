@@ -4,7 +4,7 @@ import {MdAdd, MdDelete, MdEdit} from "react-icons/md";
 import {validateEmail} from "@/validations/validateEmail";
 import {isUrlValid} from "@/validations/validateUrl";
 import {useIsMount} from "@/hooks/useIsMount";
-import {SocialObject} from "@/components/user/newProfile/newProfileMain";
+import {SocialObject} from "@/components/newProfile/newProfileMain";
 import {Tag, tags} from "@/dictionaries/socialCreateTags";
 
 type Props = {

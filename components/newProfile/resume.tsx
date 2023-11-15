@@ -2,13 +2,13 @@ import React, {useState} from "react";
 import * as Checkbox from '@radix-ui/react-checkbox';
 import {CheckedState} from '@radix-ui/react-checkbox';
 import {MdCheck, MdClose} from "react-icons/md";
-import {Resume} from "@/components/user/newProfile/newProfileMain";
+import {ResumeObject} from "@/components/newProfile/newProfileMain";
 import {cn} from "@/utils/twMergeClsx";
 import {v4} from "uuid";
 
 type Props = {
-  resume: Resume
-  setResume: React.Dispatch<React.SetStateAction<Resume>>
+  resume: ResumeObject
+  setResume: React.Dispatch<React.SetStateAction<ResumeObject>>
 };
 
 const hiredList = ['full-time employment', 'contract', 'freelance'];
