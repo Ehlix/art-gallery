@@ -35,14 +35,14 @@ const a = [
 export default function ArtworkComments(props: Props) {
   return (
     <div>
-      <span className="font-bold text-[14px]">
+      <span className="font-bold text-sm">
         {a.length} COMMENTS
       </span>
-      <div className="flex h-fit flex-col p-[20px] bg-t-main/20 rounded-[5px] gap-[30px]">
+      <div className="flex h-fit flex-col p-5 bg-t-main/20 rounded-md gap-7">
         {a.map((v) => {
           return (
             <div
-              className="flex h-fit w-full gap-[10px]"
+              className="flex h-fit w-full gap-2"
               key={v.nickname}>
               <Link href={`/`}
                     className="overflow-hidden rounded-full h-[40px] min-w-[40px] bg-t-main">
@@ -64,7 +64,7 @@ export default function ArtworkComments(props: Props) {
                     width={500}/>
                 }
               </Link>
-              <div className="flex w-fit flex-col leading-none gap-[5px]">
+              <div className="flex w-fit flex-col leading-none gap-1">
                 <Link href="/" className="object-center text-t-hover-1">
                   {v.nickname}
                 </Link>
@@ -74,12 +74,12 @@ export default function ArtworkComments(props: Props) {
                 <p className="text-t-hover-1">
                   {v.comment}
                 </p>
-                <div className="flex items-center italic gap-[10px] text-[14px]">
+                <div className="flex items-center italic gap-2 text-sm">
                   <button className="transition-all duration-300 hover:text-t-hover-3">
                     Like
                   </button>
                   <MdLens size={7}/>
-                  <span className="flex gap-[2px]" hidden={!v.likeCount}>
+                  <span className="flex gap-0.5" hidden={!v.likeCount}>
                     <MdThumbUp/>
                     {v.likeCount}
                   </span>
@@ -92,13 +92,13 @@ export default function ArtworkComments(props: Props) {
             </div>
           );
         })}
-        <div className="flex items-start gap-[10px]">
+        <div className="flex items-start gap-2">
           <textarea
             placeholder="Add a comment"
             className="min-h-[40px] h-[40px]"/>
           <button
-            className="flex items-center justify-center min-w-[40px] min-h-[40px] h-[40px] bg-t-main text-t-main-2 rounded-[4px] hover:bg-t-hover-3">
-            <MdReply size={25} className="mb-[2px]"/>
+            className="flex items-center justify-center min-w-[40px] min-h-[40px] h-[40px] bg-t-main text-t-main-2 rounded-sm hover:bg-t-hover-3">
+            <MdReply size={25} className="mb-0.5"/>
           </button>
         </div>
       </div>

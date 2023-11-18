@@ -46,7 +46,7 @@ export default async function ArtworkPage({params}: Props) {
   };
 
   return (
-    <section className="container relative h-[100%]">
+    <section className="container relative h-full">
       <ArtworkMain artwork={artwork[0]} artworkData={artworkProfileData}/>
     </section>
   );

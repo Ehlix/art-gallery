@@ -103,8 +103,7 @@ export function NewProfileMain({name}: { name: string }) {
       <button
         disabled={isLoading}
         onClick={handleSubmit(onSubmit)}
-        className={"disabled:bg-grad-6 disabled:text-t-hover-1 flex items-center justify-center font-medium bg-t-hover-2 leading-none  w-fit text-t-main-2 h-[35px] rounded-[4px] px-[70px] mt-[10px] mb-[-15px] hover:bg-t-hover-3 transition-all duration-200"}
-      >
+        className="mt-2 flex w-fit items-center justify-center rounded-md px-16 pb-1 font-medium leading-none transition-all duration-200 bg-t-hover-2 text-t-main-2 h-[40px] mb-[-15px] hover:bg-t-hover-3 disabled:bg-t-main disabled:text-t-hover-1">
         {isLoading ? 'Loading..' : 'Save'}
       </button>
       <Profile setLoading={setLoading} name={name} errors={errors}

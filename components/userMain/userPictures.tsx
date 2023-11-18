@@ -18,7 +18,7 @@ export function UserPictures({artworks, profileData}: Props) {
             <Link
               href={`/artwork/${a.id}`}
               key={a.id}
-              className="relative transition-all cursor-pointer overflow-hidden group aspect-[1/1] flex flex-col justify-end rounded-[5px] w-[100%] h-[100%] bg-t-main  duration-1000 ease-in-out hover:shadow-[inset_0px_-270px_100px_-230px_rgba(0,0,0,0.60)] md:hover:shadow-none ">
+              className="relative transition-all cursor-pointer overflow-hidden group aspect-[1/1] flex flex-col justify-end rounded-[5px] w-full h-full bg-t-main  duration-1000 ease-in-out hover:shadow-[inset_0px_-270px_100px_-230px_rgba(0,0,0,0.60)] md:hover:shadow-none ">
               <Image src={`artworks/${a.folder}/${a.thumbnail}`}
                      alt={a.id}
                      className="h-full w-full"
@@ -27,7 +27,7 @@ export function UserPictures({artworks, profileData}: Props) {
               <div className="absolute top-0 left-0 z-20 flex h-full w-full flex-col">
                 <div className="h-full w-full"></div>
                 <div
-                  className="relative z-20 flex h-fit w-full items-center opacity-0 transition-all ease-in-out top-[100%] gap-[5px] duration-[600ms] px-[2%] pb-[2%] group-hover:top-[0%] group-hover:opacity-100 md:hidden">
+                  className="relative z-20 flex h-fit w-full items-center opacity-0 transition-all ease-in-out top-full gap-2 duration-500 px-2 pb-2 group-hover:top-0 group-hover:opacity-100 md:hidden">
                   {profileData.avatarLink
                     ?
                     <Image
@@ -45,12 +45,12 @@ export function UserPictures({artworks, profileData}: Props) {
                       height={100}
                       className="rounded-full object-cover object-center w-[40px] h-[40px]"/>
                   }
-                  <div className="flex flex-col items-start text-t-hover-1 text-[14px]">
-                    <p className="font-bold leading-none tracking-[1.1px]">
+                  <div className="flex flex-col items-start text-t-hover-1 text-sm">
+                    <p className="font-bold leading-none -tracking-tight">
                       {a.title}
                     </p>
                     <p
-                      className="leading-5 text-t-hover-1/70 text-[12px]">
+                      className="leading-5 text-t-hover-1/70 text-xs">
                       {profileData.name}
                     </p>
                   </div>

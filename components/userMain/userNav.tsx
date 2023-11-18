@@ -42,35 +42,49 @@ export const UserNav = ({username}: { username: string }) => {
   return (
     <>
       <div
-        className="container sticky z-30 flex w-full select-none items-center justify-center overflow-x-auto overflow-y-hidden py-[10px] text-t-hover-1 text-[16px] bg-t-main-2 gap-[33px] h-[45px] no-wrap content md:top-[45px] lg:h-[60px] lg:justify-start">
+        className="container sticky z-30 flex w-full select-none items-center justify-center gap-8 overflow-x-auto overflow-y-hidden py-2 text-base text-t-hover-1 bg-t-main-2 h-[45px] no-wrap content md:top-[45px] lg:h-[60px] lg:justify-start">
         <div className="flex h-full w-fit items-center gap-7">
           {userNavTags.map((v) => {
             const isCurrent = path === `/${username}${v.link}`;
             return (isCurrent
                 ?
                 <div key={v.title}
-                     className="before:absolute relative flex items-center transition-all decoration-t-hover-2 text-[18px] decoration-[2.5px] text-t-main before:top-[100%] before:w-[100%] before:l-[0px] before:h-[2px] before:bg-grad-1 before:rounded-[5px]">
-                  <span>{v.title}</span>
+                     className="before:absolute relative before:top-full flex before:w-full items-center before:rounded-md text-xl transition-all decoration-t-hover-2 decoration-[2.5px] text-t-main before:l-0 before:h-[2px] before:bg-t-hover-2">
+                  <span>
+                    {v.title}
+                  </span>
                 </div>
                 :
                 <Link key={v.title} href={`/${username}${v.link}`}
-                      className="relative flex items-center transition-all decoration-t-hover-2 text-[18px] text-t-main decoration-[2.5px] hover:text-t-hover-1">
-                  <span>{v.title}</span>
-                  {v.count && <span className="ml-1 text-sm text-t-main">(100)</span>}
+                      className="relative flex items-center text-xl transition-all decoration-t-hover-2 text-t-main decoration-[2.5px] hover:text-t-hover-1">
+                  <span>
+                    {v.title}
+                  </span>
+                  {v.count && <span className="ml-1 text-base text-t-main">
+                    (100)
+                  </span>}
                 </Link>
             );
           })}
           <div
-            className="flex h-full w-auto items-center justify-center text-t-main-2 gap-[20px] text-[12px]">
+            className="flex h-full w-auto items-center justify-center gap-5 text-sm text-t-main-2">
             <button
-              className="flex items-center justify-center transition-all min-w-[100px] gap-[5px] bg-grad-1 rounded-[3px] hover:bg-grad-2">
-              <div className="text-xl pb-[2px]"><MdPersonAdd/></div>
-              <span>Follow</span>
+              className="flex items-center justify-center gap-2 rounded-sm transition-all duration-300 min-w-[100px] bg-t-hover-2 hover:bg-t-hover-3">
+              <div className="text-xl pb-0.5">
+                <MdPersonAdd/>
+              </div>
+              <span>
+                Follow
+              </span>
             </button>
             <button
-              className="flex items-center justify-center transition-all min-w-[100px] gap-[5px] bg-grad-3 rounded-[3px] hover:bg-grad-4">
-              <div className="text-xl pb-[2px]"><MdSend/></div>
-              <span>Message</span>
+              className="flex items-center justify-center gap-2 rounded-sm transition-all duration-300 min-w-[100px] bg-t-hover-5 hover:bg-t-hover-6">
+              <div className="text-xl pb-0.5">
+                <MdSend/>
+              </div>
+              <span>
+                Message
+              </span>
             </button>
           </div>
         </div>

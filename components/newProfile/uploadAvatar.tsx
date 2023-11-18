@@ -13,6 +13,7 @@ type Props = {
   uniquePath: string
   setPictures: React.Dispatch<React.SetStateAction<NewProfilePictures>>
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  currentAvatar: string
 };
 
 type Avatar = {
@@ -21,7 +22,7 @@ type Avatar = {
   status: "error" | "notLoaded" | "loading" | "loaded"
 }
 
-export function UploadAvatar({uniquePath, setPictures, setLoading}: Props) {
+export function UploadAvatar({uniquePath, setPictures, setLoading, currentAvatar}: Props) {
   const supabase = createClientComponentClient();
   const inputFile = useRef(null);
   const [avatar, setAvatar] = useState<Avatar | null>(null);
@@ -104,19 +105,27 @@ export function UploadAvatar({uniquePath, setPictures, setLoading}: Props) {
 
   return (
     <div
-      className="flex h-fit w-full flex-col items-center justify-center border-t-main gap-[20px] border-[2px] rounded-[4px] p-[20px]">
+      className="flex h-fit w-full flex-col items-center justify-center gap-5 border-2 p-5 border-t-main rounded-[4px]">
       <div className="overflow-hidden rounded-full h-[110px] w-[110px] bg-t-main/50">
-        {avatar?.status === 'loaded' &&
+        {avatar?.status === 'loaded'
+          ?
           <Image
             className="h-full w-full object-cover"
             src={`cache/${uniquePath}/${avatar.file.name}`} alt="avatar"
+            height={500}
+            width={500}/>
+          :
+          <Image
+            className="h-full w-full object-cover"
+            src={currentAvatar} alt="avatar"
+            unoptimized={currentAvatar[0] === '/'}
             height={500}
             width={500}/>
         }
       </div>
       <button
         disabled={avatar?.status === 'loading'}
-        className="flex items-center justify-center transition-all duration-300 gap-[5px] text-t-hover-1 border-t-main border-[1px] px-[20px] rounded-[4px] hover:border-t-hover-3 hover:text-t-hover-3"
+        className="flex items-center justify-center rounded-md border px-5 transition-all duration-300 gap-0.5 text-t-hover-1 border-t-main hover:border-t-hover-3 hover:text-t-hover-3"
         onClick={clickHandler}>
         <MdArrowUpward size={20}/>Upload avatar
       </button>

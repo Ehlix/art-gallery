@@ -13,7 +13,7 @@ export function UserHeader({headerData}: Props) {
 
   return (
     <div
-      className="relative flex justify-around overflow-hidden w-[100%] h-[350px]">
+      className="relative flex w-full justify-around overflow-hidden h-[350px]">
       <div
         className="h-full w-full overflow-hidden min-w-[550px] aspect-[4/1] bg-t-main/50 xl:min-w-[400px]">
         {headerData.coverLink
@@ -36,7 +36,7 @@ export function UserHeader({headerData}: Props) {
       </div>
       <div className="absolute h-full w-full bg-grad-5"></div>
       <div
-        className="absolute flex flex-col items-center self-end gap-[10px] px-[1px] text-t-hover-4 text-[14px] mb-[25px] item-end lg:mb-[15px]">
+        className="absolute mb-6 flex flex-col items-center gap-3 self-end px-1 text-sm text-t-hover-4 item-end lg:mb-sm">
         <div className="overflow-hidden rounded-full h-[110px] w-[110px] bg-t-main">
           {headerData.avatarLink
             ?
@@ -56,9 +56,10 @@ export function UserHeader({headerData}: Props) {
               width={500}/>
           }
         </div>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center gap-1">
           <h2
-            className="font-bold capitalize text-t-hover-1 text-[33px]">{headerData.username}</h2>
+            className="text-4xl font-bold capitalize text-t-hover-1">{headerData.username}
+          </h2>
           <span>{headerData.headline}</span>
           <div className="flex">
             <span className="mr-1 capitalize">{headerData.city},</span>

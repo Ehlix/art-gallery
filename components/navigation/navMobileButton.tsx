@@ -32,27 +32,26 @@ export default function NavMobileButton({isAuthorized}: Status) {
   return (
     <>
       <div
-        className="hidden cursor-pointer transition-all text-t-main m-[-6px] text-[40px] md:block"
+        className="hidden cursor-pointer transition-all text-t-main md:block"
         onClick={ButtonHandler}>
         {open
           ?
-          <PiX/>
+          <PiX size={35}/>
           :
-          <PiList/>
+          <PiList size={35}/>
         }
       </div>
       {open &&
         <div
           ref={menuRef}
-          className="container fixed left-0 z-50 hidden h-fit w-full flex-col bg-t-main-2 pt-[15px] pb-[20px] top-[45px] gap-[20px] sm:top-[45px] md:pb-[10px] md:flex">
-          <div className="flex gap-[20px]">
+          className="container fixed left-0 z-50 hidden h-fit w-full flex-col bg-t-main-2 pt-3 pb-5 top-[45px] gap-5 md:flex">
+          <div className="flex gap-5">
             <NavInput/>
-
             {!isAuthorized &&
               <Link href="/auth/signup"
                     onClick={() => setOpen(false)}
-                    className="flex items-center justify-center transition-all min-w-[100px] gap-[5px] text-t-hover-4 rounded-[5px] hover:text-t-hover-1 md:text-[16px]">
-                <div className="text-xl pb-[2px]">
+                    className="flex items-center justify-center transition-all min-w-[100px] gap-1 text-t-hover-4 rounded-md hover:text-t-hover-1 md:text-base">
+                <div className="text-xl pb-0.5">
                   <MdCreate/>
                 </div>
                 <span>
@@ -62,19 +61,19 @@ export default function NavMobileButton({isAuthorized}: Status) {
             }
           </div>
           <Link href="/"
-                className="relative w-fit transition-all decoration-t-hover-2 decoration-[2.5px] hover:text-t-hover-1">
+                className="relative w-fit transition-all decoration-t-hover-2 hover:text-t-hover-1">
             Home
           </Link>
           <Link href="/"
-                className="relative w-fit transition-all decoration-t-hover-2 decoration-[2.5px] hover:text-t-hover-1">
+                className="relative w-fit transition-all decoration-t-hover-2 hover:text-t-hover-1">
             Blogs
           </Link>
           <Link href="/"
-                className="relative w-fit transition-all decoration-t-hover-2 decoration-[2.5px] hover:text-t-hover-1">
+                className="relative w-fit transition-all decoration-t-hover-2 hover:text-t-hover-1">
             Shop
           </Link>
           <Link href="/"
-                className="relative w-fit transition-all decoration-t-hover-2 decoration-[2.5px] hover:text-t-hover-1">
+                className="relative w-fit transition-all decoration-t-hover-2 hover:text-t-hover-1">
             Jobs
           </Link>
         </div>

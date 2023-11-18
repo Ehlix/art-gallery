@@ -26,27 +26,28 @@ export default async function UserNavPanel() {
     <div className="flex w-full items-center gap-[15px]">
       <Link
         href="/project/new"
-        className="flex flex-col items-center w-[30px] h-[30px] text-[29px] relative transition-all decoration-t-hover-2 decoration-[2.5px] hover:text-t-hover-1
-            hover:before:absolute hover:before:top-[100%] hover:before:w-[100%] hover:before:l-[0px] hover:before:h-[3px] hover:before:rounded-[5px] hover:before:bg-grad-1">
-        <MdUpload/>
+        className="flex flex-col items-center w-[30px] h-[30px] relative transition-all decoration-t-hover-2 decoration-[2.5px] hover:text-t-hover-1
+            hover:before:absolute hover:before:top-full hover:before:w-full hover:before:l-0 hover:before:h-[3px] hover:before:rounded-md hover:before:bg-t-hover-2">
+        <MdUpload size={30}/>
       </Link>
       <Link
         href="/"
-        className="flex flex-col items-center w-[30px] h-[29px] text-[26px] relative transition-all decoration-t-hover-2 decoration-[2.5px] hover:text-t-hover-1
-            hover:before:absolute hover:before:top-[100%] hover:before:w-[100%] hover:before:l-[0px] hover:before:h-[3px] hover:before:rounded-[5px] hover:before:bg-grad-1">
-        <MdNotifications/>
+        className="flex flex-col items-center w-[30px] h-[30px] relative transition-all decoration-t-hover-2 decoration-[2.5px] hover:text-t-hover-1
+            hover:before:absolute hover:before:top-full hover:before:w-full hover:before:l-0 hover:before:h-[3px] hover:before:rounded-md hover:before:bg-t-hover-2">
+        <MdNotifications size={28}/>
       </Link>
       <Link
         href="/"
-        className="flex flex-col items-center w-[30px] h-[30px] text-[26px] relative transition-all decoration-t-hover-2 decoration-[2.5px] hover:text-t-hover-1
-            hover:before:absolute hover:before:top-[100%] hover:before:w-[100%] hover:before:l-[0px] hover:before:h-[3px] hover:before:rounded-[5px] hover:before:bg-grad-1">
-        <MdSend/>
+        className="flex flex-col items-center w-[30px] h-[30px] relative transition-all decoration-t-hover-2 decoration-[2.5px] hover:text-t-hover-1
+            hover:before:absolute hover:before:top-full hover:before:w-full hover:before:l-0 hover:before:h-[3px] hover:before:rounded-md hover:before:bg-t-hover-2">
+        <MdSend size={28}/>
       </Link>
       <UserNavLogo user={user}/>
       <Link
         href="/"
-        className="relative flex flex-col items-center transition-all text-[27px] w-[17px] h-[30px] decoration-t-hover-2 decoration-[2.5px] hover:before:top-[100%] hover:before:w-[100%] hover:before:l-[0px] hover:before:h-[3px] hover:before:rounded-[5px] hover:before:bg-grad-1 hover:before:absolute hover:text-t-hover-1">
-        <MdMoreVert/>
+        className="flex flex-col items-center w-[30px] h-[30px] relative transition-all decoration-t-hover-2 decoration-[2.5px] hover:text-t-hover-1
+            hover:before:absolute hover:before:top-full hover:before:w-full hover:before:l-0 hover:before:h-[3px] hover:before:rounded-md hover:before:bg-t-hover-2">
+        <MdMoreVert size={30}/>
       </Link>
     </div>
   );

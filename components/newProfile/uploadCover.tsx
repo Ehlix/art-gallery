@@ -13,6 +13,7 @@ type Props = {
   uniquePath: string
   setPictures: React.Dispatch<React.SetStateAction<NewProfilePictures>>
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  currentCover: string
 };
 
 type Cover = {
@@ -21,7 +22,7 @@ type Cover = {
   status: "error" | "notLoaded" | "loading" | "loaded"
 }
 
-export function UploadCover({uniquePath, setPictures, setLoading}: Props) {
+export function UploadCover({uniquePath, setPictures, currentCover, setLoading}: Props) {
   const supabase = createClientComponentClient();
   const inputFile = useRef(null);
   const [cover, setCover] = useState<Cover | null>(null);
@@ -105,29 +106,36 @@ export function UploadCover({uniquePath, setPictures, setLoading}: Props) {
 
   return (
     <div
-      className="flex h-fit w-full flex-col items-center justify-center overflow-hidden p-[20px] border-t-main gap-[20px] border-[2px] rounded-[4px]">
+      className="flex h-fit w-full flex-col items-center justify-center gap-5 overflow-hidden rounded-md border-2 p-5 border-t-main">
       <div
         className="h-full w-full overflow-hidden min-w-[550px] aspect-[4/1] bg-t-main/50 xl:min-w-[400px]">
-        {cover?.status === 'loaded' &&
+        {cover?.status === 'loaded' ?
           <Image
             className="h-full w-full object-cover"
             src={`cache/${uniquePath}/${cover.file.name}`} alt="avatar"
+            height={800}
+            width={800}/>
+          :
+          <Image
+            className="h-full w-full object-cover"
+            src={currentCover} alt="avatar"
+            unoptimized={currentCover[0] === '/'}
             height={800}
             width={800}/>
         }
       </div>
       <button
         disabled={cover?.status === 'loading'}
-        className="flex items-center justify-center transition-all duration-300 text-t-hover-1 gap-[5px] border-t-main border-[1px] px-[20px] rounded-[4px] hover:border-t-hover-3 hover:text-t-hover-3"
+        className="flex items-center justify-center rounded-md border px-5 transition-all duration-300 text-t-hover-1 gap-0.5 border-t-main hover:border-t-hover-3 hover:text-t-hover-3"
         onClick={clickHandler}>
-        <MdArrowUpward size={20}/>Upload cover
+        <MdArrowUpward size={20}/>
+        Upload cover
       </button>
       <input
         className="hidden" type="file"
         onChange={imagesChangeHandler}
         ref={inputFile}
-        accept="image/,.png,.jpg,.jpeg"
-      />
+        accept="image/,.png,.jpg,.jpeg"/>
     </div>
   );
 }

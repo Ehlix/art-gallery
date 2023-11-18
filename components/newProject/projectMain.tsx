@@ -10,6 +10,7 @@ import {Categories} from "@/components/newProject/categories";
 import Env from "@/dictionaries/env";
 import {Thumbnail} from "@/components/newProject/thumbnail";
 import {v4} from 'uuid';
+import {useIsMount} from "@/hooks/useIsMount";
 
 export type Thumbnail = {
   id: string
@@ -30,6 +31,7 @@ export type SelectedFileType = {
 const uniquePath = v4();
 
 export function ProjectMain() {
+  const isMount = useIsMount();
   const [thumbnail, setThumbnail] = useState<Thumbnail | null>(null);
   const [selectedFiles, setSelectedFiles] = useState<SelectedFileType[]>([]);
   const [title, setTitle] = useState<string>('');
@@ -49,12 +51,13 @@ export function ProjectMain() {
   });
 
   useEffect(() => {
-    setValue('title', title);
-    setValue('medium', chosenCategories.medium);
-    setValue('subject', chosenCategories.subject);
-    setValue('description', description);
-    setValue('image', selectedFiles);
-    setValue('thumbnail', thumbnail || undefined);
+    if (isMount) return;
+    setValue('title', title, {shouldValidate: true});
+    setValue('medium', chosenCategories.medium, {shouldValidate: true});
+    setValue('subject', chosenCategories.subject, {shouldValidate: true});
+    setValue('description', description, {shouldValidate: true});
+    setValue('image', selectedFiles, {shouldValidate: true});
+    setValue('thumbnail', thumbnail || undefined, {shouldValidate: true});
   }, [chosenCategories, description, selectedFiles, setValue, title]);
 
 
@@ -104,30 +107,32 @@ export function ProjectMain() {
   }
 
   return (
-    <>
-      <div className="flex flex-col text-[18px] w-[90vw] gap-[50px] xl:w-[95%]">
-        <button onClick={() => console.log(uniquePath)}>path</button>
-        <button onClick={moveHandler}>move</button>
-        <button onClick={() => console.log(selectedFiles)}>files</button>
-        <button onClick={() => console.log(thumbnail)}>thumb</button>
-        <div className="flex gap-[25px]">
+    <div className="flex justify-center pt-7">
+      <div className="flex flex-col gap-12 text-lg w-[90vw] xl:w-[95%]">
+        <div className="flex items-center justify-start">
+          <button
+            onClick={handleSubmit(onSubmit)}
+            className="mt-2 flex items-center justify-center rounded-md font-medium leading-none transition-all duration-300 bg-t-hover-2 w-[150px] text-t-main-2 h-[40px] hover:bg-t-hover-3 disabled:bg-t-main disabled:text-t-hover-1">
+            Save project
+          </button>
+        </div>
+
+        <div className="flex gap-6 sm:flex-col">
           <div className="shrink grow">
             <h2
-              className="h-[60px] text-[33px] text-t-hover-1">{title || '-- Project name --'}</h2>
-            <div className="flex flex-col gap-[10px]">
+              className="text-4xl h-[60px] text-t-hover-1">{title || '-- Project name --'}</h2>
+            <div className="flex flex-col gap-2">
               Enter your project name
               <input
                 type="text"
-                {...register('title')}
                 placeholder="your title"
                 onChange={newTitle}
                 value={title.trimStart()}/>
               <span className="text-t-error">{errors?.title?.message}</span>
-              <div className="flex flex-col gap-[10px]">
+              <div className="flex flex-col gap-2">
                 Enter project description
                 <textarea
                   placeholder="your description"
-                  {...register('description')}
                   onChange={newDescription}
                   value={description.trimStart()}/>
                 <span className="text-t-error">
@@ -136,9 +141,9 @@ export function ProjectMain() {
               </div>
             </div>
           </div>
-          <div className="relative">
+          <div className="relative flex justify-center sm:flex-col sm:items-center">
             <span
-              className="absolute top-[10px] left-[10px] text-t-error">
+              className="absolute top-1 left-2 text-t-error sm:relative sm:top-0 sm:left-0">
               {errors.thumbnail?.message}
             </span>
             <Thumbnail thumbnail={thumbnail}
@@ -146,7 +151,7 @@ export function ProjectMain() {
                        uniquePath={uniquePath}/>
           </div>
         </div>
-        <div className="flex flex-col gap-[10px]">
+        <div className="flex flex-col gap-2">
           <span className="text-t-error">
             {errors.image?.message}
           </span>
@@ -156,10 +161,7 @@ export function ProjectMain() {
         </div>
         <Categories chosenCategories={chosenCategories}
                     setChosenCategories={setChosenCategories} errors={errors}/>
-        <button onClick={handleSubmit(onSubmit)}>
-          submit
-        </button>
       </div>
-    </>
+    </div>
   );
 }

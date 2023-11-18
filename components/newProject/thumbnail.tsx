@@ -89,9 +89,9 @@ export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
   }, [thumbnail]);
 
   return (
-    <div className="flex w-fit flex-col gap-[10px]">
+    <div className="flex w-fit flex-col gap-2">
       <div
-        className="border-t-main border-[2px] rounded-[4px] h-[300px] w-[300px] md:h-[200px] md:w-[200px]">
+        className="rounded-md border-2 border-t-main h-[300px] w-[300px] md:h-[200px] md:w-[200px] overflow-hidden">
         {thumbnail?.status === 'loaded' &&
           <Image src={`cache/${uniquePath}/${thumbnail.file.name}`}
                  alt={'thumbnail'}
@@ -103,10 +103,8 @@ export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
         <Dialog.Trigger asChild>
           <button
             disabled={thumbnail?.status !== 'loaded'}
-            className={cn("inline-flex items-center justify-center font-medium leading-none bg-grad-1 text-t-main-2 h-[35px] rounded-[4px] px-[15px] hover:bg-grad-2 focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none", {
-              'bg-t-main/30': thumbnail?.status !== 'loaded',
-              'hover:bg-t-main/30': thumbnail?.status !== 'loaded',
-              'text-t-main-2': thumbnail?.status !== 'loaded',
+            className={cn("inline-flex items-center justify-center font-medium leading-none bg-grad-1 text-t-main-2 h-[35px] rounded-md px-3 hover:bg-grad-2 focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none", {
+              'bg-t-main/30 hover:bg-t-main/30 text-t-main-2': thumbnail?.status !== 'loaded',
             })}>
             Crop image
           </button>
@@ -115,8 +113,8 @@ export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
           <Dialog.Overlay
             className="z-40 bg-t-main-2/90 data-[state=open]:animate-overlayShow fixed inset-0"/>
           <Dialog.Content
-            className="z-50 data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] h-fit w-[85vw] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-t-main-2 border-t-main border-[2px] p-[25px] focus:outline-none">
-            <Dialog.Title className="m-0 font-medium text-mauve12 text-[17px]">
+            className="z-50 data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] h-fit w-[85vw] translate-x-[-50%] translate-y-[-50%] rounded-md bg-t-main-2 border-t-main border-2 p-6 focus:outline-none">
+            <Dialog.Title className="m-0 font-medium text-mauve12 text-base">
               Crop thumbnail
             </Dialog.Title>
             <CropImage uniquePath={uniquePath} setThumbnail={setThumbnail}
@@ -124,7 +122,7 @@ export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
                        setOpen={setOpen}/>
             <Dialog.Close asChild>
               <button
-                className="absolute inline-flex appearance-none items-center justify-center rounded-full text-violet11 top-[10px] right-[10px] h-[25px] w-[25px] hover:bg-violet4 focus:shadow-violet7 focus:shadow-[0_0_0_2px] focus:outline-none"
+                className="absolute inline-flex appearance-none items-center justify-center rounded-full text-violet11 top-2 right-2 h-[25px] w-[25px] hover:bg-violet4 focus:shadow-violet7 focus:shadow-[0_0_0_2px] focus:outline-none"
                 aria-label="Close">
                 X
               </button>
@@ -133,7 +131,10 @@ export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
         </Dialog.Portal>
       </Dialog.Root>
       <button
-        className="border-dotted transition-all duration-300 text-t-hover-1 border-t-main border-[3px] p-[2px] rounded-[5px] hover:border-t-hover-2 hover:text-t-hover-2"
+        disabled={thumbnail?.status === 'loading'}
+        className={cn("border-dotted transition-all duration-300 text-t-hover-1 border-t-main border-2 p-0.5 rounded-md hover:border-t-hover-2 hover:text-t-hover-2", {
+          'disabled:hover:text-t-main disabled:hover:border-t-main disabled text-t-main' : thumbnail?.status === 'loading',
+        })}
         onClick={clickHandler}>
         Upload thumbnail
       </button>

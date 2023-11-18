@@ -4,7 +4,7 @@ import {SelectedFileType, Thumbnail} from "@/components/newProject/projectMain";
 
 export const newProjectSchema = yup.object({
   title: yup.string().min(5).max(50).required(),
-  thumbnail: yup.mixed<Thumbnail>().test('thumbnailLength', 'please upload thumbnail', (thumbnail) => {
+  thumbnail: yup.mixed<Thumbnail>().test('thumbnailLength', 'upload thumbnail', (thumbnail) => {
     return !!thumbnail;
   }).test('thumbnail', 'only JPEG, PNG image are allowed',
     (thumbnail) => {
@@ -18,14 +18,14 @@ export const newProjectSchema = yup.object({
     return selectedFiles ? selectedFiles.every((v) => {
       return bytesToMb(v.file.size) <= 15;
     }) : false;
-  }).test('length', 'please upload 1-5 images', (file) => {
+  }).test('length', 'upload 1-5 images', (file) => {
     return file && file?.length > 0 && file?.length <= 5;
   }),
   description: yup.string().min(5).max(500).required(),
-  medium: yup.mixed<Array<string> | []>().test('categories', 'please select 1-3 categories', (data: any) => {
+  medium: yup.mixed<Array<string> | []>().test('categories', 'select 1-3 categories', (data: any) => {
     return data?.length > 0 && data?.length <= 3;
   }),
-  subject: yup.mixed<Array<string> | []>().test('categories', 'please select 1-3 categories', (data: any) => {
+  subject: yup.mixed<Array<string> | []>().test('categories', 'select 1-3 categories', (data: any) => {
     return data?.length > 0 && data?.length <= 3;
   }),
 }).required();

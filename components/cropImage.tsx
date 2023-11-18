@@ -78,7 +78,7 @@ export default function CropImage({thumbnail, uniquePath, setThumbnail, setOpen}
   };
 
   return (
-    <div className="flex flex-col gap-[20px]">
+    <div className="flex flex-col gap-5">
       <div className="">
         {/*<AppSlider*/}
         {/*  min={0}*/}
@@ -94,11 +94,10 @@ export default function CropImage({thumbnail, uniquePath, setThumbnail, setOpen}
           value={zoom}
           label="Zoom"
           defaultValue={1}
-          onChange={handleOnZoom}
-        />
+          onChange={handleOnZoom}/>
       </div>
 
-      <div className="flex items-center justify-center w-[100%]">
+      <div className="flex w-full items-center justify-center">
         <ImageCropper
           zoom={zoom}
           onZoomChange={handleOnZoom}
@@ -106,15 +105,15 @@ export default function CropImage({thumbnail, uniquePath, setThumbnail, setOpen}
           source={remoteImage || localImage}
           onCrop={setCroppedImage}
           width={1080}
-          height={1080}
-        />
+          height={1080}/>
       </div>
 
       <button
         className="flex w-full items-center justify-center rounded p-2 uppercase drop-shadow transition bg-grad-1 text-t-main-2 hover:bg-grad-2"
-        onClick={downloadImage}
-      >
-        <span>Crop</span>
+        onClick={downloadImage}>
+        <span>
+          Crop
+        </span>
       </button>
     </div>
   );

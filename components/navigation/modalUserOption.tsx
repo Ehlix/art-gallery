@@ -18,14 +18,14 @@ import {NavUser} from "@/components/navigation/userNavPanel";
 import {useClickOutside} from "@/hooks/useClickOutside";
 
 const modalTags = [
-  {title: 'My learning', icon: <MdSchool/>, href: '/'},
-  {title: 'My connections', icon: <MdGroups/>, href: '/'},
-  {title: 'My library', icon: <MdLibraryBooks/>, href: '/'},
-  {title: 'My wishlist', icon: <MdFavorite/>, href: '/'},
+  {title: 'My learning', icon: MdSchool, href: '/'},
+  {title: 'My connections', icon: MdGroups, href: '/'},
+  {title: 'My library', icon: MdLibraryBooks, href: '/'},
+  {title: 'My wishlist', icon: MdFavorite, href: '/'},
   {separator: true},
-  {title: 'Manage portfolio', icon: <MdImage/>, href: '/'},
+  {title: 'Manage portfolio', icon: MdImage, href: '/'},
   {separator: true},
-  {title: 'Setting', icon: <MdSettings/>, href: '/'},
+  {title: 'Setting', icon: MdSettings, href: '/user/settings/general'},
 ];
 
 type Props = {
@@ -50,13 +50,13 @@ export function ModalUserOption({user, closeHandler}:Props) {
   return (
     <div
       ref={menuRef}
-      className="absolute right-0 z-50 flex flex-col rounded-t-none shadow-black/25 shadow-[inset_0_-500px_150px_-200px] backdrop-blur-[10px] top-[60px] text-[20px] bg-t-main-2/80 rounded-[5px] w-[300px] pt-[5px] p-[10px] text-t-hover-1 sm:bg-t-main-2 sm:backdrop-blur-[0px] sm:w-[100%] sm:rounded-none sm:shadow-black/30 md:top-[45px]">
+      className="absolute right-0 z-50 flex flex-col rounded-t-none shadow-black/25 shadow-[inset_0_-500px_150px_-200px] backdrop-blur-[10px] top-[60px] text-xl bg-t-main-2/80 rounded-bl-md w-[300px] pt-1 p-3 text-t-hover-1 sm:bg-t-main-2 sm:backdrop-blur-[0px] sm:w-[100%] sm:rounded-none sm:shadow-black/30 md:top-[45px]">
       <Link
         href={`/${user?.site}`}
-        className="text-t-hover-1/80 flex items-center justify-start transition-all w-[100%] h-[50px] gap-[12px] hover:text-t-hover-1
-         rounded-[3px] pl-[10px] mt-[10px] mb-[20px]
-        hover:before:absolute hover:before:top-[80px] hover:before:w-[100%] hover:before:l-[0px] hover:before:h-[1.3px] hover:before:rounded-[5px] hover:before:bg-grad-1 befor:text-t-hover-1 before:absolute before:top-[80px] before:w-[110%] before:ml-[-10px] before:h-[1px]
-        before:rounded-[5px] before:bg-t-main">
+        className="text-t-hover-1/80 flex items-center justify-start transition-all w-full h-[50px] gap-3 hover:text-t-hover-1
+         rounded-sm pl-3 mt-3 mb-5
+        hover:before:absolute hover:before:top-[80px] hover:before:w-[100%] hover:before:l-[0px] hover:before:h-[1.3px] hover:before:rounded-md hover:before:bg-grad-1 befor:text-t-hover-1 before:absolute before:top-[80px] before:w-[110%] before:ml-[-10px] before:h-[1px]
+        before:rounded-md before:bg-t-main">
         {user.avatarLink
           ?
           <Image
@@ -78,13 +78,13 @@ export function ModalUserOption({user, closeHandler}:Props) {
           {user?.name}
         </span>
       </Link>
-      <div className="mt-[15px]">
+      <div className="mt-1.5">
         {modalTags.map((v, i) => {
           if (v.separator) {
             return (
               <Separator.Root
                 key={i}
-                className="bg-t-main data-[orientation=horizontal]:h-px ml-[0px] my-[15px] mr-[-100px]"
+                className="bg-t-main data-[orientation=horizontal]:h-px ml-0 my-3 mr-[-100px]"
                 decorative orientation="horizontal"
               />);
           }
@@ -92,10 +92,8 @@ export function ModalUserOption({user, closeHandler}:Props) {
             return (
               <Link key={i}
                     href={v.href}
-                    className="flex items-center justify-start transition-all w-[100%] gap-[12px] rounded-[3px] p-[10px] hover:bg-t-main/70">
-                <div className="mt-[-1.7px]">
-                  {v.icon}
-                </div>
+                    className="flex items-center justify-start transition-all w-full gap-3 rounded-md p-2 hover:bg-t-main/70">
+                 <v.icon className='mt-0.5'/>
                 <span>
                   {v.title}
                 </span>
@@ -107,10 +105,8 @@ export function ModalUserOption({user, closeHandler}:Props) {
 
       <button
         onClick={logout}
-        className="flex items-center justify-start transition-all w-[100%] gap-[12px] rounded-[3px] p-[10px] hover:bg-t-main/70">
-        <div className="mt-[-1.5px]">
-          <MdLogout/>
-        </div>
+        className="flex items-center justify-start transition-all w-full gap-3 rounded-md p-2 hover:bg-t-main/70">
+          <MdLogout className='mt-0.5'/>
         <span>
           Sign out
         </span>

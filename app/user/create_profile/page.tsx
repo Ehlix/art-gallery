@@ -20,7 +20,7 @@ export default async function CreateProfilePage() {
 
   return (
     <section
-      className="container flex h-full w-full flex-col items-center justify-center gap-[30px]">
+      className="container flex h-full w-full flex-col items-center justify-center gap-7">
       <NewProfileMain name={name}/>
     </section>
   );

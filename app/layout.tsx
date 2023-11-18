@@ -3,6 +3,7 @@ import type {Metadata} from 'next';
 import {Heebo} from 'next/font/google';
 import {NavMain} from "@/components/navigation/navMain";
 import React from "react";
+import {cn} from "@/utils/twMergeClsx";
 
 const mainFont = Heebo({subsets: ['latin'], weight: ['400']});
 
@@ -19,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={'text-xl relative mr-[calc(-1*(100vw-100%))] w-[100%] h-[100vh] flex flex-col overflow-x-hidden ' + mainFont.className}>
+        className={cn('text-xl relative mr-[calc(-1*(100vw-100%))] w-full h-screen flex flex-col overflow-x-hidden ')}>
         <header>
           <NavMain/>
         </header>

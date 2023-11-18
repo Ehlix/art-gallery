@@ -39,7 +39,7 @@ export default function AppSlider({
               <Slider.Range className="absolute h-full rounded-full bg-grad-1"/>
             </Slider.Track>
             <Slider.Thumb
-              className="block h-5 w-5 bg-grad-1 shadow-[0_2px_10px] shadow-t-hover-3 rounded-[10px] hover:bg-grad-2 focus:shadow-[0_0_0_5px] focus:shadow-t-hover-3/30 focus:outline-none"
+              className="block h-5 w-5 bg-grad-1 shadow-[0_2px_10px] shadow-t-hover-3 rounded-lg hover:bg-t-hover-3 focus:shadow-[0_0_0_5px] focus:shadow-t-hover-3/30 focus:outline-none"
             />
           </Slider.Root>
         </form>

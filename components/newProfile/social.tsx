@@ -30,6 +30,7 @@ export function Social({social, setSocial}: Props) {
 
   function validHandler(e: React.FormEvent<HTMLFormElement>, tag: Tag, type: 'site' | 'email' | 'text') {
     e.preventDefault();
+    if (!inputs[tag]) return;
 
     if (type === 'site') {
       const isValid = isUrlValid(inputs[tag]);
@@ -47,6 +48,7 @@ export function Social({social, setSocial}: Props) {
       return;
     }
     if (type === 'text') {
+
       const validName = inputs[tag].replaceAll(/\s/g, '').toLowerCase();
       const name = `https://www.${tag}.com/${validName}`;
       setSocial({...social, [tag]: name});
@@ -66,11 +68,11 @@ export function Social({social, setSocial}: Props) {
 
   return (
     <div
-      className="flex h-fit rounded-[5px] bg-t-main/20 p-[40px] text-[18px] w-[85vw] gap-[20px] sm:p-[5px] sm:w-full md:p-[20px] lg:flex-col">
-      <div className="flex shrink grow flex-col justify-between gap-[20px]">
+      className="flex h-fit rounded-md bg-t-main/20 p-10 text-lg w-[85vw] gap-5 sm:p-0.5 sm:w-full md:p-5 lg:flex-col">
+      <div className="flex shrink grow flex-col justify-between gap-5">
         <div>
           <h3
-            className="font-bold mb-[10px] text-[33px] text-t-hover-1 tracking-[0.7px]">
+            className="font-bold mb-3 text-4xl text-t-hover-1 -tracking-tight">
             Social
           </h3>
           <p>
@@ -82,37 +84,37 @@ export function Social({social, setSocial}: Props) {
         {tags.map((v) => {
           return (
             <div key={v.tag} className="">
-              <h3 className="mb-[5px]">{v.title}</h3>
+              <h3 className="mb-0.5">{v.title}</h3>
               {social[v.tag]
                 ?
-                <div className="flex justify-between gap-[10px] h-[35px]">
+                <div className="flex justify-between gap-2 h-[35px]">
                   <div
                     className="flex items-center transition-all duration-200 text-t-hover-5 hover:text-t-hover-6">
                     <a
                       target="_blank"
-                      className="flex gap-[10px]"
+                      className="flex gap-2"
                       href={v.type === 'email' ? `mailto:${social[v.tag]}` : social[v.tag]}>
                       <v.icon size={25}/>
                       {social[v.tag]}
                     </a>
                   </div>
 
-                  <div className="flex gap-[10px]">
+                  <div className="flex gap-2">
                     <button onClick={() => changeHandler(v.tag)}
-                            className="flex items-center justify-center text-t-hover-1 px-[10px] gap-[5px] bg-t-main-2 border-[2px] border-t-hover-1 hover:text-t-hover-2 hover:border-t-hover-2">
+                            className="rounded-md flex items-center justify-center text-t-hover-1 px-2 gap-1 bg-t-main-2 border-2 border-t-hover-1 hover:text-t-hover-2 hover:border-t-hover-2">
                       <MdEdit size={19}/>
                       Change
                     </button>
                     <button
                       onClick={() => deleteHandler(v.tag)}
-                      className="flex items-center justify-center text-t-hover-1 px-[10px] gap-[5px] bg-t-main-2 border-[2px] border-t-hover-1 hover:text-t-error hover:border-t-error">
+                      className="rounded-md flex items-center justify-center text-t-hover-1 px-2 gap-1 bg-t-main-2 border-2 border-t-hover-1 hover:text-t-error hover:border-t-error">
                       <MdDelete size={19}/>
-                      delete
+                      Delete
                     </button>
                   </div>
                 </div>
                 :
-                <form className="flex gap-[10px]"
+                <form className="flex gap-2"
                       onSubmit={(e) => validHandler(e, v.tag, v.type)}>
                   <input
                     autoFocus={!isMount && !social.website}
@@ -123,7 +125,7 @@ export function Social({social, setSocial}: Props) {
                   />
                   <button
                     type="submit"
-                    className="flex items-center justify-center text-t-hover-1 px-[10px] gap-[5px] bg-t-main-2 border-[2px] border-t-hover-1 hover:text-t-hover-2 hover:border-t-hover-2">
+                    className="rounded-md flex items-center justify-center text-t-hover-1 px-2 gap-1 bg-t-main-2 border-2 border-t-hover-1 hover:text-t-hover-2 hover:border-t-hover-2">
                     <MdAdd size={19}/>
                     Add
                   </button>

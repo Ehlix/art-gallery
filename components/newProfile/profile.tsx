@@ -32,8 +32,6 @@ export type ProfileObject = {
   headline: string
   city: string
   country: string
-  avatar: File | null
-  cover: File | null
 }
 
 const uniquePath = v4();
@@ -52,8 +50,6 @@ export function Profile({
     headline: '',
     city: '',
     country: '',
-    avatar: null,
-    cover: null
   });
 
   useEffect(() => {
@@ -99,11 +95,11 @@ export function Profile({
 
   return (
     <div
-      className="flex h-fit rounded-[5px] bg-t-main/20 p-[40px] text-[18px] w-[85vw] gap-[20px] sm:p-[5px] sm:w-full md:p-[20px] lg:flex-col">
-      <div className="flex shrink grow flex-col justify-between gap-[20px]">
+      className="flex h-fit gap-5 rounded-md p-10 text-lg bg-t-main/20 w-[85vw] sm:p-0.5 sm:w-full md:p-5 lg:flex-col">
+      <div className="flex shrink grow flex-col justify-between gap-5">
         <div>
           <h3
-            className="font-bold text-[33px] mb-[10px] text-t-hover-1 tracking-[0.7px]">
+            className="text-4xl font-bold -tracking-tight mb-[10px] text-t-hover-1">
             Profile
           </h3>
           <p>
@@ -114,7 +110,7 @@ export function Profile({
         </div>
 
         <div className="">
-          <h3 className="flex mb-[5px] gap-[5px]">
+          <h3 className="flex mb-0.5 gap-0.5">
             <FaAsterisk size={10} title="Required" className="cursor-help"/>
             Name
           </h3>
@@ -125,14 +121,13 @@ export function Profile({
             onChange={nameHandler}
             type="text"
             value={profile.name}
-            placeholder=""
-          />
-          <span className="text-[14px] text-t-error tracking-[0.5px]">
+            placeholder=""/>
+          <span className="text-sm -tracking-tight text-t-error">
             {errors.name?.message}
           </span>
         </div>
         <div>
-          <h3 className="flex mb-[5px] gap-[5px]">
+          <h3 className="flex mb-0.5 gap-0.5">
             <FaAsterisk size={10} title="Required" className="cursor-help"/>
             Professional Headline - One line about you
           </h3>
@@ -141,14 +136,13 @@ export function Profile({
             onChange={headlineHandler}
             type="text"
             value={profile.headline}
-            placeholder=""
-          />
-          <span className="text-[14px] text-t-error tracking-[0.5px]">
+            placeholder=""/>
+          <span className="text-sm -tracking-tight text-t-error">
             {errors.headline?.message}
           </span>
         </div>
         <div>
-          <h3 className="flex mb-[5px] gap-[5px]">
+          <h3 className="flex mb-0.5 gap-0.5">
             <FaAsterisk size={10} title="Required" className="cursor-help"/>
             City
           </h3>
@@ -157,28 +151,28 @@ export function Profile({
             onChange={cityHandler}
             type="text"
             value={profile.city}
-            placeholder=""
-          />
-          <span className="text-[14px] text-t-error tracking-[0.5px]">
+            placeholder=""/>
+          <span className="text-sm -tracking-tight text-t-error">
             {errors.city?.message}
           </span>
         </div>
         <SelectCountry
           country={profile.country}
           setProfile={setProfile}/>
-        <span className="text-[14px] text-t-error tracking-[0.5px]">
+        <span className="text-sm -tracking-tight text-t-error">
             {errors.country?.message}
           </span>
       </div>
-      <div className="flex flex-col gap-[20px]">
-        <UploadAvatar setLoading={setLoading}
-                      setPictures={setPictures} uniquePath={uniquePath}/>
-        <UploadCover setLoading={setLoading} uniquePath={uniquePath}
+      <div className="flex flex-col gap-5">
+        <UploadAvatar currentAvatar={'/default_avatar.png'}
+                      setLoading={setLoading}
+                      setPictures={setPictures}
+                      uniquePath={uniquePath}/>
+        <UploadCover currentCover={'/default_cover.png'}
+                     setLoading={setLoading}
+                     uniquePath={uniquePath}
                      setPictures={setPictures}/>
       </div>
-
     </div>
-
-
   );
 }

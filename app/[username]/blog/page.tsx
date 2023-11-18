@@ -7,7 +7,7 @@ export default function Blog() {
         return (
           <>
             <div
-              className="overflow-hidden group aspect-[1/0.7] relative flex flex-col justify-end rounded-[3px] w-[100%] h-[100%] bg-t-main transition-all duration-1000 ease-in-out hover:shadow-[inset_0px_-270px_100px_-230px_rgba(0,0,0,0.60)]"></div>
+              className="overflow-hidden group aspect-[1/0.7] relative flex flex-col justify-end rounded-md w-full h-full bg-t-main transition-all duration-1000 ease-in-out hover:shadow-[inset_0px_-270px_100px_-230px_rgba(0,0,0,0.60)]"></div>
           </>
         );
       })}

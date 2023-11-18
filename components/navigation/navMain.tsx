@@ -21,7 +21,7 @@ export async function NavMain() {
   return (
     <>
       <nav
-        className="container fixed top-0 z-40 flex w-full select-none items-center justify-between text-t-main bg-t-main-2 gap-[28px] h-[60px] no-wrap md:h-[45px]">
+        className="container fixed top-0 z-40 flex w-full select-none items-center justify-between gap-7 text-t-main bg-t-main-2 h-[60px] no-wrap md:h-[45px]">
 
         <NavMobileButton isAuthorized={isAuthorized}/>
 
@@ -35,19 +35,19 @@ export async function NavMain() {
                  priority={true}/>
         </Link>
 
-        <div className="flex w-full items-center gap-[28px] md:hidden">
+        <div className="flex w-full items-center gap-7 md:hidden">
           {navMainTags.map((v, i) => {
             return <Link
               key={i}
               href="/"
               className="capitalize relative transition-all decoration-t-hover-2 decoration-[2.5px] hover:text-t-hover-1
-            hover:before:absolute hover:before:top-[100%] hover:before:w-[100%] hover:before:l-[0px] hover:before:h-[3px] hover:before:rounded-[5px] hover:before:bg-grad-1
+            hover:before:absolute hover:before:top-full hover:before:w-full hover:before:l-0 hover:before:h-[3px] hover:before:rounded-md hover:before:bg-t-hover-2
             ">{v}</Link>;
           })}
           <NavInput/>
         </div>
 
-        <div className="flex w-auto gap-[20px] h-[35px] text-[15px]">
+        <div className="flex w-auto gap-5 text-base h-[35px]">
           {isAuthorized
             ?
             <UserNavPanel/>

@@ -1,6 +1,6 @@
 type Props = {};
 
-export default function General(props: Props) {
+export default function GeneralPage(props: Props) {
   return (
     <div className="">
 

@@ -51,76 +51,77 @@ export function SignUp() {
 
   return (
     <>
-      <Form.Root onSubmit={handleSubmit(onSubmit)}
-                 className="flex flex-col rounded-[5px] bg-t-main/20 p-[40px] text-[18px] w-[40vw] gap-[15px] sm:w-full md:w-[70vw] lg:w-[60vw]">
-        <ToastContainer/>
+      <ToastContainer/>
+      <Form.Root
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-5 rounded-md p-10 text-lg bg-t-main/20 w-[40vw] sm:w-full md:w-[70vw] lg:w-[60vw]">
         <h3
-          className="font-bold text-[33px] text-t-hover-1 mb-[20px] tracking-[0.7px]">
+          className="mb-5 text-4xl font-bold -tracking-tight text-t-hover-1">
           Sign Up
         </h3>
 
         <Form.Field className="" name="name">
-          <Form.Label className="font-medium text-[15px] leading-[35px] text-t-hover-1">
+          <Form.Label className="text-base font-medium text-t-hover-1">
             * Name
           </Form.Label>
           <Form.Control asChild>
             <input
-              className={(errors.name && "border-t-error hover:border-t-error ")}
+              className={(errors.name && "border-t-error focus:border-t-error hover:border-t-error ")}
               placeholder="Mark Serunov"
               {...register("name")}/>
           </Form.Control>
-          <span className="text-[13px] text-t-error tracking-[0.5px]">
+          <span className="text-sm text-t-error">
             {errors.name?.message}
           </span>
         </Form.Field>
 
         <Form.Field className="" name="email">
-          <Form.Label className="font-medium text-[15px] leading-[35px] text-t-hover-1">
+          <Form.Label className="text-base font-medium text-t-hover-1">
             * Email
           </Form.Label>
           <Form.Control asChild>
             <input
-              className={(errors.email && "border-t-error hover:border-t-error ")}
+              className={(errors.email && "border-t-error focus:border-t-error hover:border-t-error ")}
               type="email"
               placeholder="serunov@email.com"
               {...register("email")}/>
           </Form.Control>
-          <span className="text-[13px] text-t-error tracking-[0.5px]">
+          <span className="text-sm text-t-error">
             {errors.email?.message}
           </span>
         </Form.Field>
 
         <Form.Field className="" name="email">
           <Form.Label
-            className="font-medium text-[15px] leading-[35px] text-t-hover-1">
+            className="text-base font-medium text-t-hover-1">
             * Password
           </Form.Label>
           <Form.Control asChild>
             <input
-              className={(errors.password && "border-t-error hover:border-t-error ")}
+              className={(errors.password && "border-t-error focus:border-t-error hover:border-t-error ")}
               type="password"
               placeholder="*********"
               {...register("password")}/>
           </Form.Control>
-          <span className="text-[13px] text-t-error tracking-[0.5px]">
+          <span className="text-sm text-t-error">
             {errors.password?.message}
           </span>
         </Form.Field>
 
         <Form.Field className="" name="email">
           <Form.Label
-            className="font-medium text-[15px] leading-[35px] text-t-hover-1">
+            className="text-base font-medium text-t-hover-1">
             * Confirm password
           </Form.Label>
           <Form.Control asChild>
             <input
-              className={(errors.passwordConfirm && "border-t-error hover:border-t-error ")}
+              className={(errors.passwordConfirm && "border-t-error hover:border-t-error focus:border-t-error")}
               type="password"
               placeholder="*********"
               {...register('passwordConfirm')}
             />
           </Form.Control>
-          <span className="text-[13px] text-t-error tracking-[0.5px]">
+          <span className="text-sm text-t-error">
             {errors.passwordConfirm
               ?
               'password not equals'
@@ -132,7 +133,7 @@ export function SignUp() {
 
         <Form.Submit asChild>
           <button
-            className={"disabled:bg-grad-6  leading-none disabled:text-t-hover-1 flex items-center justify-center font-medium bg-t-hover-2  w-[150px] text-t-main-2 h-[35px] rounded-[4px] px-[10px] mt-[10px] hover:bg-t-hover-3 transition-all duration-200"}
+            className="mt-2 flex items-center justify-center rounded-md px-2 font-medium leading-none transition-all duration-300 bg-t-hover-2 w-[150px] text-t-main-2 h-[40px] hover:bg-t-hover-3 disabled:bg-t-main disabled:text-t-hover-1"
             disabled={loading}>
             {loading
               ?

@@ -39,22 +39,22 @@ export function ArtworkMain({artwork, artworkData}: Props) {
 
 
   return (
-    <div className="flex h-[100%] w-[100%] gap-[20px] md:flex-col">
+    <div className="flex h-full w-full gap-5 md:flex-col">
       <div
-        className="h-fit overflow-hidden bg-t-main/20 w-[100%] rounded-[5px] md:order-2">
+        className="h-fit w-full overflow-hidden rounded-md bg-t-main/20 md:order-2">
         {artwork.files?.map(v => {
           return (
             <Image key={v} src={`artworks/${artwork.folder}/${v}`} alt="art"
-                   className="w-[100%]"
+                   className="w-full"
                    height={1000}
                    width={1000}/>
           );
         })}
       </div>
-      <div className="flex flex-col gap-[20px] h-fit w-[600px] md:w-[100%]">
+      <div className="flex h-fit flex-col gap-5 w-[600px] md:w-full">
         <div
-          className="flex h-fit flex-col p-[20px] bg-t-main/20 rounded-[5px] gap-[20px]">
-          <div className="flex gap-[20px]">
+          className="flex h-fit flex-col gap-5 rounded-md p-5 bg-t-main/20">
+          <div className="flex gap-5">
             <Link href={`/${artworkData.site}`}
                   className="overflow-hidden rounded-full h-[110px] w-[110px] bg-t-main">
               {artworkData.avatarLink
@@ -75,32 +75,32 @@ export function ArtworkMain({artwork, artworkData}: Props) {
                   width={500}/>
               }
             </Link>
-            <div className="flex justify-center flex-col">
+            <div className="flex flex-col justify-center">
               <Link href={`/${artworkData.site}`}>
-              <span className="text-t-hover-1 text-[25px]">
+              <span className="text-2xl text-t-hover-1">
                 {artworkData.name}
               </span>
               </Link>
               {artworkData.website &&
-                <span className="text-[18px]">
+                <span className="text-lg">
                 {artworkData.website}
                 </span>
               }
             </div>
           </div>
           <button
-            className="flex items-center justify-center bg-none transition-all duration-300 mt-[-10px] border-t-hover-2 border-[1px] text-t-hover-2 text-[16px] h-[25px] min-w-[100px] gap-[5px] rounded-[3px] hover:border-t-hover-3 hover:text-t-hover-3">
-            <div className="text-xl pb-[2px]">
+            className="flex items-center justify-center gap-1 rounded-sm border bg-none text-base transition-all duration-300 border-t-hover-2 text-t-hover-2 h-[28px] min-w-[100px] hover:border-t-hover-3 hover:text-t-hover-3">
+            <div className="text-xl">
               <MdPersonAdd/>
             </div>
             <span>
               Follow
             </span>
           </button>
-          <div className="flex justify-between gap-[20px]">
+          <div className="flex justify-between gap-5">
             <button
-              className="flex grow items-center justify-center transition-all duration-300 text-t-main-2 min-w-[100px] gap-[5px] bg-t-hover-5 rounded-[3px] h-[35px] hover:bg-t-hover-6">
-              <div className="text-xl pb-[2px]">
+              className="flex grow items-center justify-center gap-1 rounded-sm transition-all duration-300 text-t-main-2 min-w-[100px] bg-t-hover-5 h-[35px] pb-0.5 hover:bg-t-hover-6">
+              <div className="text-xl">
                 <MdFavoriteBorder/>
               </div>
               <span>
@@ -108,8 +108,8 @@ export function ArtworkMain({artwork, artworkData}: Props) {
               </span>
             </button>
             <button
-              className="flex grow items-center justify-center transition-all duration-300 text-t-main-2 min-w-[100px] gap-[5px] bg-t-main rounded-[3px] h-[35px] hover:bg-t-hover-1/70">
-              <div className="text-xl pb-[2px]">
+              className="flex grow items-center justify-center gap-1 rounded-sm transition-all duration-300 text-t-main-2 min-w-[100px] bg-t-main h-[35px] pb-0.5 hover:bg-t-hover-1/70">
+              <div className="text-xl">
                 <MdBookmarkBorder/>
               </div>
               <span>
@@ -117,30 +117,30 @@ export function ArtworkMain({artwork, artworkData}: Props) {
               </span>
             </button>
           </div>
-          <div className="flex flex-col gap-[10px]">
-            <h2 className="text-t-hover-1 text-[25px]">
+          <div className="flex flex-col gap-2">
+            <h2 className="text-2xl text-t-hover-1">
               {artwork.title}
             </h2>
             <p>
               {artwork.description}
             </p>
           </div>
-          <p className="italic text-[14px]">
+          <p className="text-sm italic">
             {createdAt()}
           </p>
         </div>
         <ArtworkComments/>
-        <div className="flex flex-col h-fit p-[20px] bg-t-main/20 rounded-[5px] gap-[10px]">
+        <div className="flex h-fit flex-col gap-2 rounded-md p-5 bg-t-main/20">
           <span>Tags</span>
-          <div className='flex gap-[10px]'>
-            {artwork.medium?.map((v)=>{
+          <div className="flex gap-2">
+            {artwork.medium?.map((v) => {
               return (
-                <Link href='/'
+                <Link href="/"
                       key={v}
-                      className='bg-t-main/80 text-[18px] p-[5px] leading-none px-[10px] rounded-[4px] text-t-main-2 hover:bg-t-hover-4 transition-all duration-300'>
+                      className="rounded-sm p-1 px-2 text-lg leading-none transition-all duration-300 bg-t-main/80 text-t-main-2 hover:bg-t-hover-4">
                   {`#${v}`}
                 </Link>
-              )
+              );
             })}
           </div>
         </div>

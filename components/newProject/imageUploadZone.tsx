@@ -151,7 +151,7 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
   return (
     <>
       <button
-        className="border-dotted transition-all duration-300 text-t-hover-1 border-t-main h-[50px] border-[3px] rounded-[5px] hover:border-t-hover-2 hover:text-t-hover-2"
+        className="border-dotted transition-all duration-300 text-t-hover-1 border-t-main h-[50px] border-2 rounded-md hover:border-t-hover-2 hover:text-t-hover-2"
         onClick={clickHandler}>Chose image
         to upload
       </button>
@@ -184,7 +184,7 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
             return (
               <div key={target.id}
                    draggable={isFullLoad}
-                   className={cn("relative flex cursor-move select-none flex-col items-center justify-end overflow-hidden border-t-main border-[4px] aspect-[1/1] rounded-[5px] bg-t-main/20 h-[100%] w-[100%]", {
+                   className={cn("relative flex cursor-move select-none flex-col items-center justify-end overflow-hidden border-t-main border-4 aspect-[1/1] rounded-md bg-t-main/20 h-full w-full", {
                      'cursor-default': !isFullLoad
                    })}
                    onDragStart={e => dragStartHandler(e, target)}
@@ -197,23 +197,23 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
                   ?
                   <Image
                     // className="pointer-events-none object-cover object-center w-[100%] h-[100%]"
-                    className="pointer-events-none w-fit h-[100%]"
+                    className="pointer-events-none w-fit h-full"
                     src={`cache/${uniquePath}/${target.file.name}`} alt="jop"
                     width={100}
                     height={100} quality={100}/>
                   :
                   <div
-                    className="pointer-events-none flex items-center justify-center rounded-[1.5px] bg-t-main-2 w-[100%] h-[100%]">
-                    <span className="animate-spin text-t-main text-[50px]">
+                    className="pointer-events-none flex items-center justify-center rounded-sm bg-t-main-2 w-full h-full">
+                    <span className="animate-spin text-t-main text-5xl">
                       <RiLoader3Line/>
                     </span>
                   </div>
                 }
                 <div
-                  className="pointer-events-none absolute top-0 left-0 shadow-black/40 shadow-[inset_-10px_100px_30px_-70px] w-[100%] h-[100%]"></div>
+                  className="pointer-events-none absolute top-0 left-0 shadow-black/40 shadow-[inset_-10px_100px_30px_-70px] w-full h-full"></div>
                 {isFullLoad &&
                   <RemoveConfirmation
-                    className="absolute top-0 right-0 m-[7px] text-t-error text-[22px]"
+                    className="absolute top-0 right-0 m-2 text-t-error text-2xl"
                     callback={confirmHandler}/>
                 }
               </div>

@@ -134,15 +134,13 @@ const ImageCropper: FC<Props> = ({
   return (
     <div
       className="flex h-full w-full flex-col items-center justify-center"
-      ref={containerRef}
-    >
+      ref={containerRef}>
       {loading ? (
         <div>loading</div>
       ) : (
         <div
           className="relative mx-auto"
-          style={{width: size.width, height: size.height}}
-        >
+          style={{width: size.width, height: size.height}}>
           <Cropper
             image={source}
             crop={crop}
@@ -152,8 +150,7 @@ const ImageCropper: FC<Props> = ({
             rotation={rotation}
             onCropChange={(props) => setCrop({...props, width, height})}
             onZoomChange={onZoomChange}
-            onCropComplete={handleCrop}
-          />
+            onCropComplete={handleCrop}/>
         </div>
       )}
     </div>
