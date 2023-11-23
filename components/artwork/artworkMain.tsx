@@ -6,16 +6,18 @@ import React from "react";
 import {ArtworkProfileData} from "@/app/artwork/[id]/page";
 import {Database} from "@/lib/database.types";
 import ArtworkComments from "@/components/artwork/artworkComments";
+import {User} from "@supabase/auth-helpers-nextjs";
 
-type ArtType2 = Database['public']['Tables']['artworks']['Row']
+type ArtType = Database['public']['Tables']['artworks']['Row']
 
 
 type Props = {
-  artwork: ArtType2
+  artwork: ArtType
   artworkData: ArtworkProfileData
+  currentUser: User | null
 };
 
-export function ArtworkMain({artwork, artworkData}: Props) {
+export function ArtworkMain({artwork, artworkData, currentUser}: Props) {
   function createdAt(): string {
     const dateNow = new Date();
     const dateCreate = new Date(artwork.created_at);
@@ -41,13 +43,16 @@ export function ArtworkMain({artwork, artworkData}: Props) {
   return (
     <div className="flex h-full w-full gap-5 md:flex-col">
       <div
-        className="h-fit w-full overflow-hidden rounded-md bg-t-main/20 md:order-2">
+        className="flex h-full w-full flex-col gap-5 overflow-hidden rounded-md md:order-2">
         {artwork.files?.map(v => {
           return (
-            <Image key={v} src={`artworks/${artwork.folder}/${v}`} alt="art"
-                   className="w-full"
-                   height={1000}
-                   width={1000}/>
+            <div key={v}
+                 className="flex w-full items-center justify-center overflow-hidden rounded-md bg-t-main/20 min-h-[250px] max-h-2000px">
+              <Image src={`artworks/${artwork.folder}/${v}`} alt="art"
+                     className="h-full w-full object-contain"
+                     height={1000}
+                     width={1000}/>
+            </div>
           );
         })}
       </div>
@@ -129,7 +134,9 @@ export function ArtworkMain({artwork, artworkData}: Props) {
             {createdAt()}
           </p>
         </div>
-        <ArtworkComments/>
+        <ArtworkComments
+          artwork_id={artwork.id}
+          currentUser={currentUser}/>
         <div className="flex h-fit flex-col gap-2 rounded-md p-5 bg-t-main/20">
           <span>Tags</span>
           <div className="flex gap-2">

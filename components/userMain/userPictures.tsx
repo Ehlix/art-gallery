@@ -18,7 +18,7 @@ export function UserPictures({artworks, profileData}: Props) {
             <Link
               href={`/artwork/${a.id}`}
               key={a.id}
-              className="relative transition-all cursor-pointer overflow-hidden group aspect-[1/1] flex flex-col justify-end rounded-[5px] w-full h-full bg-t-main  duration-1000 ease-in-out hover:shadow-[inset_0px_-270px_100px_-230px_rgba(0,0,0,0.60)] md:hover:shadow-none ">
+              className="relative transition-all cursor-pointer overflow-hidden group aspect-[1/1] flex flex-col justify-end rounded-[5px] w-full h-full bg-t-main">
               <Image src={`artworks/${a.folder}/${a.thumbnail}`}
                      alt={a.id}
                      className="h-full w-full"
@@ -27,7 +27,7 @@ export function UserPictures({artworks, profileData}: Props) {
               <div className="absolute top-0 left-0 z-20 flex h-full w-full flex-col">
                 <div className="h-full w-full"></div>
                 <div
-                  className="relative z-20 flex h-fit w-full items-center opacity-0 transition-all ease-in-out top-full gap-2 duration-500 px-2 pb-2 group-hover:top-0 group-hover:opacity-100 md:hidden">
+                  className="shadow-[inset_0px_-100px_35px_-50px_rgba(0,0,0,0.60)] relative z-20 flex h-fit w-full items-center opacity-0 transition-all ease-in-out top-full gap-2 duration-500 px-2 p-2 pt-10 group-hover:top-0 group-hover:opacity-100 md:hidden">
                   {profileData.avatarLink
                     ?
                     <Image

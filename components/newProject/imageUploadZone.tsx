@@ -184,7 +184,7 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
             return (
               <div key={target.id}
                    draggable={isFullLoad}
-                   className={cn("relative flex cursor-move select-none flex-col items-center justify-end overflow-hidden border-t-main border-4 aspect-[1/1] rounded-md bg-t-main/20 h-full w-full", {
+                   className={cn("relative flex cursor-move select-none flex-col items-center justify-center overflow-hidden border-t-main border-4 aspect-[1/1] rounded-md bg-t-main/20 h-full w-full", {
                      'cursor-default': !isFullLoad
                    })}
                    onDragStart={e => dragStartHandler(e, target)}
@@ -197,7 +197,7 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
                   ?
                   <Image
                     // className="pointer-events-none object-cover object-center w-[100%] h-[100%]"
-                    className="pointer-events-none w-fit h-full"
+                    className="pointer-events-none h-full w-full object-contain"
                     src={`cache/${uniquePath}/${target.file.name}`} alt="jop"
                     width={100}
                     height={100} quality={100}/>

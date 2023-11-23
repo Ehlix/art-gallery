@@ -16,8 +16,8 @@ export type ArtworkProfileData = {
 }
 
 export default async function ArtworkPage({params}: Props) {
-
   const supabase = createServerComponentClient<Database>({cookies});
+  const {data: currentUser} = await supabase.auth.getUser();
   const {data: artwork} = await supabase
     .from('artworks')
     .select().eq('id', params.id);
@@ -47,7 +47,10 @@ export default async function ArtworkPage({params}: Props) {
 
   return (
     <section className="container relative h-full">
-      <ArtworkMain artwork={artwork[0]} artworkData={artworkProfileData}/>
+      <ArtworkMain
+        artwork={artwork[0]}
+        artworkData={artworkProfileData}
+        currentUser={currentUser.user}/>
     </section>
   );
 }

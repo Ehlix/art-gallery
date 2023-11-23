@@ -1,50 +1,89 @@
 import Image from "next/image";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Link from "next/link";
-import {MdLens, MdReply, MdThumbUp} from "react-icons/md";
+import {MdLens, MdThumbUp} from "react-icons/md";
+import {AddComment} from "@/components/artwork/addComment";
+import {createClientComponentClient, User} from "@supabase/auth-helpers-nextjs";
+import {Database} from "@/lib/database.types";
 
-type Props = {};
+type Props = {
+  artwork_id: string | number
+  currentUser: User | null
+};
 
-const a = [
-  {
-    avatarLink: '',
-    nickname: 'Popo',
-    headline: 'i create art',
-    comment: 'cool art',
-    likeCount: 3,
-    postDate: '1y',
-  },
-  {
-    avatarLink: '',
-    nickname: 'Fhert',
-    headline: 'lll',
-    comment: 'incredible',
-    likeCount: 1,
-    postDate: '2h',
-  },
-  {
-    avatarLink: '',
-    nickname: 'Mustafa',
-    headline: '',
-    comment: 'ai shit',
-    likeCount: 10,
-    postDate: '3h',
-  },
-];
+type ArtworkComments = Database['public']['Tables']['artworks_comments']['Row']
 
-export default function ArtworkComments(props: Props) {
+type CommentsData = {
+  avatarLink: string,
+  nickname: string,
+  headline: string,
+  comment: ArtworkComments,
+  likeCount: 3,
+  order: number
+  createdAt: number | string
+  site: string
+}
+
+type MetadataObj = {
+  site: string
+  name: string
+}
+
+export default function ArtworkComments({artwork_id, currentUser}: Props) {
+  const [commentsData, setCommentsData] = useState<CommentsData[]>([]);
+  const supabase = createClientComponentClient<Database>();
+
+  useEffect(() => {
+    getCommentsData().then();
+  }, []);
+
+  function refresh() {
+    getCommentsData().then();
+  }
+
+  async function getCommentsData() {
+    const newCommentsData: CommentsData[] = [];
+    const {data} = await supabase.from('artworks_comments').select().eq('artwork_id', artwork_id);
+    if (data) {
+      for (const v of data) {
+        const {data} = await supabase.from('profiles').select().eq('user_id', v.user_id || '');
+        const {data: user} = await supabase.from('users').select().eq('id', v.user_id || '');
+        const profile = data && data[0];
+        if (profile) {
+          const avatarLink = (profile.folder && profile.avatar) ? `avatars/${profile.folder}/${profile.avatar}` : '';
+          const createdAt = new Date(v.created_at);
+          const metadata: MetadataObj | null = user && user[0].metadata as MetadataObj;
+          newCommentsData.push({
+            avatarLink: avatarLink,
+            nickname: profile.name || '',
+            comment: v,
+            likeCount: 3,
+            headline: profile.headline || '',
+            order: createdAt.getTime(),
+            createdAt: createdAt.toLocaleString(),
+            site: `/${metadata?.site}` || '/',
+          });
+        }
+      }
+    }
+    setCommentsData([...newCommentsData]);
+  }
+
+
+  console.log(commentsData);
   return (
     <div>
-      <span className="font-bold text-sm">
-        {a.length} COMMENTS
+      <span className="text-sm font-bold">
+        {commentsData.length} COMMENTS
       </span>
-      <div className="flex h-fit flex-col p-5 bg-t-main/20 rounded-md gap-7">
-        {a.map((v) => {
+      <div className="flex h-fit flex-col gap-7 rounded-md p-5 bg-t-main/20">
+        {commentsData.toSorted((a, b) => a.order - b.order).map((v, i) => {
+
           return (
             <div
               className="flex h-fit w-full gap-2"
-              key={v.nickname}>
-              <Link href={`/`}
+              key={i}>
+              <Link href={v.site}
                     className="overflow-hidden rounded-full h-[40px] min-w-[40px] bg-t-main">
                 {v.avatarLink
                   ?
@@ -64,17 +103,18 @@ export default function ArtworkComments(props: Props) {
                     width={500}/>
                 }
               </Link>
-              <div className="flex w-fit flex-col leading-none gap-1">
-                <Link href="/" className="object-center text-t-hover-1">
+              <div className="flex w-fit flex-col gap-1 leading-none">
+                <Link href={v.site}
+                      className="object-center text-t-hover-1">
                   {v.nickname}
                 </Link>
                 <span hidden={!v.headline}>
                   {v.headline}
                 </span>
                 <p className="text-t-hover-1">
-                  {v.comment}
+                  {v.comment.title}
                 </p>
-                <div className="flex items-center italic gap-2 text-sm">
+                <div className="flex items-center gap-2 text-sm italic">
                   <button className="transition-all duration-300 hover:text-t-hover-3">
                     Like
                   </button>
@@ -85,22 +125,19 @@ export default function ArtworkComments(props: Props) {
                   </span>
                   <MdLens size={7}/>
                   <span>
-                    {v.postDate}
+                    {v.createdAt}
                   </span>
                 </div>
               </div>
             </div>
           );
         })}
-        <div className="flex items-start gap-2">
-          <textarea
-            placeholder="Add a comment"
-            className="min-h-[40px] h-[40px]"/>
-          <button
-            className="flex items-center justify-center min-w-[40px] min-h-[40px] h-[40px] bg-t-main text-t-main-2 rounded-sm hover:bg-t-hover-3">
-            <MdReply size={25} className="mb-0.5"/>
-          </button>
-        </div>
+        {currentUser &&
+          <AddComment
+            refresh={refresh}
+            artwork_id={artwork_id}
+            user={currentUser}/>
+        }
       </div>
     </div>
 

@@ -19,3 +19,9 @@ export function sortSelectedFiles(a: SelectedFileType, b: SelectedFileType) {
     return -1;
   }
 }
+
+export function cutNameFromSite(site:string): string {
+  const index = site.lastIndexOf('/')
+  const name = site.slice(index+1)
+  return name || ''
+}

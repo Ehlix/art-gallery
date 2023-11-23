@@ -133,7 +133,7 @@ const ImageCropper: FC<Props> = ({
 
   return (
     <div
-      className="flex h-full w-full flex-col items-center justify-center"
+      className="flex h-full flex-col items-center justify-center"
       ref={containerRef}>
       {loading ? (
         <div>loading</div>

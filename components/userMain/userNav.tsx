@@ -49,10 +49,15 @@ export const UserNav = ({username}: { username: string }) => {
             return (isCurrent
                 ?
                 <div key={v.title}
-                     className="before:absolute relative before:top-full flex before:w-full items-center before:rounded-md text-xl transition-all decoration-t-hover-2 decoration-[2.5px] text-t-main before:l-0 before:h-[2px] before:bg-t-hover-2">
+                     // className="before:absolute relative before:top-full flex before:w-full items-center before:rounded-md text-xl transition-all decoration-t-hover-2 decoration-[2.5px] text-t-hover-1 before:l-0 before:h-[2px] before:bg-t-hover-2"
+                     className='text-xl text-t-hover-3 transition-all'>
                   <span>
                     {v.title}
                   </span>
+                  {v.count && <span className="ml-1 text-base text-t-main">
+                    (100)
+                  </span>
+                  }
                 </div>
                 :
                 <Link key={v.title} href={`/${username}${v.link}`}
@@ -62,7 +67,8 @@ export const UserNav = ({username}: { username: string }) => {
                   </span>
                   {v.count && <span className="ml-1 text-base text-t-main">
                     (100)
-                  </span>}
+                  </span>
+                  }
                 </Link>
             );
           })}

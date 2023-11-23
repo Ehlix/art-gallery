@@ -113,8 +113,8 @@ export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
           <Dialog.Overlay
             className="z-40 bg-t-main-2/90 data-[state=open]:animate-overlayShow fixed inset-0"/>
           <Dialog.Content
-            className="z-50 data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] h-fit w-[85vw] translate-x-[-50%] translate-y-[-50%] rounded-md bg-t-main-2 border-t-main border-2 p-6 focus:outline-none">
-            <Dialog.Title className="m-0 font-medium text-mauve12 text-base">
+            className="z-50 h-[90vh]  data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] w-[85vw] translate-x-[-50%] translate-y-[-50%] rounded-md bg-t-main-2 border-t-main border-2 p-6 focus:outline-none">
+            <Dialog.Title className="font-medium text-xl">
               Crop thumbnail
             </Dialog.Title>
             <CropImage uniquePath={uniquePath} setThumbnail={setThumbnail}

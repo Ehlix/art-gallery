@@ -78,7 +78,7 @@ export default function CropImage({thumbnail, uniquePath, setThumbnail, setOpen}
   };
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="relative h-full flex flex-col gap-5">
       <div className="">
         {/*<AppSlider*/}
         {/*  min={0}*/}
@@ -97,7 +97,7 @@ export default function CropImage({thumbnail, uniquePath, setThumbnail, setOpen}
           onChange={handleOnZoom}/>
       </div>
 
-      <div className="flex w-full items-center justify-center">
+      <div className="flex h-full items-center justify-center">
         <ImageCropper
           zoom={zoom}
           onZoomChange={handleOnZoom}

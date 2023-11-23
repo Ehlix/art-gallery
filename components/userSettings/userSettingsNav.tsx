@@ -52,7 +52,7 @@ const navTags: NavTag[] = [
     separator: true,
   },
   {
-    title: 'Account',
+    title: 'General',
     icon: MdSettings,
     link: 'general',
     separator: false,

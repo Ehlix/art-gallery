@@ -11,6 +11,7 @@ import Env from "@/dictionaries/env";
 import {Thumbnail} from "@/components/newProject/thumbnail";
 import {v4} from 'uuid';
 import {useIsMount} from "@/hooks/useIsMount";
+import {useRouter} from "next/navigation";
 
 export type Thumbnail = {
   id: string
@@ -31,6 +32,7 @@ export type SelectedFileType = {
 const uniquePath = v4();
 
 export function ProjectMain() {
+  const router = useRouter()
   const isMount = useIsMount();
   const [thumbnail, setThumbnail] = useState<Thumbnail | null>(null);
   const [selectedFiles, setSelectedFiles] = useState<SelectedFileType[]>([]);
@@ -70,9 +72,9 @@ export function ProjectMain() {
 
   const onSubmit = async (payload: NewProjectType) => {
     moveHandler().then(async () => {
-      const user = await supabase.auth.getUser();
-      const {} = await supabase.from('artworks').insert({
-        user_id: user.data.user?.id,
+      const {data:user} = await supabase.auth.getUser();
+      const {data} = await supabase.from('artworks').insert({
+        user_id: user.user?.id,
         title: payload.title,
         description: payload.description,
         medium: payload.medium,
@@ -81,9 +83,11 @@ export function ProjectMain() {
         thumbnail: payload.thumbnail?.file.name,
         files: payload.image?.map((v) => v.file.name),
       });
+      if (data) {
+        const userLink = user.user?.user_metadata.site
+        router.push(`/${userLink}`)
+      }
     });
-
-
   };
 
 
@@ -142,10 +146,10 @@ export function ProjectMain() {
             </div>
           </div>
           <div className="relative flex justify-center sm:flex-col sm:items-center">
-            <span
+            {(thumbnail?.status !== 'loading' && thumbnail?.status !== 'loaded' ) &&<span
               className="absolute top-1 left-2 text-t-error sm:relative sm:top-0 sm:left-0">
               {errors.thumbnail?.message}
-            </span>
+            </span>}
             <Thumbnail thumbnail={thumbnail}
                        setThumbnail={setThumbnail}
                        uniquePath={uniquePath}/>

@@ -31,6 +31,8 @@ export function UserProfile({profileObject}: Props) {
 
   const currentAvatar = (profileObject?.folder && profileObject?.avatar) ? `avatars/${profileObject.folder}/${profileObject.avatar}` : '/default_avatar.png';
 
+  const currentCover = (profileObject?.folder && profileObject?.cover) ? `avatars/${profileObject.folder}/${profileObject.cover}` : '/default_avatar.png';
+
   function nameHandler(e: React.ChangeEvent<HTMLInputElement>) {
     // setValue('name', e.currentTarget.value.trimStart(), {shouldValidate: true});
     setProfile({
@@ -59,7 +61,7 @@ export function UserProfile({profileObject}: Props) {
   }
 
   return (
-    <div className='flex flex-col items-end justify-center gap-5 md:items-center'>
+    <div className='flex flex-col items-end gap-5 md:items-center'>
       <button
         disabled={isLoading}
         // onClick={handleSubmit(onSubmit)}
@@ -144,9 +146,9 @@ export function UserProfile({profileObject}: Props) {
                         setLoading={setLoading}
                         setPictures={setPictures}
                         uniquePath={profileObject?.folder || uniquePath}/>
-          <UploadCover currentCover={'/default_cover.png'}
+          <UploadCover currentCover={currentCover}
                        setLoading={setLoading}
-                       uniquePath={uniquePath}
+                       uniquePath={profileObject?.folder || uniquePath}
                        setPictures={setPictures}/>
         </div>
       </div>

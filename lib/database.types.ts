@@ -56,6 +56,45 @@ export interface Database {
           }
         ]
       }
+      artworks_comments: {
+        Row: {
+          artwork_id: number | null
+          created_at: string
+          id: number
+          title: string | null
+          user_id: string | null
+        }
+        Insert: {
+          artwork_id?: number | null
+          created_at?: string
+          id?: number
+          title?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          artwork_id?: number | null
+          created_at?: string
+          id?: number
+          title?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "artworks_comments_artwork_id_fkey"
+            columns: ["artwork_id"]
+            isOneToOne: false
+            referencedRelation: "artworks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "artworks_comments_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       profiles: {
         Row: {
           avatar: string | null

@@ -8,7 +8,7 @@ import UserNavPanel from "@/components/navigation/userNavPanel";
 import {AuthButton} from "@/components/navigation/authButton";
 import Image from "next/image";
 
-const navMainTags = ['explore', 'blogs', 'shop', 'jobs'];
+const navMainTags = ['explore', 'blogs', 'jobs'];
 
 export async function NavMain() {
   const supabase = createServerComponentClient({cookies});
