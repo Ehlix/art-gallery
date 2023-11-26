@@ -73,7 +73,7 @@ export function ProjectMain() {
   const onSubmit = async (payload: NewProjectType) => {
     moveHandler().then(async () => {
       const {data:user} = await supabase.auth.getUser();
-      const {data} = await supabase.from('artworks').insert({
+      const {error} = await supabase.from('artworks').insert({
         user_id: user.user?.id,
         title: payload.title,
         description: payload.description,
@@ -83,7 +83,7 @@ export function ProjectMain() {
         thumbnail: payload.thumbnail?.file.name,
         files: payload.image?.map((v) => v.file.name),
       });
-      if (data) {
+      if (!error) {
         const userLink = user.user?.user_metadata.site
         router.push(`/${userLink}`)
       }

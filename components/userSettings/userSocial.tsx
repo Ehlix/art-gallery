@@ -13,10 +13,10 @@ export function UserSocial({socialObject}: Props) {
   const [social, setSocial
   ] = useState<SocialObject>({
     publicEmail: cutNameFromSite(socialObject?.publicEmail || ''),
-    website: cutNameFromSite(socialObject?.website || ''),
-    twitter: cutNameFromSite(socialObject?.twitter || ''),
-    facebook: cutNameFromSite(socialObject?.facebook || ''),
-    instagram: cutNameFromSite(socialObject?.instagram || ''),
+    website: socialObject?.website || '',
+    twitter: socialObject?.twitter || '',
+    facebook: socialObject?.facebook || '',
+    instagram: socialObject?.instagram || '',
   });
 
   return (

@@ -31,7 +31,7 @@ export function UserProfile({profileObject}: Props) {
 
   const currentAvatar = (profileObject?.folder && profileObject?.avatar) ? `avatars/${profileObject.folder}/${profileObject.avatar}` : '/default_avatar.png';
 
-  const currentCover = (profileObject?.folder && profileObject?.cover) ? `avatars/${profileObject.folder}/${profileObject.cover}` : '/default_avatar.png';
+  const currentCover = (profileObject?.folder && profileObject?.cover) ? `avatars/${profileObject.folder}/${profileObject.cover}` : '/default_cover.png';
 
   function nameHandler(e: React.ChangeEvent<HTMLInputElement>) {
     // setValue('name', e.currentTarget.value.trimStart(), {shouldValidate: true});

@@ -6,7 +6,7 @@ export function bytesToMb(bytes: number): number {
 }
 
 export function renameFile(originalFile: File, newName: string) {
-  return new File([originalFile], newName, {
+  return new File([originalFile], `${newName}.jpg`, {
     type: 'image/jpg',
     lastModified: originalFile.lastModified,
   });

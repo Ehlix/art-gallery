@@ -7,6 +7,7 @@ import {useIsMount} from "@/hooks/useIsMount";
 import {SocialObject} from "@/components/newProfile/newProfileMain";
 import {Tag, tags} from "@/dictionaries/socialCreateTags";
 import {cn} from "@/utils/twMergeClsx";
+import {cutNameFromSite} from "@/utils/utils";
 
 type Props = {
   social: SocialObject
@@ -20,9 +21,9 @@ export function Social({social, customClassName, setSocial}: Props) {
   ] = useState<SocialObject>({
     publicEmail: social.publicEmail,
     website: social.website,
-    twitter: social.twitter,
-    facebook: social.facebook,
-    instagram: social.instagram,
+    twitter: cutNameFromSite(social.twitter),
+    facebook: cutNameFromSite(social.facebook),
+    instagram: cutNameFromSite(social.instagram),
   });
 
   function inputHandler(e: React.ChangeEvent<HTMLInputElement>, tag: Tag) {

@@ -49,7 +49,7 @@ export function UploadAvatar({uniquePath, setPictures, setLoading, currentAvatar
         if (data) {
           const newAvatar: Avatar = {
             id: v4(),
-            file: renameFile(file, `avatar_${v4()}`),
+            file: renameFile(file, `avatar_${v4()}.jpg`),
             status: "notLoaded"
           };
           setAvatar(newAvatar);
@@ -61,7 +61,7 @@ export function UploadAvatar({uniquePath, setPictures, setLoading, currentAvatar
       }
       const newAvatar: Avatar = {
         id: v4(),
-        file: renameFile(file, `avatar_${v4()}`),
+        file: renameFile(file, `avatar_${v4()}.jpg`),
         status: "notLoaded"
       };
       setAvatar(newAvatar);

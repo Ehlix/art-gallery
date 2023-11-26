@@ -51,9 +51,9 @@ export default function CropImage({thumbnail, uniquePath, setThumbnail, setOpen}
       } = await supabase.storage.from(Env.PROJECTS_BUCKET).remove([`cache/${uniquePath}/${thumbnail.file.name}`]);
       if (data) {
         console.log('cropped start..');
-        const file = new File([croppedImage], `thumbnail_${v4()}`, {
+        const file = new File([croppedImage], `thumbnail_${v4()}.jpg`, {
           lastModified: new Date().getTime(),
-          type: thumbnail.file.type
+          type: 'image/jpg'
         });
         setThumbnail({
           id: file.name,

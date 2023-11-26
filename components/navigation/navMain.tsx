@@ -66,7 +66,7 @@ export async function NavMain() {
             className="fixed z-30 flex w-full items-center justify-center bg-t-pop-1 h-[25px]">
             <Link
               className="transition duration-200 text-t-main-2 hover:text-t-hover-1"
-              href="/user/create_profile">
+              href="/user/create-profile">
               Please complete your profile!
             </Link>
           </div>

@@ -69,17 +69,13 @@ export default function ArtworkComments({artwork_id, currentUser}: Props) {
     setCommentsData([...newCommentsData]);
   }
 
-
-  console.log(commentsData);
   return (
     <div>
       <span className="text-sm font-bold">
-        {commentsData.length} COMMENTS
+        {!!commentsData.length && commentsData.length} COMMENTS
       </span>
       <div className="flex h-fit flex-col gap-7 rounded-md p-5 bg-t-main/20">
-        {commentsData.toSorted((a, b) => a.order - b.order).map((v, i) => {
-
-          return (
+        {commentsData.toSorted((a, b) => a.order - b.order).map((v, i) => (
             <div
               className="flex h-fit w-full gap-2"
               key={i}>
@@ -90,6 +86,7 @@ export default function ArtworkComments({artwork_id, currentUser}: Props) {
                   <Image
                     className="h-full w-full object-cover"
                     src={v.avatarLink}
+                    priority={true}
                     alt="avatar"
                     height={500}
                     width={500}/>
@@ -130,8 +127,8 @@ export default function ArtworkComments({artwork_id, currentUser}: Props) {
                 </div>
               </div>
             </div>
-          );
-        })}
+          )
+        )}
         {currentUser &&
           <AddComment
             refresh={refresh}

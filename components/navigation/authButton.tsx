@@ -12,7 +12,7 @@ export function AuthButton() {
         <MdCreate size={20}/>
         <span>Sing up</span>
       </Link>
-      <Link href="/auth/sign_in"
+      <Link href="/auth/sign-in"
             className="font-medium flex items-center justify-center transition-all duration-200 w-[100px] gap-1 bg-t-hover-2 text-t-main-2 rounded-md hover:bg-t-hover-3">
         <BiLogIn size={20}/>
         <span>Sing in</span>

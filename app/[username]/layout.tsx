@@ -48,7 +48,7 @@ export default async function UserLayout({
     return notFound();
   }
   if (!profile && (autoUser.user?.id === user.id)) {
-    redirect('/user/create_profile');
+    redirect('/user/create-profile');
   }
 
   const headerData: HeaderDataType = {

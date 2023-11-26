@@ -4,15 +4,16 @@
 
 @layer components {
     input {
-        @apply inline-flex w-full appearance-none items-center justify-center leading-none outline-none transition-all duration-200 bg-t-main-2 border-t-main h-9 rounded-md px-2 text-base border-2 text-t-hover-1 placeholder:text-t-main/40 focus:border-t-hover-1 pb-0.5
+        @apply inline-flex w-full appearance-none items-center justify-center leading-none outline-none transition-all duration-300 bg-t-main-2 border-t-main h-9 rounded-md px-2 text-base border-2 text-t-hover-1 placeholder:text-t-main/40 focus:border-t-hover-1 pb-0.5;
+        /*@apply autofill:border-2 autofill:border-t-hover-1 autofill:text-t-main autofill:shadow-[inset_0_0_0px_1000px_rgba(50,50,50)] autofill:transition-[background-color] autofill:duration-300 autofill:delay-0 ease-in-out;*/
     }
 
     textarea {
-        @apply w-full appearance-none leading-none outline-none transition-colors duration-200 bg-t-main-2 border-2 border-t-main min-h-[105px] max-h-[400px] rounded-md p-2 text-base text-t-hover-1 placeholder:text-t-main/40 focus:border-t-hover-1 md:min-h-[100px]
+        @apply w-full appearance-none leading-none outline-none transition-colors duration-300 bg-t-main-2 border-2 border-t-main min-h-[105px] max-h-[400px] rounded-md p-2 text-base text-t-hover-1 placeholder:text-t-main/40 focus:border-t-hover-1 md:min-h-[100px]
     }
 
     button {
-        @apply transition duration-200
+        @apply transition duration-300
     }
 }
 

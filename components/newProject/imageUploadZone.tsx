@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useEffect, useRef, useState} from 'react';
-import {bytesToMb, renameFile, sortSelectedFiles} from "@/utils/utils";
+import {bytesToMb, cutNameFromSite, renameFile, sortSelectedFiles} from "@/utils/utils";
 import Env from "@/dictionaries/env";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";

@@ -1,23 +1,34 @@
 'use client';
 import Image from "next/image";
 import Link from "next/link";
-import {MdBookmarkBorder, MdFavoriteBorder, MdPersonAdd} from "react-icons/md";
+import {MdFullscreen} from "react-icons/md";
 import React from "react";
-import {ArtworkProfileData} from "@/app/artwork/[id]/page";
+import {ArtworkProfileData, CurrentUserSocialActivity} from "@/app/artwork/[id]/page";
 import {Database} from "@/lib/database.types";
 import ArtworkComments from "@/components/artwork/artworkComments";
 import {User} from "@supabase/auth-helpers-nextjs";
+import Env from "@/dictionaries/env";
+import {ArtworkLike} from "@/components/artwork/artworkLike";
+import {ArtworkFollow} from "@/components/artwork/artworkFollow";
+import {ArtworkBookmark} from "@/components/artwork/artworkBookmark";
+import AuthRedirectSocial from "@/components/artwork/authRedirectSocial";
 
 type ArtType = Database['public']['Tables']['artworks']['Row']
 
 
 type Props = {
   artwork: ArtType
-  artworkData: ArtworkProfileData
+  artworkProfileData: ArtworkProfileData
   currentUser: User | null
+  currentUserSocialActivity: CurrentUserSocialActivity
 };
 
-export function ArtworkMain({artwork, artworkData, currentUser}: Props) {
+export function ArtworkMain({
+                              artwork,
+                              artworkProfileData,
+                              currentUser,
+                              currentUserSocialActivity
+                            }: Props) {
   function createdAt(): string {
     const dateNow = new Date();
     const dateCreate = new Date(artwork.created_at);
@@ -44,30 +55,46 @@ export function ArtworkMain({artwork, artworkData, currentUser}: Props) {
     <div className="flex h-full w-full gap-5 md:flex-col">
       <div
         className="flex h-full w-full flex-col gap-5 overflow-hidden rounded-md md:order-2">
-        {artwork.files?.map(v => {
-          return (
+        {artwork.files?.map(v => (
             <div key={v}
-                 className="flex w-full items-center justify-center overflow-hidden rounded-md bg-t-main/20 min-h-[250px] max-h-2000px">
-              <Image src={`artworks/${artwork.folder}/${v}`} alt="art"
+                 className="relative flex w-full items-center justify-center overflow-hidden rounded-md bg-t-main/20 min-h-[250px] max-h-[2000px]">
+              <Image src={`artworks/${artwork.folder}/${v}`}
+                     alt="art"
+                     priority={true}
                      className="h-full w-full object-contain"
                      height={1000}
                      width={1000}/>
+              <div hidden
+                   className="pointer-events-none absolute top-0 left-0 flex h-full w-full items-end justify-center gap-2 p-4 leading-none text-t-hover-1 lg:p-2">
+                {/*<a*/}
+                {/*  download*/}
+                {/*  href={`https://${Env.PROJECTS_ID}.supabase.co/storage/v1/object/public/projects/artworks/${artwork.folder}/${v}`}>*/}
+                {/*  <MdArrowDownward size={26} className='mb-0.5'/>*/}
+                {/*</a>*/}
+                <Link
+                  className="pointer-events-auto"
+                  href={`https://${Env.PROJECTS_ID}.supabase.co/storage/v1/object/public/projects/artworks/${artwork.folder}/${v}`}
+                  target={'_blank'}>
+                  <MdFullscreen size={30}/>
+                </Link>
+              </div>
             </div>
-          );
-        })}
+          )
+        )}
       </div>
       <div className="flex h-fit flex-col gap-5 w-[600px] md:w-full">
         <div
           className="flex h-fit flex-col gap-5 rounded-md p-5 bg-t-main/20">
           <div className="flex gap-5">
-            <Link href={`/${artworkData.site}`}
-                  className="overflow-hidden rounded-full h-[110px] w-[110px] bg-t-main">
-              {artworkData.avatarLink
+            <Link href={`/${artworkProfileData.site}`}
+                  className="overflow-hidden rounded-full min-h-[110px] h-[110px] min-w-[110px] bg-t-main w-[110px]">
+              {artworkProfileData.avatarLink
                 ?
                 <Image
                   className="h-full w-full object-cover"
-                  src={artworkData.avatarLink}
+                  src={artworkProfileData.avatarLink}
                   alt="avatar"
+                  priority={true}
                   height={500}
                   width={500}/>
                 :
@@ -81,46 +108,38 @@ export function ArtworkMain({artwork, artworkData, currentUser}: Props) {
               }
             </Link>
             <div className="flex flex-col justify-center">
-              <Link href={`/${artworkData.site}`}>
+              <Link href={`/${artworkProfileData.site}`}>
               <span className="text-2xl text-t-hover-1">
-                {artworkData.name}
+                {artworkProfileData.name}
               </span>
               </Link>
-              {artworkData.website &&
+              {artworkProfileData.headline &&
                 <span className="text-lg">
-                {artworkData.website}
+                {artworkProfileData.headline}
                 </span>
               }
             </div>
           </div>
-          <button
-            className="flex items-center justify-center gap-1 rounded-sm border bg-none text-base transition-all duration-300 border-t-hover-2 text-t-hover-2 h-[28px] min-w-[100px] hover:border-t-hover-3 hover:text-t-hover-3">
-            <div className="text-xl">
-              <MdPersonAdd/>
-            </div>
-            <span>
-              Follow
-            </span>
-          </button>
-          <div className="flex justify-between gap-5">
-            <button
-              className="flex grow items-center justify-center gap-1 rounded-sm transition-all duration-300 text-t-main-2 min-w-[100px] bg-t-hover-5 h-[35px] pb-0.5 hover:bg-t-hover-6">
-              <div className="text-xl">
-                <MdFavoriteBorder/>
-              </div>
-              <span>
-                Like
-              </span>
-            </button>
-            <button
-              className="flex grow items-center justify-center gap-1 rounded-sm transition-all duration-300 text-t-main-2 min-w-[100px] bg-t-main h-[35px] pb-0.5 hover:bg-t-hover-1/70">
-              <div className="text-xl">
-                <MdBookmarkBorder/>
-              </div>
-              <span>
-                Save
-              </span>
-            </button>
+          <div className="flex flex-wrap justify-between gap-5">
+            {currentUser
+              ?
+              <>
+                <ArtworkFollow
+                  artwork_id={artwork.id}
+                  currentUser={currentUser}
+                  follow={!!currentUserSocialActivity.follow}/>
+                <ArtworkLike
+                  artwork_id={artwork.id}
+                  currentUser={currentUser}
+                  like={!!currentUserSocialActivity.like}/>
+                <ArtworkBookmark
+                  artwork_id={artwork.id}
+                  currentUser={currentUser}
+                  bookmarks={!!currentUserSocialActivity.bookmark}/>
+              </>
+              :
+              <AuthRedirectSocial/>
+            }
           </div>
           <div className="flex flex-col gap-2">
             <h2 className="text-2xl text-t-hover-1">
@@ -134,11 +153,15 @@ export function ArtworkMain({artwork, artworkData, currentUser}: Props) {
             {createdAt()}
           </p>
         </div>
+
         <ArtworkComments
           artwork_id={artwork.id}
           currentUser={currentUser}/>
+
         <div className="flex h-fit flex-col gap-2 rounded-md p-5 bg-t-main/20">
-          <span>Tags</span>
+          <span className="text-xl">
+            Tags
+          </span>
           <div className="flex gap-2">
             {artwork.medium?.map((v) => {
               return (

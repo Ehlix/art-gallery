@@ -49,7 +49,7 @@ export function UploadCover({uniquePath, setPictures, currentCover, setLoading}:
         if (data) {
           const newAvatar: Cover = {
             id: v4(),
-            file: renameFile(file, `cover_${v4()}`),
+            file: renameFile(file, `cover_${v4()}.jpg`),
             status: "notLoaded"
           };
           setCover(newAvatar);
@@ -62,7 +62,7 @@ export function UploadCover({uniquePath, setPictures, currentCover, setLoading}:
 
       const newAvatar: Cover = {
         id: v4(),
-        file: renameFile(file, `cover_${v4()}`),
+        file: renameFile(file, `cover_${v4()}.jpg`),
         status: "notLoaded"
       };
       setCover(newAvatar);

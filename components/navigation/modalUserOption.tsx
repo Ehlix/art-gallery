@@ -50,12 +50,12 @@ export function ModalUserOption({user, closeHandler}:Props) {
   return (
     <div
       ref={menuRef}
-      className="absolute right-0 z-50 flex flex-col rounded-t-none shadow-black/25 shadow-[inset_0_-500px_150px_-200px] backdrop-blur-[10px] top-[60px] text-xl bg-t-main-2/80 rounded-bl-md w-[300px] pt-1 p-3 text-t-hover-1 sm:bg-t-main-2 sm:backdrop-blur-[0px] sm:w-[100%] sm:rounded-none sm:shadow-black/30 md:top-[45px]">
+      className="absolute right-0 z-50 flex flex-col rounded-t-none shadow-black/25 shadow-[inset_0_-500px_150px_-200px] backdrop-blur-[10px] top-[60px] text-xl bg-t-main-2/80 rounded-bl-md w-[300px] p-3 text-t-hover-1 sm:bg-t-main-2 sm:backdrop-blur-[0px] sm:w-[100%] sm:rounded-none sm:shadow-black/30 md:top-[45px] overflow-x-hidden overflow-y-auto h-fit max-h-[92vh]">
       <Link
         href={`/${user?.site}`}
-        className="text-t-hover-1/80 flex items-center justify-start transition-all w-full h-[50px] gap-3 hover:text-t-hover-1
-         rounded-sm pl-3 mt-3 mb-5
-        hover:before:absolute hover:before:top-[80px] hover:before:w-[100%] hover:before:l-[0px] hover:before:h-[1.3px] hover:before:rounded-md hover:before:bg-grad-1 befor:text-t-hover-1 before:absolute before:top-[80px] before:w-[110%] before:ml-[-10px] before:h-[1px]
+        className="text-t-hover-1/80 flex items-center justify-start transition-all w-full min-h-[50px] gap-3 hover:text-t-hover-1
+         rounded-sm pl-3 mb-5
+        hover:before:absolute hover:before:top-20 hover:before:w-full hover:before:l-[0px] hover:before:h-[1.3px] hover:before:rounded-md hover:before:bg-grad-1 befor:text-t-hover-1 before:absolute before:top-[80px] before:w-[110%] before:ml-[-10px] before:h-[1px]
         before:rounded-md before:bg-t-main">
         {user.avatarLink
           ?
@@ -84,7 +84,7 @@ export function ModalUserOption({user, closeHandler}:Props) {
             return (
               <Separator.Root
                 key={i}
-                className="bg-t-main data-[orientation=horizontal]:h-px ml-0 my-3 mr-[-100px]"
+                className="bg-t-main data-[orientation=horizontal]:h-[1px] ml-0 my-3 -mr-52"
                 decorative orientation="horizontal"
               />);
           }
@@ -92,7 +92,7 @@ export function ModalUserOption({user, closeHandler}:Props) {
             return (
               <Link key={i}
                     href={v.href}
-                    className="flex items-center justify-start transition-all w-full gap-3 rounded-md p-2 hover:bg-t-main/70">
+                    className="flex items-center justify-start transition-all w-full gap-3 rounded-md py-2 p-3 hover:bg-t-main/70">
                  <v.icon className='mt-0.5'/>
                 <span>
                   {v.title}
@@ -105,7 +105,7 @@ export function ModalUserOption({user, closeHandler}:Props) {
 
       <button
         onClick={logout}
-        className="flex items-center justify-start transition-all w-full gap-3 rounded-md p-2 hover:bg-t-main/70">
+        className="flex items-center justify-start transition-all w-full gap-3 rounded-md py-2 p-3 hover:bg-t-main/70">
           <MdLogout className='mt-0.5'/>
         <span>
           Sign out

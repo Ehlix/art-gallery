@@ -7,7 +7,7 @@ export default async function CreateProfilePage() {
   const supabase = createServerComponentClient({cookies});
   const {data: user} = await supabase.auth.getUser();
   if (!user.user) {
-    redirect('/auth/sign_in');
+    redirect('/auth/sign-in');
   }
   if (user.user) {
     const {data: profile} = await supabase.from('profiles').select().eq('user_id', user.user.id);
