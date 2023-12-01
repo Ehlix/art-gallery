@@ -9,9 +9,8 @@ import ArtworkComments from "@/components/artwork/artworkComments";
 import {User} from "@supabase/auth-helpers-nextjs";
 import Env from "@/dictionaries/env";
 import {ArtworkLike} from "@/components/artwork/artworkLike";
-import {ArtworkFollow} from "@/components/artwork/artworkFollow";
+import {UserFollow} from "@/components/userFollow";
 import {ArtworkBookmark} from "@/components/artwork/artworkBookmark";
-import AuthRedirectSocial from "@/components/artwork/authRedirectSocial";
 
 type ArtType = Database['public']['Tables']['artworks']['Row']
 
@@ -118,28 +117,24 @@ export function ArtworkMain({
                 {artworkProfileData.headline}
                 </span>
               }
+              {artwork.user_id !== currentUser?.id
+                &&
+                <UserFollow
+                  userId={artwork.user_id}
+                  currentUser={currentUser}
+                  isFollow={!!currentUserSocialActivity.follow}/>
+              }
             </div>
           </div>
           <div className="flex flex-wrap justify-between gap-5">
-            {currentUser
-              ?
-              <>
-                <ArtworkFollow
-                  artwork_id={artwork.id}
-                  currentUser={currentUser}
-                  follow={!!currentUserSocialActivity.follow}/>
-                <ArtworkLike
-                  artwork_id={artwork.id}
-                  currentUser={currentUser}
-                  like={!!currentUserSocialActivity.like}/>
-                <ArtworkBookmark
-                  artwork_id={artwork.id}
-                  currentUser={currentUser}
-                  bookmarks={!!currentUserSocialActivity.bookmark}/>
-              </>
-              :
-              <AuthRedirectSocial/>
-            }
+            <ArtworkLike
+              artworkId={artwork.id}
+              currentUser={currentUser}
+              like={!!currentUserSocialActivity.like}/>
+            <ArtworkBookmark
+              artwork_id={artwork.id}
+              currentUser={currentUser}
+              bookmarks={!!currentUserSocialActivity.bookmark}/>
           </div>
           <div className="flex flex-col gap-2">
             <h2 className="text-2xl text-t-hover-1">

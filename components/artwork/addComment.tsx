@@ -7,7 +7,7 @@ import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-
 type Artworks = Database['public']['Tables']['artworks_comments']['Row']
 
 type Props = {
-  artwork_id: string | number
+  artwork_id: number
   user: User | null
   refresh: ()=>void
 };
@@ -25,11 +25,13 @@ export function AddComment({artwork_id, user,refresh}: Props) {
 
   async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!artwork_id || !user || comment) return
+
     setLoading(true)
     const {data, error} = await supabase.from('artworks_comments').insert(
       {
-        artwork_id: +artwork_id,
-        user_id: user?.id,
+        artwork_id: artwork_id,
+        user_id: user.id,
         title: comment
       }
     ).select();

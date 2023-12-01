@@ -28,7 +28,10 @@ export default async function About({params}: Props) {
 
   return (
     <section className="flex justify-center py-7">
-      {profile && <UserAboutMain profile={profile}/>}
+      {
+        profile &&
+        <UserAboutMain profile={profile}/>
+      }
     </section>
   );
 }

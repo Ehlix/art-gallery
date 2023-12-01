@@ -7,7 +7,7 @@ import {createClientComponentClient, User} from "@supabase/auth-helpers-nextjs";
 import {Database} from "@/lib/database.types";
 
 type Props = {
-  artwork_id: string | number
+  artwork_id: number
   currentUser: User | null
 };
 
