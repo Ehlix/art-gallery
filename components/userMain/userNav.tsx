@@ -17,35 +17,7 @@ type UserNavTagType = {
   count: true
 }
 
-const userNavTags: UserNavTagType[] = [
-  {
-    title: 'portfolio',
-    link: '',
-    count: false
-  },
-  {
-    title: 'about',
-    link: '/about',
-    count: false
-  },
-  {
-    title: 'blog',
-    link: '/blog',
-    count: false
-  }, {
-    title: 'likes',
-    link: '/likes',
-    count: true
-  }, {
-    title: 'following',
-    link: '/following',
-    count: true
-  }, {
-    title: 'followers',
-    link: '/followers',
-    count: true
-  },
-];
+
 
 type Props = {
   userNavData: {
@@ -61,6 +33,35 @@ type Props = {
 
 export const UserNav = ({userNavData}: Props) => {
   const path = usePathname();
+  const userNavTags: UserNavTagType[] = [
+    {
+      title: 'portfolio',
+      link: '',
+      count: false
+    },
+    {
+      title: 'about',
+      link: '/about',
+      count: false
+    },
+    {
+      title: 'blog',
+      link: '/blog',
+      count: false
+    }, {
+      title: 'likes',
+      link: '/likes',
+      count: true
+    }, {
+      title: 'following',
+      link: '/following',
+      count: true
+    }, {
+      title: 'followers',
+      link: '/followers',
+      count: true
+    },
+  ];
   return (
     <>
       <div

@@ -29,9 +29,9 @@ export type SelectedFileType = {
   file: File,
   status: 'notLoaded' | 'loading' | 'loaded' | 'error'
 }
-const uniquePath = v4();
 
 export function ProjectMain() {
+  const [uniquePath] = useState(v4());
   const router = useRouter()
   const isMount = useIsMount();
   const [thumbnail, setThumbnail] = useState<Thumbnail | null>(null);
@@ -60,7 +60,7 @@ export function ProjectMain() {
     setValue('description', description, {shouldValidate: true});
     setValue('image', selectedFiles, {shouldValidate: true});
     setValue('thumbnail', thumbnail || undefined, {shouldValidate: true});
-  }, [chosenCategories, description, selectedFiles, setValue, title]);
+  }, [chosenCategories, description, selectedFiles, setValue, title, thumbnail]);
 
 
   const newTitle = (e: React.ChangeEvent<HTMLInputElement>) => {

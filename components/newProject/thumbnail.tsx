@@ -91,12 +91,14 @@ export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
   return (
     <div className="flex w-fit flex-col gap-2">
       <div
-        className="rounded-md border-2 border-t-main h-[300px] w-[300px] md:h-[200px] md:w-[200px] overflow-hidden">
+        className="overflow-hidden rounded-md border-2 border-t-main h-[300px] w-[300px] md:h-[200px] md:w-[200px]">
         {thumbnail?.status === 'loaded' &&
           <Image src={`cache/${uniquePath}/${thumbnail.file.name}`}
                  alt={'thumbnail'}
                  height={300}
-                 width={300}/>
+                 width={300}
+                 priority={true}
+                 className="h-full w-full object-cover object-center"/>
         }
       </div>
       <Dialog.Root open={open} onOpenChange={setOpen}>
@@ -114,7 +116,7 @@ export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
             className="z-40 bg-t-main-2/90 data-[state=open]:animate-overlayShow fixed inset-0"/>
           <Dialog.Content
             className="z-50 h-[90vh]  data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] w-[85vw] translate-x-[-50%] translate-y-[-50%] rounded-md bg-t-main-2 border-t-main border-2 p-6 focus:outline-none">
-            <Dialog.Title className="font-medium text-xl">
+            <Dialog.Title className="text-xl font-medium">
               Crop thumbnail
             </Dialog.Title>
             <CropImage uniquePath={uniquePath} setThumbnail={setThumbnail}
@@ -122,7 +124,7 @@ export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
                        setOpen={setOpen}/>
             <Dialog.Close asChild>
               <button
-                className="absolute inline-flex appearance-none items-center justify-center rounded-full text-violet11 top-2 right-2 h-[25px] w-[25px] hover:bg-violet4 focus:shadow-violet7 focus:shadow-[0_0_0_2px] focus:outline-none"
+                className="absolute top-2 right-2 inline-flex appearance-none items-center justify-center rounded-full text-violet11 h-[25px] w-[25px] hover:bg-violet4 focus:shadow-violet7 focus:shadow-[0_0_0_2px] focus:outline-none"
                 aria-label="Close">
                 X
               </button>
@@ -133,7 +135,7 @@ export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
       <button
         disabled={thumbnail?.status === 'loading'}
         className={cn("border-dotted transition-all duration-300 text-t-hover-1 border-t-main border-2 p-0.5 rounded-md hover:border-t-hover-2 hover:text-t-hover-2", {
-          'disabled:hover:text-t-main disabled:hover:border-t-main disabled text-t-main' : thumbnail?.status === 'loading',
+          'disabled:hover:text-t-main disabled:hover:border-t-main disabled text-t-main': thumbnail?.status === 'loading',
         })}
         onClick={clickHandler}>
         Upload thumbnail

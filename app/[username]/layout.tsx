@@ -6,7 +6,6 @@ import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
 import {cookies} from "next/headers";
 import {UserHeader} from "@/components/userMain/userHeader";
 import {Database} from "@/lib/database.types";
-export const dynamic = 'force-dynamic'
 
 
 export type HeaderDataType = {
