@@ -1,21 +1,23 @@
-import {PicturesMain} from "@/components/main/picturesMain";
+import HomeMain from "@/components/main/homeMain";
 import {Suspense} from "react";
 import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
 import {cookies} from "next/headers";
 import {Database} from "@/lib/database.types";
 
-export default async function HomePage() {
+const HomePage = async () => {
   const supabase = createServerComponentClient<Database>({cookies});
-  const {count: artworksCount} = await supabase.from('artworks').select('*', {count: 'exact'})
-
-
+  const date = new Date;
+  const dateStart = date.toUTCString();
+  const {count: artworksCount} = await supabase.from('artworks').select('*', {count: 'exact'}).lte('created_at', dateStart);
+  console.log(dateStart);
+  console.log(artworksCount);
 
   return (
     <section className="container relative">
       <Suspense>
-        <PicturesMain artworksCount={artworksCount || 0}/>
+        <HomeMain dateStart={dateStart} artworksCount={artworksCount || 0}/>
       </Suspense>
     </section>
   );
-}
-
+};
+export default HomePage;

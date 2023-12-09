@@ -34,7 +34,7 @@ export function ArtworkLike({artworkId, currentUser, like}: Props) {
 
   async function addLikeHandler(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    if (!artworkId || !currentUser) return
+    if (!artworkId || !currentUser) return;
 
     setLoaded(false);
     const {error} = await supabase.from('artworks_likes').insert({

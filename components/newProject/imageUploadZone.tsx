@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useEffect, useRef, useState} from 'react';
-import {bytesToMb, cutNameFromSite, renameFile, sortSelectedFiles} from "@/utils/utils";
+import {bytesToMb, renameFile, sortSelectedFiles} from "@/utils/utils";
 import Env from "@/dictionaries/env";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
@@ -193,21 +193,21 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
                    onDragLeave={e => dragEndHandler(e)}
                    onDrop={e => dropHandler(e, target)}
               >
-                {target.status === 'loaded'
-                  ?
-                  <Image
-                    // className="pointer-events-none object-cover object-center w-[100%] h-[100%]"
-                    className="pointer-events-none h-full w-full object-contain"
-                    src={`cache/${uniquePath}/${target.file.name}`} alt="jop"
-                    width={100}
-                    height={100} quality={100}/>
-                  :
-                  <div
-                    className="pointer-events-none flex items-center justify-center rounded-sm bg-t-main-2 w-full h-full">
+                {
+                  (target.status === 'loaded')
+                    ?
+                    <Image
+                      className="pointer-events-none h-full w-full object-contain"
+                      src={`cache/${uniquePath}/${target.file.name}`} alt="jop"
+                      width={100}
+                      height={100} quality={100}/>
+                    :
+                    <div
+                      className="pointer-events-none flex items-center justify-center rounded-sm bg-t-main-2 w-full h-full">
                     <span className="animate-spin text-t-main text-5xl">
                       <RiLoader3Line/>
                     </span>
-                  </div>
+                    </div>
                 }
                 <div
                   className="pointer-events-none absolute top-0 left-0 shadow-black/40 shadow-[inset_-10px_100px_30px_-70px] w-full h-full"></div>

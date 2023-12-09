@@ -13,7 +13,7 @@ import Image from "next/image";
 import React, {Fragment} from "react";
 import {IconType} from "react-icons";
 import * as Separator from '@radix-ui/react-separator';
-import {usePathname, useRouter} from "next/navigation";
+import {usePathname} from "next/navigation";
 import {cn} from "@/utils/twMergeClsx";
 import {Database} from "@/lib/database.types";
 

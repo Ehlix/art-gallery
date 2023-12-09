@@ -3,32 +3,33 @@ import Image from "next/image";
 import Link from "next/link";
 import {MdFullscreen} from "react-icons/md";
 import React from "react";
-import {ArtworkProfileData, CurrentUserSocialActivity} from "@/app/artwork/[id]/page";
+import {CurrentUserSocialActivity} from "@/app/artwork/[id]/page";
 import {Database} from "@/lib/database.types";
 import ArtworkComments from "@/components/artwork/artworkComments";
-import {User} from "@supabase/auth-helpers-nextjs";
 import Env from "@/dictionaries/env";
 import {ArtworkLike} from "@/components/artwork/artworkLike";
-import {UserFollow} from "@/components/userFollow";
 import {ArtworkBookmark} from "@/components/artwork/artworkBookmark";
+import AvatarNameFollow from "@/components/avatarNameFollow";
+import {User} from "@supabase/auth-helpers-nextjs";
 
 type ArtType = Database['public']['Tables']['artworks']['Row']
 
 
 type Props = {
   artwork: ArtType
-  artworkProfileData: ArtworkProfileData
+  artworkProfileData: Database['public']['Tables']['profiles']['Row']
   currentUser: User | null
   currentUserSocialActivity: CurrentUserSocialActivity
+  thisProfileUser: Database['public']['Tables']['users']['Row'] | null
 };
-
-export function ArtworkMain({
-                              artwork,
-                              artworkProfileData,
-                              currentUser,
-                              currentUserSocialActivity
-                            }: Props) {
-  function createdAt(): string {
+const ArtworkMain = ({
+                       artwork,
+                       artworkProfileData,
+                       currentUser,
+                       currentUserSocialActivity,
+                       thisProfileUser
+                     }: Props) => {
+  const createdAt = (): string => {
     const dateNow = new Date();
     const dateCreate = new Date(artwork.created_at);
     const month = dateNow.getMonth() - dateCreate.getMonth();
@@ -47,7 +48,7 @@ export function ArtworkMain({
       return 'Posted last month';
     }
     return `Posted ${month} months ago`;
-  }
+  };
 
 
   return (
@@ -84,48 +85,11 @@ export function ArtworkMain({
       <div className="flex h-fit flex-col gap-5 w-[600px] md:w-full">
         <div
           className="flex h-fit flex-col gap-5 rounded-md p-5 bg-t-main/20">
-          <div className="flex gap-5">
-            <Link href={`/${artworkProfileData.site}`}
-                  className="overflow-hidden rounded-full min-h-[110px] h-[110px] min-w-[110px] bg-t-main w-[110px]">
-              {artworkProfileData.avatarLink
-                ?
-                <Image
-                  className="h-full w-full object-cover"
-                  src={artworkProfileData.avatarLink}
-                  alt="avatar"
-                  priority={true}
-                  height={500}
-                  width={500}/>
-                :
-                <Image
-                  unoptimized
-                  className="h-full w-full object-cover"
-                  src="/default_avatar.png"
-                  alt="avatar"
-                  height={500}
-                  width={500}/>
-              }
-            </Link>
-            <div className="flex flex-col justify-center">
-              <Link href={`/${artworkProfileData.site}`}>
-              <span className="text-2xl text-t-hover-1">
-                {artworkProfileData.name}
-              </span>
-              </Link>
-              {artworkProfileData.headline &&
-                <span className="text-lg">
-                {artworkProfileData.headline}
-                </span>
-              }
-              {artwork.user_id !== currentUser?.id
-                &&
-                <UserFollow
-                  userId={artwork.user_id}
-                  currentUser={currentUser}
-                  isFollow={!!currentUserSocialActivity.follow}/>
-              }
-            </div>
-          </div>
+          <AvatarNameFollow profile={artworkProfileData}
+            // @ts-expect-error
+                            site={thisProfileUser?.metadata?.site || "/"}
+                            currentUser={currentUser}
+                            isFollow={!!currentUserSocialActivity.follow}/>
           <div className="flex flex-wrap justify-between gap-5">
             <ArtworkLike
               artworkId={artwork.id}
@@ -172,4 +136,6 @@ export function ArtworkMain({
       </div>
     </div>
   );
-}
+};
+
+export default ArtworkMain;

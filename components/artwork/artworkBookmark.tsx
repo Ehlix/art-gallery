@@ -39,7 +39,7 @@ export function ArtworkBookmark({bookmarks, artwork_id, currentUser}: Props) {
 
   async function addBookmarkHandler(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    if (!artwork_id || !currentUser) return
+    if (!artwork_id || !currentUser) return;
 
     setLoaded(false);
     const {error} = await supabase.from('artworks_bookmarks').insert({

@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import {MdSend} from "react-icons/md";
 import {usePathname} from "next/navigation";
-import {UserFollow} from "@/components/userFollow";
+import {FollowButton} from "@/components/followButton";
 import {User} from "@supabase/auth-helpers-nextjs";
 
 
@@ -101,14 +101,14 @@ export const UserNav = ({userNavData}: Props) => {
             (userNavData.userId !== userNavData.currentUser?.id) &&
             <div
               className="flex h-full w-auto items-center justify-center gap-5 text-sm text-t-main-2">
-              <UserFollow
+              <FollowButton
                 userId={userNavData.userId}
                 currentUser={userNavData.currentUser}
                 isFollow={userNavData.isFollow}
                 classNameFollow="bg-t-hover-2 hover:bg-t-hover-3 text-t-main-2 border-0 hover:text-t-main-2 m-0 px-2 w-[120px] disabled:bg-t-hover-2/70 disabled:text-t-main-2"
-                classNameUnFollow="border border-t-hover-2 m-0 px-2 w-[120px] hover:border-t-error hover:bg-t-error/30 justify-center disabled:border-t-error"/>
+                classNameUnFollow="border border-t-main/0 m-0 px-2 w-[120px] hover:border-t-error hover:bg-t-error/30 justify-center disabled:border-t-error"/>
               <button
-                className="flex items-center justify-center gap-2 rounded-sm transition-all duration-300 min-w-[100px] bg-t-hover-5 hover:bg-t-hover-6">
+                className="flex h-[28px] items-center justify-center px-2 gap-2 rounded-sm transition-all duration-300 min-w-[100px] bg-t-hover-5 hover:bg-t-hover-6">
                 <div className="text-xl pb-0.5">
                   <MdSend/>
                 </div>

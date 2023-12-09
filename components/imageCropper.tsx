@@ -128,7 +128,7 @@ const ImageCropper: FC<Props> = ({
 
   useEffect(() => {
     // this calculation will decide the size of our canvas so that we can have the non-destructive UI
-    calculateSize();
+    calculateSize().finally();
   }, [source, containerRef]);
 
   return (

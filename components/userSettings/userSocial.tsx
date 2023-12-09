@@ -9,7 +9,7 @@ type Props = {
 };
 
 export function UserSocial({socialObject}: Props) {
-  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isLoading] = useState<boolean>(false);
   const [social, setSocial
   ] = useState<SocialObject>({
     publicEmail: cutNameFromSite(socialObject?.publicEmail || ''),

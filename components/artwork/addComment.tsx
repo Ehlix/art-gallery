@@ -2,20 +2,18 @@ import {MdReply} from "react-icons/md";
 import React, {useState} from "react";
 import {createClientComponentClient, User} from "@supabase/auth-helpers-nextjs";
 import {Database} from "@/lib/database.types";
-import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
 
-type Artworks = Database['public']['Tables']['artworks_comments']['Row']
 
 type Props = {
   artwork_id: number
   user: User | null
-  refresh: ()=>void
+  refresh: () => void
 };
 
-export function AddComment({artwork_id, user,refresh}: Props) {
+export function AddComment({artwork_id, user, refresh}: Props) {
   const supabase = createClientComponentClient<Database>();
   const [comment, setComment] = useState<string>('');
-  const [isLoading, setLoading] = useState<boolean>(false)
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   function addCommentHandler(e: React.ChangeEvent<HTMLTextAreaElement>) {
     e.preventDefault();
@@ -25,9 +23,9 @@ export function AddComment({artwork_id, user,refresh}: Props) {
 
   async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!artwork_id || !user || comment) return
+    if (!artwork_id || !user || comment) return;
 
-    setLoading(true)
+    setLoading(true);
     const {data, error} = await supabase.from('artworks_comments').insert(
       {
         artwork_id: artwork_id,
@@ -37,11 +35,11 @@ export function AddComment({artwork_id, user,refresh}: Props) {
     ).select();
     if (data) {
       setComment('');
-      refresh()
-      setLoading(false)
+      refresh();
+      setLoading(false);
     }
     if (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 

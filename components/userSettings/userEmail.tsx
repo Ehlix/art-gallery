@@ -1,6 +1,6 @@
 import {FaAsterisk} from "react-icons/fa";
 import * as React from "react";
-import {useCallback, useState} from "react";
+import {useState} from "react";
 
 type Props = {
   email: string

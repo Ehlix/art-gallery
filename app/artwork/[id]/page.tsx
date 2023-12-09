@@ -1,19 +1,13 @@
 import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
 import {cookies} from "next/headers";
 import {notFound} from "next/navigation";
-import {ArtworkMain} from "@/components/artwork/artworkMain";
+import ArtworkMain from "@/components/artwork/artworkMain";
 import {Database} from "@/lib/database.types";
 
 interface Props {
   params: { id: string };
 }
 
-export type ArtworkProfileData = {
-  name: string
-  site: string
-  headline: string
-  avatarLink: string
-}
 
 export type CurrentUserSocialActivity = {
   like: Database['public']['Tables']['artworks_likes']['Row'] | null
@@ -41,15 +35,10 @@ export default async function ArtworkPage({params}: Props) {
 
   const {data: profiles} = await supabase.from('profiles').select().eq('user_id', user && user[0].id);
   const profile = profiles && profiles[0];
-  const artworkProfileData: ArtworkProfileData = {
-    // @ts-ignore
-    name: profile?.name || user[0].metadata?.name,
-    // @ts-ignore
-    site: user[0].metadata?.site,
-    // @ts-ignore
-    headline: profile?.headline,
-    avatarLink: (profile?.folder && profile?.avatar) ? `avatars/${profile.folder}/${profile.avatar}` : ''
-  };
+
+  if (!profile) {
+    return notFound();
+  }
 
   const {data: _currentUser} = await supabase.auth.getUser();
   const {data: _currentUserProfiles} = await supabase.from('profiles').select().eq('user_id', _currentUser.user?.id || '');
@@ -76,7 +65,8 @@ export default async function ArtworkPage({params}: Props) {
     <section className="container relative h-full">
       <ArtworkMain
         artwork={artwork[0]}
-        artworkProfileData={artworkProfileData}
+        artworkProfileData={profile}
+        thisProfileUser={user[0]}
         currentUser={currentUser}
         currentUserSocialActivity={currentUserSocialActivity}/>
     </section>
