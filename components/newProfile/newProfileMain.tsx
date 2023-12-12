@@ -7,7 +7,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import {createProfileSchema, CreateProfileType} from "@/validations/createProfileSchema";
 import {Social} from "@/components/newProfile/social";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
-import Env from "@/dictionaries/env";
+import Env from "@/lib/env";
 import {useRouter} from "next/navigation";
 
 export type ResumeObject = {

@@ -1,4 +1,4 @@
-import Env from "@/dictionaries/env";
+import Env from "@/lib/env";
 
 const projectId = Env.PROJECTS_ID;
 

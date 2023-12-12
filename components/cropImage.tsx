@@ -5,7 +5,7 @@ import AppSlider from "@/components/appSlider";
 import {Thumbnail} from "@/components/newProject/projectMain";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 import {v4} from "uuid";
-import Env from "@/dictionaries/env";
+import Env from "@/lib/env";
 
 interface Props {
   uniquePath: string;

@@ -8,7 +8,7 @@ import Image from "next/image";
 import {bytesToMb, renameFile} from "@/utils/utils";
 import {v4} from "uuid";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
-import Env from "@/dictionaries/env";
+import Env from "@/lib/env";
 
 type Props = {
   thumbnail: Thumbnail | null

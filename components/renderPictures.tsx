@@ -44,6 +44,12 @@ export const RenderPictures = ({className, artworksCount, getArtworks}: Props) =
     if (artworksCount <= rangeFrom) {
       return setLoading(false);
     }
+
+    const body = document.body;
+    if (!loading && (body.scrollHeight - body.offsetHeight < 200)) {
+      return setLoading(true);
+    }
+
     if (loading) {
       console.log('fetching');
       getArtworks(supabase, rangeFrom, 5).then(value => {
@@ -54,12 +60,6 @@ export const RenderPictures = ({className, artworksCount, getArtworks}: Props) =
     }
   }, [loading]);
 
-  useEffect(() => {
-    const body = document.body;
-    if (!loading && (artworksCount > rangeFrom) && (body.offsetHeight >= body.scrollHeight)) {
-      setLoading(true);
-    }
-  }, [loading]);
 
   return (
     <>
@@ -80,7 +80,7 @@ export const RenderPictures = ({className, artworksCount, getArtworks}: Props) =
                        priority={true}
                        height={10}
                        width={10}
-                       quality={50}/>
+                       quality={40}/>
                 {
                   <div className="absolute top-0 left-0 z-20 flex h-full w-full flex-col">
                     <div className="h-full w-full"></div>
@@ -122,15 +122,20 @@ export const RenderPictures = ({className, artworksCount, getArtworks}: Props) =
           })
         }
       </div>
-      <div
-        className={cn("p-2 flex gap-1 justify-center items-center text-xl text-t-main", {
-          'hidden': !loading
-        })}>
-        Loading
-        <span className="animate-spin text-t-hover-2">
+      {loading
+        ?
+        <div
+          className={cn("h-[40px] flex gap-1 justify-center items-center text-xl text-t-main w-full")}>
+          Loading
+          <span className="animate-spin text-t-hover-2">
           <RiLoader3Line size={30}/>
         </span>
-      </div>
+        </div>
+        :
+        <div
+          className="h-[40px] w-full">
+        </div>
+      }
     </>
   );
 };

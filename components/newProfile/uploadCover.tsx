@@ -3,7 +3,7 @@ import {useEffect, useRef, useState} from "react";
 import {MdArrowUpward} from "react-icons/md";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 import {bytesToMb, renameFile} from "@/utils/utils";
-import Env from "@/dictionaries/env";
+import Env from "@/lib/env";
 import {v4} from "uuid";
 import Image from "next/image";
 import {canvasRatio} from "@/utils/canvasRatio";

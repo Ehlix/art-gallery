@@ -1,10 +1,11 @@
 import Image from "next/image";
 import React, {useEffect, useState} from "react";
 import Link from "next/link";
-import {MdLens, MdThumbUp} from "react-icons/md";
+import {MdArrowDropDown, MdLens, MdThumbUp} from "react-icons/md";
 import {AddComment} from "@/components/artwork/addComment";
 import {createClientComponentClient, User} from "@supabase/auth-helpers-nextjs";
 import {Database} from "@/lib/database.types";
+import {cn} from "@/utils/twMergeClsx";
 
 type Props = {
   artwork_id: number
@@ -31,6 +32,7 @@ type MetadataObj = {
 
 export default function ArtworkComments({artwork_id, currentUser}: Props) {
   const [commentsData, setCommentsData] = useState<CommentsData[]>([]);
+  const [isView, setIsView] = useState<boolean>(false);
   const supabase = createClientComponentClient<Database>();
 
   useEffect(() => {
@@ -74,7 +76,17 @@ export default function ArtworkComments({artwork_id, currentUser}: Props) {
       <span className="text-sm font-bold">
         {!!commentsData.length && commentsData.length} COMMENTS
       </span>
-      <div className="flex h-fit flex-col gap-7 rounded-md p-5 bg-t-main/20">
+      <button
+        onClick={() => setIsView(true)}
+        className={cn('p-4 rounded-md bg-t-main/20 hidden md:flex w-full justify-center h-0 items-center', {
+          'md:hidden': isView
+        })}>
+        <MdArrowDropDown size={45}/>
+      </button>
+      <div
+        className={cn("flex h-fit flex-col gap-7 rounded-md p-5 bg-t-main/20 md:hidden md:p-5", {
+          'md:flex': isView
+        })}>
         {commentsData.toSorted((a, b) => a.order - b.order).map((v, i) => (
             <div
               className="flex h-fit w-full gap-2"

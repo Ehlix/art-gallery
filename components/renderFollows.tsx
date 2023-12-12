@@ -7,6 +7,7 @@ import {createClientComponentClient, User} from "@supabase/auth-helpers-nextjs";
 import AvatarNameFollow from "@/components/avatarNameFollow";
 import Image from "next/image";
 import Link from "next/link";
+import {RiLoader3Line} from "react-icons/ri";
 
 type Profile = Database['public']['Tables']['profiles']['Row'] & {
   site: string
@@ -106,9 +107,16 @@ const RenderFollows = ({
   }, []);
 
   useEffect(() => {
+    const body = document.body;
+
     if (followsCount <= rangeFrom) {
       return setLoading(false);
     }
+
+    if (!loading && (body.scrollHeight - body.offsetHeight < 200)) {
+      return setLoading(true);
+    }
+
     if (loading) {
       console.log('fetching');
       getProfiles(rangeFrom, 4).then(value => {
@@ -119,65 +127,74 @@ const RenderFollows = ({
     }
   }, [loading]);
 
-  useEffect(() => {
-    const body = document.body;
-    if (!loading && (followsCount > rangeFrom) && (body.offsetHeight >= body.scrollHeight)) {
-      setLoading(true);
-    }
-  }, [loading]);
-
   return (
-    <div
-      className={cn("grid grid-cols-4 gap-5 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3", {
-        [className || '']: className
-      })}>
-      {
-        profiles.map((v) => {
-          return (
-            <div key={v.id} className="flex bg-t-main-3 flex-col p-5 gap-5 rounded-md">
-              <AvatarNameFollow profile={v} currentUser={currentUser} site={v.site}
-                                isFollow={v.isFollowed}/>
-              <div className="flex gap-5 items-center justify-center">
-                {
-                  v.artworks[0] ?
-                    <Link key={v.artworks[0].id}
-                          href={`/artwork/${v.artworks[0].id}`}
-                          className="aspect-square rounded-md h-full w-full overflow-hidden">
-                      <Image
-                        src={`artworks/${v.artworks[0].folder}/${v.artworks[0].thumbnail}`}
-                        alt={v.artworks[0].title}
-                        className="h-full w-full object-cover object-center"
-                        priority={true}
-                        height={10}
-                        width={10}
-                        quality={20}/>
-                    </Link> :
-                    <div
-                      className="aspect-square rounded-md h-full w-full overflow-hidden"></div>
-                }
-                {
-                  v.artworks[1] ?
-                    <Link key={v.artworks[1].id}
-                          href={`/artwork/${v.artworks[1].id}`}
-                          className="aspect-square rounded-md h-full w-full overflow-hidden">
-                      <Image
-                        src={`artworks/${v.artworks[1].folder}/${v.artworks[1].thumbnail}`}
-                        alt={v.artworks[1].title}
-                        className="h-full w-full object-cover object-center"
-                        priority={true}
-                        height={10}
-                        width={10}
-                        quality={20}/>
-                    </Link> :
-                    <div
-                      className="aspect-square rounded-md h-full w-full overflow-hidden"></div>
-                }
+    <>
+      <div
+        className={cn("grid grid-cols-4 gap-5 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3", {
+          [className || '']: className
+        })}>
+        {
+          profiles.map((v) => {
+            return (
+              <div key={v.id} className="flex flex-col gap-5 rounded-md p-5 bg-t-main-3">
+                <AvatarNameFollow profile={v} currentUser={currentUser} site={v.site}
+                                  isFollow={v.isFollowed}/>
+                <div className="flex items-center justify-center gap-5">
+                  {
+                    v.artworks[0] ?
+                      <Link key={v.artworks[0].id}
+                            href={`/artwork/${v.artworks[0].id}`}
+                            className="aspect-square h-full w-full overflow-hidden rounded-md">
+                        <Image
+                          src={`artworks/${v.artworks[0].folder}/${v.artworks[0].thumbnail}`}
+                          alt={v.artworks[0].title}
+                          className="h-full w-full object-cover object-center"
+                          priority={true}
+                          height={10}
+                          width={10}
+                          quality={20}/>
+                      </Link> :
+                      <div
+                        className="aspect-square h-full w-full overflow-hidden rounded-md"></div>
+                  }
+                  {
+                    v.artworks[1] ?
+                      <Link key={v.artworks[1].id}
+                            href={`/artwork/${v.artworks[1].id}`}
+                            className="aspect-square h-full w-full overflow-hidden rounded-md">
+                        <Image
+                          src={`artworks/${v.artworks[1].folder}/${v.artworks[1].thumbnail}`}
+                          alt={v.artworks[1].title}
+                          className="h-full w-full object-cover object-center"
+                          priority={true}
+                          height={10}
+                          width={10}
+                          quality={20}/>
+                      </Link> :
+                      <div
+                        className="aspect-square h-full w-full overflow-hidden rounded-md"></div>
+                  }
+                </div>
               </div>
-            </div>
-          );
-        })
+            );
+          })
+        }
+      </div>
+      {loading
+        ?
+        <div
+          className={cn("h-[40px] flex gap-1 justify-center items-center text-xl text-t-main w-full")}>
+          Loading
+          <span className="animate-spin text-t-hover-2">
+          <RiLoader3Line size={30}/>
+        </span>
+        </div>
+        :
+        <div
+          className="h-[40px] w-full">
+        </div>
       }
-    </div>
+    </>
   );
 };
 

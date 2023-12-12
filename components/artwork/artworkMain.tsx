@@ -1,12 +1,12 @@
 'use client';
 import Image from "next/image";
 import Link from "next/link";
-import {MdFullscreen} from "react-icons/md";
+import {MdClose, MdFullscreen} from "react-icons/md";
 import React from "react";
 import {CurrentUserSocialActivity} from "@/app/artwork/[id]/page";
 import {Database} from "@/lib/database.types";
 import ArtworkComments from "@/components/artwork/artworkComments";
-import Env from "@/dictionaries/env";
+import Env from "@/lib/env";
 import {ArtworkLike} from "@/components/artwork/artworkLike";
 import {ArtworkBookmark} from "@/components/artwork/artworkBookmark";
 import AvatarNameFollow from "@/components/avatarNameFollow";
@@ -82,9 +82,18 @@ const ArtworkMain = ({
           )
         )}
       </div>
-      <div className="flex h-fit flex-col gap-5 w-[600px] md:w-full">
+      <div className="relative flex h-fit flex-col gap-5 w-[600px] md:w-full">
         <div
           className="flex h-fit flex-col gap-5 rounded-md p-5 bg-t-main/20">
+          <div className='absolute top-0 right-0 p-2 hover:text-t-hover-1 transition duration-300'>
+            <Link
+              // @ts-expect-error
+              href={`/${thisProfileUser?.metadata?.site || '/'}`}
+              >
+              <MdClose size={25}/>
+            </Link>
+          </div>
+
           <AvatarNameFollow profile={artworkProfileData}
             // @ts-expect-error
                             site={thisProfileUser?.metadata?.site || "/"}

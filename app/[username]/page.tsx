@@ -17,7 +17,7 @@ const UserPage = async ({params}: Props) => {
   const dateStart = date.toUTCString();
   const {data: users} = await supabase.from('users').select().eq('metadata->>site', params.username);
   const user: User | null = users ? users[0] : null;
-  const {count} = await supabase.from('artworks').select('*', {count: 'exact'}).lte('created_at', dateStart);
+  const {count} = await supabase.from('artworks').select('*', {count: 'exact'}).lte('created_at', dateStart).eq('user_id', user?.id || '');
   const {data: profiles} = await supabase.from('profiles').select().eq('user_id', user?.id || '');
   const profile = profiles && profiles[0];
 

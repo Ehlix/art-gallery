@@ -5,7 +5,7 @@ import {validateEmail} from "@/validations/validateEmail";
 import {isUrlValid} from "@/validations/validateUrl";
 import {useIsMount} from "@/hooks/useIsMount";
 import {SocialObject} from "@/components/newProfile/newProfileMain";
-import {Tag, tags} from "@/dictionaries/socialCreateTags";
+import {Tag, tags} from "@/lib/socialCreateTags";
 import {cn} from "@/utils/twMergeClsx";
 import {cutNameFromSite} from "@/utils/utils";
 

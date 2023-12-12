@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useState} from 'react';
 import {cn} from "@/utils/twMergeClsx";
-import {MEDIUM, Subject, SUBJECTS} from "@/dictionaries/categories_data";
+import {MEDIUM, Subject, SUBJECTS} from "@/lib/categories_data";
 import {ChosenCategories} from "@/components/newProject/projectMain";
 import {MdAdd, MdClose} from "react-icons/md";
 import Image from "next/image";

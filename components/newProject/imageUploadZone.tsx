@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useEffect, useRef, useState} from 'react';
 import {bytesToMb, renameFile, sortSelectedFiles} from "@/utils/utils";
-import Env from "@/dictionaries/env";
+import Env from "@/lib/env";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import {RiLoader3Line} from "react-icons/ri";
