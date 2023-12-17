@@ -46,7 +46,7 @@ export const RenderPictures = ({className, artworksCount, getArtworks}: Props) =
     }
 
     const body = document.body;
-    if (!loading && (body.scrollHeight - body.offsetHeight < 200)) {
+    if (!loading && (body.scrollHeight - body.offsetHeight < 350)) {
       return setLoading(true);
     }
 

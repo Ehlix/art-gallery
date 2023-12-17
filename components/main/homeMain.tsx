@@ -34,7 +34,7 @@ const HomeMain = ({artworksCount, dateStart}: Props) => {
   };
   if (artworksCount) {
     return (
-      <div className={'flex flex-col gap-2'}>
+      <div className={'flex flex-col gap-2 sm:gap-1'}>
         <FilterList/>
         <RenderPictures artworksCount={artworksCount}
                         getArtworks={getArtworks}

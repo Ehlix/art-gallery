@@ -16,9 +16,7 @@ const LikesPage = async ({params}: Props) => {
   const dateStart = date.toUTCString();
   const {data: users} = await supabase.from('users').select().eq('metadata->>site', params.username);
   const user = users?.length ? users[0] : null;
-  const {count} = await supabase.from('artworks').select('*', {count: 'exact'}).lte('created_at', dateStart);
-
-
+  const {count} = await supabase.from('artworks_likes').select('*', {count: 'exact'}).eq('user_id', user?.id || '').lte('created_at', dateStart);
   if (user && count) {
     return (
       <UserLikesMain dateStart={dateStart} user={user} count={count}/>
