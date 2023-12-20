@@ -31,7 +31,7 @@ type Props = {
   }
 }
 
-export const UserNav = ({userNavData}: Props) => {
+const UserNav = ({userNavData}: Props) => {
   const path = usePathname();
   const userNavTags: UserNavTagType[] = [
     {
@@ -123,3 +123,5 @@ export const UserNav = ({userNavData}: Props) => {
     </>
   );
 };
+
+export  default UserNav

@@ -1,9 +1,9 @@
-import {ProjectMain} from "@/components/newProject/projectMain";
+import NewProjectMain from "@/components/newProject/newProjectMain";
 
 export default function NewProjectPage() {
   return (
     <section className="container">
-      <ProjectMain/>
+      <NewProjectMain/>
     </section>
   );
 };

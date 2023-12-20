@@ -6,7 +6,7 @@ import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import {RiLoader3Line} from "react-icons/ri";
 import RemoveConfirmation from "@/components/removeConfirmation";
-import {SelectedFileType} from "@/components/newProject/projectMain";
+import {SelectedFileType} from "@/components/newProject/newProjectMain";
 import {cn} from "@/utils/twMergeClsx";
 import {v4} from "uuid";
 

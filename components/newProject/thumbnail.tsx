@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useEffect, useRef, useState} from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-import {Thumbnail} from "@/components/newProject/projectMain";
+import {Thumbnail} from "@/components/newProject/newProjectMain";
 import {cn} from "@/utils/twMergeClsx";
 import CropImage from "@/components/cropImage";
 import Image from "next/image";

@@ -30,9 +30,9 @@ export type SelectedFileType = {
   status: 'notLoaded' | 'loading' | 'loaded' | 'error'
 }
 
-export function ProjectMain() {
+const NewProjectMain = () => {
   const [uniquePath] = useState(v4());
-  const router = useRouter()
+  const router = useRouter();
   const isMount = useIsMount();
   const [thumbnail, setThumbnail] = useState<Thumbnail | null>(null);
   const [selectedFiles, setSelectedFiles] = useState<SelectedFileType[]>([]);
@@ -72,7 +72,7 @@ export function ProjectMain() {
 
   const onSubmit = async (payload: NewProjectType) => {
     moveHandler().then(async () => {
-      const {data:user} = await supabase.auth.getUser();
+      const {data: user} = await supabase.auth.getUser();
       const {error} = await supabase.from('artworks').insert({
         user_id: user.user?.id,
         title: payload.title,
@@ -84,8 +84,8 @@ export function ProjectMain() {
         files: payload.image?.map((v) => v.file.name),
       });
       if (!error) {
-        const userLink = user.user?.user_metadata.site
-        router.push(`/${userLink}`)
+        const userLink = user.user?.user_metadata.site;
+        router.push(`/${userLink}`);
       }
     });
   };
@@ -113,18 +113,20 @@ export function ProjectMain() {
   return (
     <div className="flex justify-center pt-7">
       <div className="flex flex-col gap-12 text-lg w-[90vw] xl:w-[95%]">
-        <div className="flex items-center justify-start">
+        <div className="flex items-center justify-center">
           <button
             onClick={handleSubmit(onSubmit)}
-            className="mt-2 flex items-center justify-center rounded-md font-medium leading-none transition-all duration-300 bg-t-hover-2 w-[150px] text-t-main-2 h-[40px] hover:bg-t-hover-3 disabled:bg-t-main disabled:text-t-hover-1">
+            className="mt-2 flex items-center justify-center rounded-md font-medium leading-none transition-all duration-300 bg-t-hover-2 w-[350px] text-t-main-2 h-[40px] hover:bg-t-hover-3 disabled:bg-t-main disabled:text-t-hover-1">
             Save project
           </button>
         </div>
 
         <div className="flex gap-6 sm:flex-col">
-          <div className="shrink grow">
+          <div className="bg-t-main-3 rounded-md p-2 px-4 shrink grow">
             <h2
-              className="text-4xl h-[60px] text-t-hover-1">{title || '-- Project name --'}</h2>
+              className="py-2 text-4xl min-h-[60px] text-t-hover-1">
+              {title || '-- Project name --'}
+            </h2>
             <div className="flex flex-col gap-2">
               Enter your project name
               <input
@@ -132,7 +134,9 @@ export function ProjectMain() {
                 placeholder="your title"
                 onChange={newTitle}
                 value={title.trimStart()}/>
-              <span className="text-t-error">{errors?.title?.message}</span>
+              <span className="text-t-error">
+                {errors?.title?.message}
+              </span>
               <div className="flex flex-col gap-2">
                 Enter project description
                 <textarea
@@ -146,7 +150,7 @@ export function ProjectMain() {
             </div>
           </div>
           <div className="relative flex justify-center sm:flex-col sm:items-center">
-            {(thumbnail?.status !== 'loading' && thumbnail?.status !== 'loaded' ) &&<span
+            {(thumbnail?.status !== 'loading' && thumbnail?.status !== 'loaded') && <span
               className="absolute top-1 left-2 text-t-error sm:relative sm:top-0 sm:left-0">
               {errors.thumbnail?.message}
             </span>}
@@ -168,4 +172,6 @@ export function ProjectMain() {
       </div>
     </div>
   );
-}
+};
+
+export default NewProjectMain;

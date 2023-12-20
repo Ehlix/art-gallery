@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 import {bytesToMb} from "@/utils/utils";
-import {SelectedFileType, Thumbnail} from "@/components/newProject/projectMain";
+import {SelectedFileType, Thumbnail} from "@/components/newProject/newProjectMain";
 
 export const newProjectSchema = yup.object({
   title: yup.string().min(5).max(50).required(),

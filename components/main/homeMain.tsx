@@ -1,7 +1,7 @@
 'use client';
 import * as React from "react";
 import {Database} from "@/lib/database.types";
-import {RenderPictures} from "@/components/renderPictures";
+import RenderPictures from "@/components/renderPictures";
 import {SupabaseClient} from "@supabase/auth-helpers-nextjs";
 import FilterList from "@/components/main/filterList";
 

@@ -2,7 +2,7 @@ import * as React from "react";
 import {useCallback, useEffect, useState} from "react";
 import ImageCropper from "@/components/imageCropper";
 import AppSlider from "@/components/appSlider";
-import {Thumbnail} from "@/components/newProject/projectMain";
+import {Thumbnail} from "@/components/newProject/newProjectMain";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 import {v4} from "uuid";
 import Env from "@/lib/env";

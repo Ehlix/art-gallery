@@ -3,13 +3,15 @@ import Image from "next/image";
 import {HiMapPin} from "react-icons/hi2";
 import {PiLinkBold} from "react-icons/pi";
 import {HeaderDataType} from "@/app/[username]/layout";
+import {cn} from "@/utils/twMergeClsx";
+import Link from "next/link";
 
 
 type Props = {
   headerData: HeaderDataType;
 };
 
-export function UserHeader({headerData}: Props) {
+const UserHeader = ({headerData}: Props) => {
 
   return (
     <div
@@ -21,6 +23,7 @@ export function UserHeader({headerData}: Props) {
           <Image
             className="h-full w-full object-cover"
             src={headerData.coverLink}
+            priority={true}
             alt="avatar"
             height={800}
             width={800}/>
@@ -38,22 +41,24 @@ export function UserHeader({headerData}: Props) {
       <div
         className="absolute mb-6 flex flex-col items-center gap-3 self-end px-1 text-sm text-t-hover-4 item-end lg:mb-sm">
         <div className="overflow-hidden rounded-full h-[110px] w-[110px] bg-t-main">
-          {headerData.avatarLink
-            ?
-            <Image
-              className="h-full w-full object-cover"
-              src={headerData.avatarLink}
-              alt="avatar"
-              height={500}
-              width={500}/>
-            :
-            <Image
-              unoptimized
-              className="h-full w-full object-cover"
-              src="/default_avatar.png"
-              alt="avatar"
-              height={500}
-              width={500}/>
+          {
+            headerData.avatarLink
+              ?
+              <Image
+                className="h-full w-full object-cover"
+                src={headerData.avatarLink}
+                priority={true}
+                alt="avatar"
+                height={500}
+                width={500}/>
+              :
+              <Image
+                unoptimized
+                className="h-full w-full object-cover"
+                src="/default_avatar.png"
+                alt="avatar"
+                height={500}
+                width={500}/>
           }
         </div>
         <div className="flex flex-col items-center gap-1">
@@ -77,8 +82,16 @@ export function UserHeader({headerData}: Props) {
               </a>
             </div>
           }
+          <Link href={'/user/settings/profile'}
+                className={cn('text-t-hover-1 text-base border rounded-md p-2 py-2 leading-none transition-all duration-300 hover:text-t-hover-3 hover:border-t-hover-3', {
+                  'hidden': !headerData.isCurrentUserPage
+                })}>
+            Edit profile
+          </Link>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default UserHeader;

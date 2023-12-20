@@ -2,7 +2,7 @@ import * as React from 'react';
 import {useState} from 'react';
 import {cn} from "@/utils/twMergeClsx";
 import {MEDIUM, Subject, SUBJECTS} from "@/lib/categories_data";
-import {ChosenCategories} from "@/components/newProject/projectMain";
+import {ChosenCategories} from "@/components/newProject/newProjectMain";
 import {MdAdd, MdClose} from "react-icons/md";
 import Image from "next/image";
 
@@ -55,16 +55,20 @@ export function Categories({chosenCategories, setChosenCategories, errors}: Prop
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      <h3 className="">Categorization</h3>
-      <h4 className="text-base">Medium</h4>
-      <div className="flex flex-wrap gap-2">
+    <div className="flex flex-col gap-2 bg-t-main-3 rounded-md p-2 px-4">
+      <h3 className="text-t-hover-1 text-xl">
+        Categorization
+      </h3>
+      <h4 className="text-lg">
+        Medium
+      </h4>
+      <div className="flex flex-wrap gap-2 ">
         {MEDIUM.map((v) => {
           const disableStatus = chosenCategories.medium.length >= 3 && !(chosenCategories?.medium as string[]).includes(v);
           return (
             <label
               key={v}
-              className={cn("select-none cursor-pointer flex items-center justify-start outline-none transition-all gap-3 rounded-md px-3 p-2 border-t-main border hover:bg-t-main/25 focus:bg-t-main/25 focus:border focus:outline-none", {'hover:bg-t-main/0 cursor-auto': disableStatus})}>
+              className={cn("select-none cursor-pointer flex items-center justify-start outline-none transition-all gap-3 rounded-md px-3 p-2 border-t-main border hover:bg-t-main/25 focus:bg-t-main/25 focus:border focus:outline-none", {'hover:bg-t-main/0 cursor-auto border-t-main/50': disableStatus})}>
               <input
                 disabled={disableStatus}
                 className="cursor-pointer appearance-none rounded-full border p-0 group group-aria-disabled:bg-t-error h-[15px] w-[15px] border-t-main checked:bg-t-hover-2 checked:border-none disabled:border-t-main/20 disabled:cursor-auto"
@@ -85,7 +89,7 @@ export function Categories({chosenCategories, setChosenCategories, errors}: Prop
       <span className="text-t-error">
         {errors.medium?.message}
       </span>
-      <h4 className="text-base">
+      <h4 className="text-lg">
         Subject
       </h4>
 

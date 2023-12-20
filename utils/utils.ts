@@ -1,4 +1,4 @@
-import {SelectedFileType} from "@/components/newProject/projectMain";
+import {SelectedFileType} from "@/components/newProject/newProjectMain";
 
 export function bytesToMb(bytes: number): number {
   const MB = 1048576;

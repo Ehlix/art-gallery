@@ -23,7 +23,7 @@ const modalTags = [
   {title: 'My library', icon: MdLibraryBooks, href: '/'},
   {title: 'My wishlist', icon: MdFavorite, href: '/'},
   {separator: true},
-  {title: 'Manage portfolio', icon: MdImage, href: '/'},
+  {title: 'Manage portfolio', icon: MdImage, href: '/projects'},
   {separator: true},
   {title: 'Setting', icon: MdSettings, href: '/user/settings/general'},
 ];

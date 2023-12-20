@@ -1,12 +1,11 @@
 import {Metadata} from "next";
-import {UserNav} from "@/components/userMain/userNav";
+import UserNav from "@/components/userMain/userNav";
 import React, {Suspense} from "react";
 import {notFound, redirect} from "next/navigation";
 import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
 import {cookies} from "next/headers";
-import {UserHeader} from "@/components/userMain/userHeader";
+import UserHeader from "@/components/userMain/userHeader";
 import {Database} from "@/lib/database.types";
-
 
 export type HeaderDataType = {
   username: string
@@ -16,6 +15,7 @@ export type HeaderDataType = {
   website: string
   avatarLink: string
   coverLink: string
+  isCurrentUserPage: boolean
 }
 
 export const metadata: Metadata = {
@@ -28,10 +28,10 @@ type Props = {
   params: { username: string }
 }
 
-export default async function UserLayout({
-                                           children,
-                                           params
-                                         }: Props) {
+const UserLayout = async ({
+                            children,
+                            params
+                          }: Props) => {
   const supabase = createServerComponentClient<Database>({cookies});
   const {data: currentUser} = await supabase.auth.getUser();
   const {data: users} = await supabase
@@ -64,6 +64,7 @@ export default async function UserLayout({
     website: profile?.social?.website || '',
     avatarLink: (profile?.folder && profile.avatar) ? `avatars/${profile.folder}/${profile.avatar}` : '',
     coverLink: (profile?.folder && profile.cover) ? `avatars/${profile.folder}/${profile.cover}` : '',
+    isCurrentUserPage: currentUser.user?.id === profile?.user_id,
   };
 
   const {data: following} = await supabase.from('users_followers').select().match({
@@ -81,7 +82,6 @@ export default async function UserLayout({
   });
 
 
-
   const userNavData = {
     // @ts-ignore
     username: user?.metadata?.site,
@@ -91,7 +91,7 @@ export default async function UserLayout({
     userId: user?.id || '',
     currentUser: currentUser.user,
     isFollow: follow ? !!follow[0] : false
-  }
+  };
 
   return (
     <section>
@@ -102,4 +102,6 @@ export default async function UserLayout({
       </Suspense>
     </section>
   );
-}
+};
+
+export default UserLayout;
