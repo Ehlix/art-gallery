@@ -5,9 +5,9 @@ import {useEffect, useState} from "react";
 import {Database} from "@/lib/database.types";
 import {cn} from "@/utils/twMergeClsx";
 import {createClientComponentClient, SupabaseClient} from "@supabase/auth-helpers-nextjs";
-import {RiLoader3Line} from "react-icons/ri";
 import {MdEdit} from "react-icons/md";
 import RemoveConfirmation from "@/components/removeConfirmation";
+import LoadingSpinner from "@/components/loadingSpinner";
 
 
 type Profile = Database['public']['Tables']['profiles']['Row']
@@ -19,11 +19,12 @@ type Props = {
   className?: string
   artworksCount: number
   mode?: 'edit'
-  getArtworks: (supabase: SupabaseClient, rangeFrom: number, step: number) => Promise<Artwork[]>
+  getArtworks: (supabase: SupabaseClient, rangeFrom: number, step: number, filter: string) => Promise<Artwork[]>
+  filter?: string
 };
 
 
-const RenderPictures = ({className, artworksCount, getArtworks, mode}: Props) => {
+const RenderPictures = ({className, artworksCount, getArtworks, mode, filter}: Props) => {
   const supabase = createClientComponentClient<Database>();
   const [loading, setLoading] = useState<boolean>(true);
   const [rangeFrom, setRangeFrom] = useState<number>(0);
@@ -55,7 +56,7 @@ const RenderPictures = ({className, artworksCount, getArtworks, mode}: Props) =>
 
     if (loading) {
       console.log('fetching');
-      getArtworks(supabase, rangeFrom, 5).then(value => {
+      getArtworks(supabase, rangeFrom, 5, filter || '').then(value => {
         const newRange = rangeFrom + 6;
         setArtworks([...artworks, ...value]);
         setRangeFrom(newRange);
@@ -107,8 +108,8 @@ const RenderPictures = ({className, artworksCount, getArtworks, mode}: Props) =>
                       className="pointer-events-auto flex h-fit w-fit items-center justify-center gap-1 rounded-sm border px-3 text-xl transition-all duration-300 text-t-hover-1 border-t-hover-1 bg-t-main-2/70 hover:text-t-hover-3 hover:border-t-hover-3">
                       <MdEdit size={20}/>
                       <span>
-                            Edit
-                          </span>
+                        Edit
+                      </span>
                     </Link>
                     <RemoveConfirmation callback={(t) => deleteHandler(t, v)}
                                         className={''}/>
@@ -170,20 +171,7 @@ const RenderPictures = ({className, artworksCount, getArtworks, mode}: Props) =>
           })
         }
       </div>
-      {loading
-        ?
-        <div
-          className={cn("h-[40px] flex gap-1 justify-center items-center text-xl text-t-main w-full")}>
-          Loading
-          <span className="animate-spin text-t-hover-2">
-          <RiLoader3Line size={30}/>
-        </span>
-        </div>
-        :
-        <div
-          className="w-full h-[40px]">
-        </div>
-      }
+      <LoadingSpinner isLoading={loading}/>
     </>
   );
 };

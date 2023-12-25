@@ -55,32 +55,32 @@ export function Categories({chosenCategories, setChosenCategories, errors}: Prop
   }
 
   return (
-    <div className="flex flex-col gap-2 bg-t-main-3 rounded-md p-2 px-4">
-      <h3 className="text-t-hover-1 text-xl">
+    <div className="flex flex-col gap-2 rounded-md p-2 px-4 bg-t-main-3">
+      <h3 className="text-xl text-t-hover-1">
         Categorization
       </h3>
       <h4 className="text-lg">
         Medium
       </h4>
-      <div className="flex flex-wrap gap-2 ">
+      <div className="flex flex-wrap gap-2">
         {MEDIUM.map((v) => {
-          const disableStatus = chosenCategories.medium.length >= 3 && !(chosenCategories?.medium as string[]).includes(v);
+          const disableStatus = chosenCategories.medium.length >= 3 && !(chosenCategories?.medium as string[]).includes(v.name);
           return (
             <label
-              key={v}
+              key={v.params}
               className={cn("select-none cursor-pointer flex items-center justify-start outline-none transition-all gap-3 rounded-md px-3 p-2 border-t-main border hover:bg-t-main/25 focus:bg-t-main/25 focus:border focus:outline-none", {'hover:bg-t-main/0 cursor-auto border-t-main/50': disableStatus})}>
               <input
                 disabled={disableStatus}
                 className="cursor-pointer appearance-none rounded-full border p-0 group group-aria-disabled:bg-t-error h-[15px] w-[15px] border-t-main checked:bg-t-hover-2 checked:border-none disabled:border-t-main/20 disabled:cursor-auto"
                 type="checkbox"
-                id={v}
-                value={v}
+                id={v.name}
+                value={v.name}
                 tabIndex={-1000}
-                checked={(chosenCategories?.medium as string[]).includes(v)}
-                onChange={e => categoriesChangeHandler(e, v)}/>
+                checked={(chosenCategories?.medium as string[]).includes(v.name)}
+                onChange={e => categoriesChangeHandler(e, v.name)}/>
               <span
                 className={cn(' text-t-hover-1 capitalize', {'text-t-main': disableStatus})}>
-                {v}
+                {v.name}
               </span>
             </label>
           );

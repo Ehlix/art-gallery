@@ -20,7 +20,7 @@ export function UserSocial({socialObject}: Props) {
   });
 
   return (
-    <div className="flex flex-col items-end gap-5 md:items-center">
+    <div className="flex flex-col items-center gap-5 md:items-center">
       <button
         disabled={isLoading}
         // onClick={handleSubmit(onSubmit)}

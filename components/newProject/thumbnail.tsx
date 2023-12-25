@@ -33,15 +33,16 @@ export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
         console.log('file >15 mb deleted');
         return;
       }
-      if (thumbnail) {
+      const tName = v4();
+      if (thumbnail?.file) {
         const {
           data,
           error
         } = await supabase.storage.from(Env.PROJECTS_BUCKET).remove([`cache/${uniquePath}/${thumbnail.file.name}`]);
         if (data) {
           const thumb: Thumbnail = {
-            id: v4(),
-            file: renameFile(file, `thumbnail_${v4()}`),
+            id: `thumbnail_${tName}.jpg`,
+            file: renameFile(file, `thumbnail_${tName}`),
             status: "notLoaded"
           };
           setThumbnail(thumb);
@@ -52,39 +53,43 @@ export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
         return;
       }
       const thumb: Thumbnail = {
-        id: v4(),
-        file: renameFile(file, `thumbnail_${v4()}`),
+        id: `thumbnail_${tName}.jpg`,
+        file: renameFile(file, `thumbnail_${tName}`),
         status: "notLoaded"
       };
       setThumbnail(thumb);
     }
   }
 
-  useEffect(() => {
-    if (thumbnail?.status === 'notLoaded') {
-      (async () => {
-        thumbnail.status = 'loading';
-        console.log('thumb upload start..');
-        const {
-          data,
-          error
-        } = await supabase.storage.from(`${Env.PROJECTS_BUCKET}/cache`).upload(`${uniquePath}/${thumbnail.file.name}`, thumbnail.file, {
-          cacheControl: '3600',
-          upsert: false
+  const uploadThumb = async (thumbnail: Thumbnail) => {
+    if (thumbnail.status === 'notLoaded' && thumbnail.file) {
+      thumbnail.status = 'loading';
+      console.log('thumb upload start..');
+      const {
+        data,
+        error
+      } = await supabase.storage.from(`${Env.PROJECTS_BUCKET}/cache`).upload(`${uniquePath}/${thumbnail.file.name}`, thumbnail.file, {
+        cacheControl: '3600',
+        upsert: false
+      });
+      if (data) {
+        console.log(data);
+        setThumbnail({
+          ...thumbnail,
+          status: "loaded"
         });
-        if (data) {
-          console.log(data);
-          setThumbnail({
-            ...thumbnail,
-            status: "loaded"
-          });
-          console.log('thumb uploaded');
+        console.log('thumb uploaded');
 
-        }
-        if (error) {
-          console.log(error);
-        }
-      })();
+      }
+      if (error) {
+        console.log(error);
+      }
+    }
+
+  };
+  useEffect(() => {
+    if (thumbnail?.status === 'notLoaded' && thumbnail.file) {
+      uploadThumb(thumbnail).finally();
     }
   }, [thumbnail]);
 
@@ -93,20 +98,28 @@ export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
       <div
         className="overflow-hidden rounded-md border-2 border-t-main h-[300px] w-[300px] md:h-[200px] md:w-[200px]">
         {thumbnail?.status === 'loaded' &&
-          <Image src={`cache/${uniquePath}/${thumbnail.file.name}`}
-                 alt={'thumbnail'}
-                 height={300}
-                 width={300}
-                 priority={true}
-                 className="h-full w-full object-cover object-center"/>
+          (thumbnail.file ?
+            <Image src={`cache/${uniquePath}/${thumbnail.id}`}
+                   alt={'thumbnail'}
+                   height={300}
+                   width={300}
+                   priority={true}
+                   className="h-full w-full object-cover object-center"/>
+            :
+            <Image src={`artworks/${uniquePath}/${thumbnail.id}`}
+                   alt={'thumbnail'}
+                   height={300}
+                   width={300}
+                   priority={true}
+                   className="h-full w-full object-cover object-center"/>)
         }
       </div>
       <Dialog.Root open={open} onOpenChange={setOpen}>
         <Dialog.Trigger asChild>
           <button
-            disabled={thumbnail?.status !== 'loaded'}
+            disabled={thumbnail?.status !== 'loaded' || !thumbnail?.file}
             className={cn("inline-flex items-center justify-center font-medium leading-none bg-grad-1 text-t-main-2 h-[35px] rounded-md px-3 hover:bg-grad-2 focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none", {
-              'bg-t-main/30 hover:bg-t-main/30 text-t-main-2': thumbnail?.status !== 'loaded',
+              'bg-t-main/30 hover:bg-t-main/30 text-t-main-2': thumbnail?.status !== 'loaded' || !thumbnail?.file,
             })}>
             Crop image
           </button>

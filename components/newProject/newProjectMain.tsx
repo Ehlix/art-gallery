@@ -12,13 +12,22 @@ import {Thumbnail} from "@/components/newProject/thumbnail";
 import {v4} from 'uuid';
 import {useIsMount} from "@/hooks/useIsMount";
 import {useRouter} from "next/navigation";
+import {Database} from "@/lib/database.types";
 
 export type Thumbnail = {
   id: string
   status: 'notLoaded' | 'loading' | 'loaded' | 'error'
-  file: File
+  file: File | null
 }
-
+export type EditArtwork = {
+  curArtworkId: string
+  curUniquePath: string
+  curTitle: string
+  curDescription: string
+  curThumb: Thumbnail
+  curSelectedFile: SelectedFileType[]
+  curChosenCategories: ChosenCategories
+}
 export type ChosenCategories = {
   medium: string[]
   subject: string[]
@@ -26,27 +35,31 @@ export type ChosenCategories = {
 export type SelectedFileType = {
   id: string
   order: number
-  file: File,
+  file: File | null,
   status: 'notLoaded' | 'loading' | 'loaded' | 'error'
 }
 
-const NewProjectMain = () => {
-  const [uniquePath] = useState(v4());
+type Props = {
+  editArtwork?: EditArtwork
+}
+
+const NewProjectMain = ({editArtwork}: Props) => {
+  const [uniquePath] = useState(editArtwork?.curUniquePath || v4());
   const router = useRouter();
   const isMount = useIsMount();
-  const [thumbnail, setThumbnail] = useState<Thumbnail | null>(null);
-  const [selectedFiles, setSelectedFiles] = useState<SelectedFileType[]>([]);
-  const [title, setTitle] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [chosenCategories, setChosenCategories] = useState<ChosenCategories>({
+  const [thumbnail, setThumbnail] = useState<Thumbnail | null>(editArtwork?.curThumb || null);
+  const [selectedFiles, setSelectedFiles] = useState<SelectedFileType[]>(editArtwork?.curSelectedFile || []);
+  const [title, setTitle] = useState<string>(editArtwork?.curTitle || '');
+  const [description, setDescription] = useState<string>(editArtwork?.curDescription || '');
+  const [chosenCategories, setChosenCategories] = useState<ChosenCategories>(editArtwork?.curChosenCategories || {
     medium: [],
     subject: []
   });
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient<Database>();
 
   // * Validation project
   const {
-    register, handleSubmit, formState: {errors},
+    handleSubmit, formState: {errors},
     setValue
   } = useForm<NewProjectType>({
     resolver: yupResolver(newProjectSchema)
@@ -60,7 +73,7 @@ const NewProjectMain = () => {
     setValue('description', description, {shouldValidate: true});
     setValue('image', selectedFiles, {shouldValidate: true});
     setValue('thumbnail', thumbnail || undefined, {shouldValidate: true});
-  }, [chosenCategories, description, selectedFiles, setValue, title, thumbnail]);
+  }, [chosenCategories, description, selectedFiles, setValue, title, thumbnail, isMount]);
 
 
   const newTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,19 +82,39 @@ const NewProjectMain = () => {
   const newDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(e.currentTarget.value.trimStart());
   };
-
   const onSubmit = async (payload: NewProjectType) => {
     moveHandler().then(async () => {
       const {data: user} = await supabase.auth.getUser();
+      if (user.user === null) {
+        return;
+      }
+      if (editArtwork) {
+        const {error} = await supabase.from('artworks').update({
+          title: payload.title,
+          description: payload.description,
+          medium: payload.medium,
+          subject: payload.subject,
+          folder: uniquePath,
+          thumbnail: payload.thumbnail?.id,
+          files: payload.image?.map((v) => v.id),
+        }).eq('id', editArtwork.curArtworkId);
+        if (!error) {
+          const userLink = user.user?.user_metadata.site;
+          router.push(`/${userLink}`);
+          return;
+        }
+        return;
+      }
       const {error} = await supabase.from('artworks').insert({
-        user_id: user.user?.id,
+        // @ts-expect-error
         title: payload.title,
         description: payload.description,
         medium: payload.medium,
         subject: payload.subject,
         folder: uniquePath,
-        thumbnail: payload.thumbnail?.file.name,
-        files: payload.image?.map((v) => v.file.name),
+        thumbnail: payload.thumbnail?.id,
+        files: payload.image?.map((v) => v.id),
+        user_id: user.user.id,
       });
       if (!error) {
         const userLink = user.user?.user_metadata.site;
@@ -92,15 +125,19 @@ const NewProjectMain = () => {
 
 
   async function moveHandler() {
-    if (selectedFiles && thumbnail) {
+    if (selectedFiles) {
       selectedFiles.map(async (file) => {
-        const {data, error} = await supabase
-          .storage
-          .from(Env.PROJECTS_BUCKET)
-          .copy(`cache/${uniquePath}/${file.id}`, `artworks/${uniquePath}/${file.id}`);
-        data && console.log('pic moved', data);
-        error && console.log(error);
+        if (file?.file) {
+          const {data, error} = await supabase
+            .storage
+            .from(Env.PROJECTS_BUCKET)
+            .copy(`cache/${uniquePath}/${file.id}`, `artworks/${uniquePath}/${file.id}`);
+          data && console.log('pic moved', data);
+          error && console.log(error);
+        }
       });
+    }
+    if (thumbnail?.file) {
       const {
         data,
         error
@@ -122,7 +159,7 @@ const NewProjectMain = () => {
         </div>
 
         <div className="flex gap-6 sm:flex-col">
-          <div className="bg-t-main-3 rounded-md p-2 px-4 shrink grow">
+          <div className="shrink grow rounded-md p-2 px-4 bg-t-main-3">
             <h2
               className="py-2 text-4xl min-h-[60px] text-t-hover-1">
               {title || '-- Project name --'}

@@ -23,7 +23,7 @@ export default function CropImage({thumbnail, uniquePath, setThumbnail, setOpen}
   const supabase = createClientComponentClient();
 
   useEffect(() => {
-    if (thumbnail) {
+    if (thumbnail?.file) {
       setRemoteImage("");
       setLocalImage(URL.createObjectURL(thumbnail.file));
       console.log('createLocalImageUrl...');
@@ -35,15 +35,15 @@ export default function CropImage({thumbnail, uniquePath, setThumbnail, setOpen}
     setZoom(zoomValue);
   }, []);
 
-  const handleOnRotation = useCallback((rotationValue: number) => {
-    setRotation(rotationValue);
-  }, []);
+  // const handleOnRotation = useCallback((rotationValue: number) => {
+  //   setRotation(rotationValue);
+  // }, []);
 
   const downloadImage = async () => {
     if (!croppedImage) {
       setOpen(false);
     }
-    if (croppedImage && thumbnail) {
+    if (croppedImage && thumbnail?.file) {
       const {
         data,
         error
@@ -77,7 +77,7 @@ export default function CropImage({thumbnail, uniquePath, setThumbnail, setOpen}
   };
 
   return (
-    <div className="relative h-full flex flex-col gap-5">
+    <div className="relative flex h-full flex-col gap-5">
       <div className="">
         {/*<AppSlider*/}
         {/*  min={0}*/}

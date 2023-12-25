@@ -25,7 +25,9 @@ export default async function UserSettingLayout({children}: Props) {
       <UserSettingsNav profile={profile} site={user.user?.user_metadata.site}
                        date={user.user?.created_at || ''}/>
       <Suspense>
+        <div className='grow'>
         {children}
+        </div>
       </Suspense>
     </section>
   );

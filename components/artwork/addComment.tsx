@@ -23,8 +23,8 @@ export function AddComment({artwork_id, user, refresh}: Props) {
 
   async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!artwork_id || !user || comment) return;
-
+    if (!artwork_id || !user || !comment) return;
+    console.log('adding comment');
     setLoading(true);
     const {data, error} = await supabase.from('artworks_comments').insert(
       {
@@ -34,6 +34,7 @@ export function AddComment({artwork_id, user, refresh}: Props) {
       }
     ).select();
     if (data) {
+      console.log('comment added');
       setComment('');
       refresh();
       setLoading(false);

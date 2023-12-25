@@ -7,7 +7,7 @@ type Props = {};
 
 export function UserGeneral(props: Props) {
   return (
-    <div className="flex flex-col items-end gap-5 md:items-center">
+    <div className="flex flex-col items-center gap-5 md:items-center">
       <div
         className="flex h-fit flex-col items-center gap-5 rounded-md p-10 text-lg bg-t-main/20 w-[70vw] md:w-full lg:w-[60vw] lg:p-5">
         <div className="flex w-full shrink grow flex-col justify-between gap-5">

@@ -82,12 +82,21 @@ const UserHeader = ({headerData}: Props) => {
               </a>
             </div>
           }
-          <Link href={'/user/settings/profile'}
-                className={cn('text-t-hover-1 text-base border rounded-md p-2 py-2 leading-none transition-all duration-300 hover:text-t-hover-3 hover:border-t-hover-3', {
-                  'hidden': !headerData.isCurrentUserPage
-                })}>
-            Edit profile
-          </Link>
+          <div className={cn('flex xs:flex-col gap-2')}>
+            <Link href={'/user/settings/profile'}
+                  className={cn('text-t-hover-1 w-40 text-center text-base border rounded-md p-2 py-2 leading-none transition-all duration-300 hover:text-t-hover-3 hover:border-t-hover-3', {
+                    'hidden': !headerData.isCurrentUserPage
+                  })}>
+              Edit profile
+            </Link>
+            <Link href={'/projects'}
+                  className={cn('text-t-hover-1 text-center w-40 text-base border rounded-md p-2 py-2 leading-none transition-all duration-300 hover:text-t-hover-3 hover:border-t-hover-3', {
+                    'hidden': !headerData.isCurrentUserPage
+                  })}>
+              Manage Portfolio
+            </Link>
+          </div>
+
         </div>
       </div>
     </div>

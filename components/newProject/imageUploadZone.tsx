@@ -48,7 +48,7 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
     if (selectedFiles.length > 0) {
       console.log('start: ', selectedFiles);
       selectedFiles.map(async (target) => {
-        if (target.status === 'notLoaded') {
+        if (target.status === 'notLoaded' && target?.file) {
           target.status = 'loading';
           const {
             data,
@@ -151,7 +151,7 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
   return (
     <>
       <button
-        className="border-dotted transition-all duration-300 text-t-hover-1 border-t-main h-[50px] border-2 rounded-md hover:border-t-hover-2 hover:text-t-hover-2"
+        className="rounded-md border-2 border-dotted transition-all duration-300 text-t-hover-1 border-t-main h-[50px] hover:border-t-hover-2 hover:text-t-hover-2"
         onClick={clickHandler}>Chose image
         to upload
       </button>
@@ -166,18 +166,20 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
         <div
           className="grid grid-cols-5 gap-[1vw] sm:gap-[3.3vw] sm:grid-cols-1 md:grid-cols-2 lg:gap-[2vw] lg:grid-cols-3 xl:grid-cols-4">
           {selectedFiles.sort(sortSelectedFiles).map((target) => {
-            async function confirmHandler() {
+            async function confirmRemoveHandler() {
               console.log("confirm!!!");
-              const {
-                data,
-                error
-              } = await supabase.storage.from(Env.PROJECTS_BUCKET).remove([`cache/${uniquePath}/${target.id}`]);
-              if (data) {
-                console.log(data);
-                const newFiles = selectedFiles.filter((t) => t.id !== target.id);
-                setSelectedFiles(newFiles);
+              if (target.file) {
+                const {
+                  data,
+                  error
+                } = await supabase.storage.from(Env.PROJECTS_BUCKET).remove([`cache/${uniquePath}/${target.id}`]);
+                if (data) {
+                  console.log(data);
+                }
+                error && console.log(error);
               }
-              error && console.log(error);
+              const newFiles = selectedFiles.filter((t) => t.id !== target.id);
+              setSelectedFiles(newFiles);
             }
 
             const isFullLoad = selectedFiles.every((v) => v.status === 'loaded');
@@ -196,25 +198,34 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
                 {
                   (target.status === 'loaded')
                     ?
-                    <Image
-                      className="pointer-events-none h-full w-full object-contain"
-                      src={`cache/${uniquePath}/${target.file.name}`} alt="jop"
-                      width={100}
-                      height={100} quality={100}/>
+                    (target.file
+                        ?
+                        <Image
+                          className="pointer-events-none h-full w-full object-contain"
+                          src={`cache/${uniquePath}/${target.id}`} alt="jop"
+                          width={100}
+                          height={100} quality={100}/>
+                        :
+                        <Image
+                          className="pointer-events-none h-full w-full object-contain"
+                          src={`artworks/${uniquePath}/${target.id}`} alt="jop"
+                          width={100}
+                          height={100} quality={100}/>
+                    )
                     :
                     <div
-                      className="pointer-events-none flex items-center justify-center rounded-sm bg-t-main-2 w-full h-full">
-                    <span className="animate-spin text-t-main text-5xl">
+                      className="pointer-events-none flex h-full w-full items-center justify-center rounded-sm bg-t-main-2">
+                    <span className="animate-spin text-5xl text-t-main">
                       <RiLoader3Line/>
                     </span>
                     </div>
                 }
                 <div
-                  className="pointer-events-none absolute top-0 left-0 shadow-black/40 shadow-[inset_-10px_100px_30px_-70px] w-full h-full"></div>
+                  className="pointer-events-none absolute top-0 left-0 h-full w-full shadow-black/40 shadow-[inset_-10px_100px_30px_-70px]"></div>
                 {isFullLoad &&
                   <RemoveConfirmation
-                    className="absolute top-0 right-0 m-2 text-t-error text-2xl"
-                    callback={confirmHandler}/>
+                    className="absolute top-0 right-0 m-2 text-2xl text-t-error"
+                    callback={confirmRemoveHandler}/>
                 }
               </div>
             );

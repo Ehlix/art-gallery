@@ -8,15 +8,15 @@ export const newProjectSchema = yup.object({
     return !!thumbnail;
   }).test('thumbnail', 'only JPEG, PNG image are allowed',
     (thumbnail) => {
-      return thumbnail && (thumbnail.file.type === 'image/jpg' || thumbnail.file.type === 'image/jpeg' || thumbnail.file.type === 'image/png');
+      return thumbnail && (thumbnail.file === null || thumbnail.file.type === 'image/jpg' || thumbnail.file.type === 'image/jpeg' || thumbnail.file.type === 'image/png');
     }),
   image: yup.mixed<Array<SelectedFileType>>().test('image', 'only JPEG, PNG image are allowed', (selectedFiles) => {
     return selectedFiles ? selectedFiles.every((v) => {
-      return v.file.type === 'image/jpg' || v.file.type === 'image/jpeg' || v.file.type === 'image/png';
+      return (v.file === null || v.file.type === 'image/jpg' || v.file.type === 'image/jpeg' || v.file.type === 'image/png');
     }) : false;
   }).test('imageSize', 'image must ve less than 15mb', (selectedFiles) => {
     return selectedFiles ? selectedFiles.every((v) => {
-      return bytesToMb(v.file.size) <= 15;
+      return (v.file === null) || bytesToMb(v.file.size) <= 15;
     }) : false;
   }).test('length', 'upload 1-5 images', (file) => {
     return file && file?.length > 0 && file?.length <= 5;
