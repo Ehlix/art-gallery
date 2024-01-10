@@ -10,29 +10,30 @@ type Props = {
   refresh: () => void
 };
 
-export function AddComment({artwork_id, user, refresh}: Props) {
+export const AddComment = ({artwork_id, user, refresh}: Props) => {
   const supabase = createClientComponentClient<Database>();
   const [comment, setComment] = useState<string>('');
   const [isLoading, setLoading] = useState<boolean>(false);
 
-  function addCommentHandler(e: React.ChangeEvent<HTMLTextAreaElement>) {
+  const addCommentHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
     setComment(e.currentTarget.value.trimStart());
+  };
 
-  }
-
-  async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!artwork_id || !user || !comment) return;
     console.log('adding comment');
     setLoading(true);
-    const {data, error} = await supabase.from('artworks_comments').insert(
-      {
-        artwork_id: artwork_id,
-        user_id: user.id,
-        title: comment
-      }
-    ).select();
+    const {data, error} = await supabase
+      .from('artworks_comments')
+      .insert(
+        {
+          artwork_id: artwork_id,
+          user_id: user.id,
+          title: comment
+        }
+      ).select();
     if (data) {
       console.log('comment added');
       setComment('');
@@ -42,7 +43,7 @@ export function AddComment({artwork_id, user, refresh}: Props) {
     if (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <form
@@ -61,4 +62,4 @@ export function AddComment({artwork_id, user, refresh}: Props) {
       </button>
     </form>
   );
-}
+};

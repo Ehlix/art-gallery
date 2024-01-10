@@ -1,10 +1,9 @@
-import HomeMain from "@/components/main/homeMain";
+import {HomeMain} from "@/components/main/homeMain";
 import {Suspense} from "react";
 
 const HomePage = async () => {
   const date = new Date;
   const dateStart = date.toUTCString();
-
 
   return (
     <section className="container relative">

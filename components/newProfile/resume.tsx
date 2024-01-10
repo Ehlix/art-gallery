@@ -14,12 +14,10 @@ type Props = {
 
 const hiredList = ['full-time employment', 'contract', 'freelance'];
 
-export function Resume({resume, setResume, customClassName}: Props) {
+export const Resume = ({resume, setResume, customClassName}: Props) => {
   const [currentSkill, setCurrentSkill] = useState<string>('');
 
-
-  function hiringHandler(e: CheckedState, title: string) {
-
+  const hiringHandler = (e: CheckedState, title: string) => {
     if (e) {
       const newHiring = [...resume.hiring, title];
       setResume(prev => {
@@ -38,10 +36,9 @@ export function Resume({resume, setResume, customClassName}: Props) {
         };
       });
     }
-  }
+  };
 
-
-  function summaryHandler(e: React.ChangeEvent<HTMLTextAreaElement>) {
+  const summaryHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setResume((prev) => {
       const newSummary = e.currentTarget.value.trimStart();
       if (newSummary.length >= 2300) {
@@ -49,14 +46,14 @@ export function Resume({resume, setResume, customClassName}: Props) {
       }
       return {...prev, summary: newSummary};
     });
-  }
+  };
 
-  function skillChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
+  const skillChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setCurrentSkill(e.currentTarget.value.trimStart());
-  }
+  };
 
-  function addSkillHandler(e: React.FormEvent<HTMLFormElement>) {
+  const addSkillHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newSkills = [...resume.skills];
     if (newSkills.length >= 5) {
@@ -65,12 +62,12 @@ export function Resume({resume, setResume, customClassName}: Props) {
     newSkills.push({id: v4(), title: currentSkill});
     setResume({...resume, skills: newSkills});
     setCurrentSkill('');
-  }
+  };
 
-  function removeSkillHandler(id: string) {
+  const removeSkillHandler = (id: string) => {
     const newSkills = resume.skills.filter((v) => v.id !== id);
     setResume({...resume, skills: newSkills});
-  }
+  };
 
   return (
     <div
@@ -160,4 +157,4 @@ export function Resume({resume, setResume, customClassName}: Props) {
       </div>
     </div>
   );
-}
+};

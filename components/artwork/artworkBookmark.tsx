@@ -15,13 +15,15 @@ type Props = {
   bookmarks: boolean
 };
 
-export function ArtworkBookmark({bookmarks, artwork_id, currentUser}: Props) {
+export const ArtworkBookmark = ({bookmarks, artwork_id, currentUser}: Props) => {
   const [isLoaded, setLoaded] = useState<boolean>(true);
   const [isLiked, setLiked] = useState<boolean>(bookmarks);
   const supabase = createClientComponentClient<Database>();
 
   async function checkLikeStatus() {
-    const {data} = await supabase.from('artworks_bookmarks').select().match({
+    const {data} = await supabase
+      .from('artworks_bookmarks')
+      .select().match({
       artwork_id: artwork_id,
       user_id: currentUser?.id,
     });
@@ -42,7 +44,9 @@ export function ArtworkBookmark({bookmarks, artwork_id, currentUser}: Props) {
     if (!artwork_id || !currentUser) return;
 
     setLoaded(false);
-    const {error} = await supabase.from('artworks_bookmarks').insert({
+    const {error} = await supabase
+      .from('artworks_bookmarks')
+      .insert({
       artwork_id: artwork_id,
       user_id: currentUser.id,
     });
@@ -51,22 +55,26 @@ export function ArtworkBookmark({bookmarks, artwork_id, currentUser}: Props) {
       return;
     }
     console.log('book handler');
-    checkLikeStatus().then();
+    checkLikeStatus().finally();
 
   }
 
   async function removeBookmarkHandler(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     setLoaded(false);
-    const {data} = await supabase.from('artworks_bookmarks').select().match({
+    const {data} = await supabase
+      .from('artworks_bookmarks')
+      .select().match({
       artwork_id: artwork_id,
       user_id: currentUser?.id,
     });
     if (data && data[0]) {
-      const {error} = await supabase.from('artworks_bookmarks').delete().eq('id', data[0].id);
+      const {error} = await supabase
+        .from('artworks_bookmarks')
+        .delete().eq('id', data[0].id);
       if (!error) {
         console.log('delete book handler');
-        checkLikeStatus().then();
+        checkLikeStatus().finally();
       }
     }
   }
@@ -120,4 +128,4 @@ export function ArtworkBookmark({bookmarks, artwork_id, currentUser}: Props) {
         </span>
       </button>
   );
-}
+};

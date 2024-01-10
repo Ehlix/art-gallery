@@ -179,6 +179,7 @@ export interface Database {
           id: string
           name: string
           resume: Json | null
+          site: string
           social: Json | null
           user_id: string
         }
@@ -193,6 +194,7 @@ export interface Database {
           id?: string
           name: string
           resume?: Json | null
+          site?: string
           social?: Json | null
           user_id: string
         }
@@ -207,6 +209,7 @@ export interface Database {
           id?: string
           name?: string
           resume?: Json | null
+          site?: string
           social?: Json | null
           user_id?: string
         }

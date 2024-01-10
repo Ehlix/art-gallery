@@ -30,7 +30,7 @@ type MetadataObj = {
   name: string
 }
 
-export default function ArtworkComments({artwork_id, currentUser}: Props) {
+export const ArtworkComments = ({artwork_id, currentUser}: Props) => {
   const [commentsData, setCommentsData] = useState<CommentsData[]>([]);
   const [isView, setIsView] = useState<boolean>(false);
   const supabase = createClientComponentClient<Database>();
@@ -45,11 +45,17 @@ export default function ArtworkComments({artwork_id, currentUser}: Props) {
 
   async function getCommentsData() {
     const newCommentsData: CommentsData[] = [];
-    const {data} = await supabase.from('artworks_comments').select().eq('artwork_id', artwork_id);
+    const {data} = await supabase
+      .from('artworks_comments')
+      .select().eq('artwork_id', artwork_id);
     if (data) {
       for (const v of data) {
-        const {data} = await supabase.from('profiles').select().eq('user_id', v.user_id || '');
-        const {data: user} = await supabase.from('users').select().eq('id', v.user_id || '');
+        const {data} = await supabase
+          .from('profiles')
+          .select().eq('user_id', v.user_id || '');
+        const {data: user} = await supabase
+          .from('users')
+          .select().eq('id', v.user_id || '');
         const profile = data && data[0];
         if (profile) {
           const avatarLink = (profile.folder && profile.avatar) ? `avatars/${profile.folder}/${profile.avatar}` : '';
@@ -141,7 +147,8 @@ export default function ArtworkComments({artwork_id, currentUser}: Props) {
             </div>
           )
         )}
-        {currentUser &&
+        {
+          currentUser &&
           <AddComment
             refresh={refresh}
             artwork_id={artwork_id}
@@ -151,4 +158,4 @@ export default function ArtworkComments({artwork_id, currentUser}: Props) {
     </div>
 
   );
-}
+};

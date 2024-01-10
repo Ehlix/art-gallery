@@ -2,7 +2,7 @@ import React from "react";
 import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
 import {cookies} from "next/headers";
 import {Database} from "@/lib/database.types";
-import UserLikesMain from "@/components/userLikes/userLikesMain";
+import {UserLikesMain} from "@/components/userLikes/userLikesMain";
 
 type Props = {
   params: {
@@ -14,14 +14,20 @@ const LikesPage = async ({params}: Props) => {
   const supabase = createServerComponentClient<Database>({cookies});
   const date = new Date;
   const dateStart = date.toUTCString();
-  const {data: users} = await supabase.from('users').select().eq('metadata->>site', params.username);
+  const {data: users} = await supabase
+    .from('users')
+    .select()
+    .eq('metadata->>site', params.username);
   const user = users?.length ? users[0] : null;
-  const {count} = await supabase.from('artworks_likes').select('*', {count: 'exact'}).eq('user_id', user?.id || '').lte('created_at', dateStart);
+  const {count} = await supabase
+    .from('artworks_likes')
+    .select('*', {count: 'exact'})
+    .eq('user_id', user?.id || '')
+    .lte('created_at', dateStart);
   if (user && count) {
     return (
       <UserLikesMain dateStart={dateStart} user={user} count={count}/>
     );
   }
 };
-
 export default LikesPage;

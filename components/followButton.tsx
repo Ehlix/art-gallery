@@ -13,13 +13,13 @@ type Props = {
   isFollow: boolean
 };
 
-export function FollowButton({
+export const FollowButton = ({
                                userId,
                                currentUser,
                                classNameFollow,
                                classNameUnFollow,
                                isFollow
-                             }: Props) {
+                             }: Props) => {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isFollowed, setFollowed] = useState<boolean>(isFollow);
   const supabase = createClientComponentClient<Database>();
@@ -123,4 +123,4 @@ export function FollowButton({
         </span>
       </button>
   );
-}
+};

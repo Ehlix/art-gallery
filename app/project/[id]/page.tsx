@@ -1,7 +1,7 @@
 import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
 import {cookies} from "next/headers";
 import {Database} from "@/lib/database.types";
-import NewProjectMain, {EditArtwork} from "@/components/newProject/newProjectMain";
+import {EditArtwork, NewProjectMain} from "@/components/newProject/newProjectMain";
 import {notFound, redirect} from "next/navigation";
 
 type Props = {
@@ -14,7 +14,7 @@ const ProjectIdPage = async ({params}: Props) => {
   const {data: artworks} = await supabase.from('artworks').select().eq('id', params.id);
   const artwork = artworks && artworks[0] || notFound();
   if (artwork.user_id !== user.user?.id) {
-    return redirect('/projects')
+    return redirect('/projects');
   }
   const editArtwork: EditArtwork = {
     curArtworkId: params.id,

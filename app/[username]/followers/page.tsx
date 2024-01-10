@@ -1,7 +1,7 @@
 import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
 import {cookies} from "next/headers";
 import {Database} from "@/lib/database.types";
-import RenderFollows from "@/components/renderFollows";
+import {RenderFollows} from "@/components/renderFollows";
 
 type Props = {
   params: { username: string };

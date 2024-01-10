@@ -1,10 +1,10 @@
 import {Metadata} from "next";
-import UserNav from "@/components/userMain/userNav";
+import {UserNav} from "@/components/userMain/userNav";
 import React, {Suspense} from "react";
 import {notFound, redirect} from "next/navigation";
 import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
 import {cookies} from "next/headers";
-import UserHeader from "@/components/userMain/userHeader";
+import {UserHeader} from "@/components/userMain/userHeader";
 import {Database} from "@/lib/database.types";
 
 export type HeaderDataType = {
@@ -36,7 +36,8 @@ const UserLayout = async ({
   const {data: currentUser} = await supabase.auth.getUser();
   const {data: users} = await supabase
     .from('users')
-    .select().eq('metadata->>site', params.username);
+    .select()
+    .eq('metadata->>site', params.username);
 
   // @ts-ignore
   if (!users || users.length <= 0 || users[0].metadata?.site !== params.username) {
@@ -44,7 +45,10 @@ const UserLayout = async ({
   }
   const user = users?.length === 1 ? users[0] : null;
 
-  const {data: profiles} = await supabase.from('profiles').select().eq('user_id', user?.id || '');
+  const {data: profiles} = await supabase
+    .from('profiles')
+    .select()
+    .eq('user_id', user?.id || '');
   const profile = profiles && profiles[0];
 
   if (!profile && (!currentUser.user || currentUser.user?.id !== user?.id)) {
@@ -53,7 +57,6 @@ const UserLayout = async ({
   if (!profile && (currentUser.user?.id === user?.id)) {
     redirect('/user/create-profile');
   }
-
 
   const headerData: HeaderDataType = {
     username: profile?.name || '',
@@ -67,20 +70,30 @@ const UserLayout = async ({
     isCurrentUserPage: currentUser.user?.id === profile?.user_id,
   };
 
-  const {data: following} = await supabase.from('users_followers').select().match({
-    follower_id: user?.id,
-  });
-  const {data: followers} = await supabase.from('users_followers').select().match({
-    user_id: user?.id,
-  });
-  const {data: likes} = await supabase.from('artworks_likes').select().match({
-    user_id: user?.id,
-  });
-  const {data: follow} = await supabase.from('users_followers').select().match({
-    user_id: user?.id,
-    follower_id: currentUser.user?.id,
-  });
-
+  const {data: following} = await supabase
+    .from('users_followers')
+    .select()
+    .match({
+      follower_id: user?.id,
+    });
+  const {data: followers} = await supabase
+    .from('users_followers')
+    .select()
+    .match({
+      user_id: user?.id,
+    });
+  const {data: likes} = await supabase.from('artworks_likes')
+    .select()
+    .match({
+      user_id: user?.id,
+    });
+  const {data: follow} = await supabase
+    .from('users_followers')
+    .select()
+    .match({
+      user_id: user?.id,
+      follower_id: currentUser.user?.id,
+    });
 
   const userNavData = {
     // @ts-ignore

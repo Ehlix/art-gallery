@@ -18,7 +18,7 @@ type Props = {
 
 const uniquePath = v4();
 
-export function UserProfile({profileObject}: Props) {
+export const UserProfile = ({profileObject}: Props) => {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [pictures, setPictures] = useState<NewProfilePictures>({});
   const [profile, setProfile
@@ -33,32 +33,32 @@ export function UserProfile({profileObject}: Props) {
 
   const currentCover = (profileObject?.folder && profileObject?.cover) ? `avatars/${profileObject.folder}/${profileObject.cover}` : '/default_cover.png';
 
-  function nameHandler(e: React.ChangeEvent<HTMLInputElement>) {
+  const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     // setValue('name', e.currentTarget.value.trimStart(), {shouldValidate: true});
     setProfile({
         ...profile,
         name: e.currentTarget.value.trimStart()
       }
     );
-  }
+  };
 
-  function headlineHandler(e: React.ChangeEvent<HTMLInputElement>) {
+  const headlineHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     // setValue('headline', e.currentTarget.value.trimStart(), {shouldValidate: true});
     setProfile({
         ...profile,
         headline: e.currentTarget.value.trimStart()
       }
     );
-  }
+  };
 
-  function cityHandler(e: React.ChangeEvent<HTMLInputElement>) {
+  const cityHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     // setValue('city', e.currentTarget.value.trimStart(), {shouldValidate: true});
     setProfile({
         ...profile,
         city: e.currentTarget.value.trimStart()
       }
     );
-  }
+  };
 
   return (
     <div className="flex flex-col items-center gap-5 md:items-center">
@@ -154,4 +154,4 @@ export function UserProfile({profileObject}: Props) {
       </div>
     </div>
   );
-}
+};

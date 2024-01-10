@@ -7,16 +7,16 @@ type Props = {
 };
 
 
-export function UserEmail({email}: Props) {
+export const UserEmail = ({email}: Props) => {
   const [newEmail, setNewEmail] = useState<string>(email || '');
   const [isChange, setChange] = useState<boolean>(false);
 
-  function emailChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
-    setNewEmail(e.currentTarget.value.trimStart())
+  const emailChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewEmail(e.currentTarget.value.trimStart());
     if (!isChange) {
-      setChange(true)
+      setChange(true);
     }
-  }
+  };
 
   return (
     <div className="flex flex-col">
@@ -36,9 +36,10 @@ export function UserEmail({email}: Props) {
         value={newEmail}
         placeholder=""
       />
-      {isChange &&
+      {
+        isChange &&
         <>
-          <h4 className="mb-1 mt-3 flex gap-1 text-lg text-t-hover-1/80">
+          <h4 className="mt-3 mb-1 flex gap-1 text-lg text-t-hover-1/80">
             <FaAsterisk size={10} title="Required" className="cursor-help"/>
             Please enter your password to change your email address
           </h4>
@@ -58,4 +59,4 @@ export function UserEmail({email}: Props) {
           </span>
     </div>
   );
-}
+};

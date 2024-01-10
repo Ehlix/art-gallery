@@ -11,30 +11,31 @@ type Props = {
   headerData: HeaderDataType;
 };
 
-const UserHeader = ({headerData}: Props) => {
+export const UserHeader = ({headerData}: Props) => {
 
   return (
     <div
       className="relative flex w-full justify-around overflow-hidden h-[350px]">
       <div
         className="h-full w-full overflow-hidden min-w-[550px] aspect-[4/1] bg-t-main/50 xl:min-w-[400px]">
-        {headerData.coverLink
-          ?
-          <Image
-            className="h-full w-full object-cover"
-            src={headerData.coverLink}
-            priority={true}
-            alt="avatar"
-            height={800}
-            width={800}/>
-          :
-          <Image
-            unoptimized
-            className="h-full w-full object-cover"
-            src="/default_cover.png"
-            alt="avatar"
-            height={800}
-            width={800}/>
+        {
+          headerData.coverLink
+            ?
+            <Image
+              className="h-full w-full object-cover"
+              src={headerData.coverLink}
+              priority={true}
+              alt="avatar"
+              height={800}
+              width={800}/>
+            :
+            <Image
+              unoptimized
+              className="h-full w-full object-cover"
+              src="/default_cover.png"
+              alt="avatar"
+              height={800}
+              width={800}/>
         }
       </div>
       <div className="absolute h-full w-full bg-grad-5"></div>
@@ -71,7 +72,8 @@ const UserHeader = ({headerData}: Props) => {
             <span className="mr-1 capitalize">{headerData.country}</span>
             <HiMapPin/>
           </div>
-          {headerData.website &&
+          {
+            headerData.website &&
             <div className="flex transition-all text-t-hover-5 hover:text-t-hover-6">
               <a
                 target="_blank"
@@ -102,5 +104,3 @@ const UserHeader = ({headerData}: Props) => {
     </div>
   );
 };
-
-export default UserHeader;

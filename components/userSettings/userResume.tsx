@@ -8,7 +8,7 @@ type Props = {
 };
 
 
-export function UserResume({resumeObject}: Props) {
+export const UserResume = ({resumeObject}: Props) => {
   const [isLoading] = useState<boolean>(false);
   const [resume, setResume] = useState<ResumeObject>({
     hiring: resumeObject?.hiring || [],
@@ -29,4 +29,4 @@ export function UserResume({resumeObject}: Props) {
               customClassName="flex h-fit flex-col gap-5 rounded-md p-10 text-lg bg-t-main/20 w-[70vw] md:w-full lg:w-[60vw] lg:p-5"/>
     </div>
   );
-}
+};

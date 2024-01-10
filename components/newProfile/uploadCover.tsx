@@ -2,12 +2,13 @@ import * as React from "react";
 import {useEffect, useRef, useState} from "react";
 import {MdArrowUpward} from "react-icons/md";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
-import {bytesToMb, renameFile} from "@/utils/utils";
 import Env from "@/lib/env";
 import {v4} from "uuid";
 import Image from "next/image";
 import {canvasRatio} from "@/utils/canvasRatio";
 import {NewProfilePictures} from "@/components/newProfile/newProfileMain";
+import {bytesToMb} from "@/utils/bytesToMb";
+import {renameFile} from "@/utils/renameFile";
 
 type Props = {
   uniquePath: string
@@ -22,17 +23,22 @@ type Cover = {
   status: "error" | "notLoaded" | "loading" | "loaded"
 }
 
-export function UploadCover({uniquePath, setPictures, currentCover, setLoading}: Props) {
+export const UploadCover = ({
+                              uniquePath,
+                              setPictures,
+                              currentCover,
+                              setLoading
+                            }: Props) => {
   const supabase = createClientComponentClient();
   const inputFile = useRef(null);
   const [cover, setCover] = useState<Cover | null>(null);
 
-  function clickHandler() {
+  const clickHandler = () => {
 // @ts-ignore
     inputFile.current.click();
-  }
+  };
 
-  async function imagesChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
+  const imagesChangeHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputFile: File | null = e.target.files && e.target.files[0];
     if (inputFile) {
       if (bytesToMb(inputFile.size) > 15) {
@@ -40,12 +46,11 @@ export function UploadCover({uniquePath, setPictures, currentCover, setLoading}:
         return;
       }
       const file = await canvasRatio(inputFile, 4);
-
       if (cover) {
-        const {
-          data,
-          error
-        } = await supabase.storage.from(Env.PROJECTS_BUCKET).remove([`cache/${uniquePath}/${cover.file.name}`]);
+        const {data, error} = await supabase
+          .storage
+          .from(Env.PROJECTS_BUCKET)
+          .remove([`cache/${uniquePath}/${cover.file.name}`]);
         if (data) {
           const newAvatar: Cover = {
             id: v4(),
@@ -59,7 +64,6 @@ export function UploadCover({uniquePath, setPictures, currentCover, setLoading}:
         }
         return;
       }
-
       const newAvatar: Cover = {
         id: v4(),
         file: renameFile(file, `cover_${v4()}.jpg`),
@@ -67,7 +71,7 @@ export function UploadCover({uniquePath, setPictures, currentCover, setLoading}:
       };
       setCover(newAvatar);
     }
-  }
+  };
 
   useEffect(() => {
     if (cover?.status === 'notLoaded') {
@@ -75,12 +79,13 @@ export function UploadCover({uniquePath, setPictures, currentCover, setLoading}:
         setLoading(true);
         setCover({...cover, status: 'loading'});
         console.log('cover start loading..');
-        const {
-          data, error
-        } = await supabase.storage.from(`${Env.PROJECTS_BUCKET}/cache`).upload(`${uniquePath}/${cover.file.name}`, cover.file, {
-          cacheControl: '3600',
-          upsert: false
-        });
+        const {data, error} = await supabase
+          .storage
+          .from(`${Env.PROJECTS_BUCKET}/cache`)
+          .upload(`${uniquePath}/${cover.file.name}`, cover.file, {
+            cacheControl: '3600',
+            upsert: false
+          });
         if (data) {
           console.log(data);
           setCover({
@@ -138,4 +143,4 @@ export function UploadCover({uniquePath, setPictures, currentCover, setLoading}:
         accept="image/,.png,.jpg,.jpeg"/>
     </div>
   );
-}
+};

@@ -1,30 +1,28 @@
 import Link from "next/link";
 import React from "react";
-import NavMobileButton from "@/components/navigation/navMobileButton";
-import NavInput from "@/components/navigation/NavInput";
+import {NavMobileButton} from "@/components/navigation/navMobileButton";
+import {SearchBar} from "@/components/navigation/searchBar";
 import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
 import {cookies} from "next/headers";
-import UserNavPanel from "@/components/navigation/userNavPanel";
+import {UserNavPanel} from "@/components/navigation/userNavPanel";
 import {AuthButton} from "@/components/navigation/authButton";
 import Image from "next/image";
+import {Database} from "@/lib/database.types";
 
-const navMainTags = ['explore', 'blogs', 'jobs'];
-
-export async function NavMain() {
-  const supabase = createServerComponentClient({cookies});
+export const NavMain = async () => {
+  const supabase = createServerComponentClient<Database>({cookies});
   const {data} = await supabase.auth.getSession();
-  // console.log('nav-data', data?.session?.userMain.aud);
   const isAuthorized = data?.session !== null;
-  const {data: profile} = await supabase.from('profiles').select().eq('user_id', data?.session?.user.id);
+  const {data: profile} = await supabase
+    .from('profiles')
+    .select().eq('user_id', data?.session?.user.id || '');
   const createProfileLink = !!data.session && !!profile && !profile[0];
   console.log('Authorized: ', isAuthorized);
   return (
     <>
       <nav
-        className="container fixed top-0 z-40 flex w-full select-none items-center justify-between gap-7 text-t-main bg-t-main-2 h-[60px] no-wrap md:h-[45px]">
-
+        className="container fixed top-0 z-40 flex w-full select-none items-center justify-between gap-7 no-wrap text-t-main bg-t-main-2 h-[60px] md:h-[45px]">
         <NavMobileButton isAuthorized={isAuthorized}/>
-
         <Link href="/"
               className="min-w-[40px] min-h-[40px] md:w-[40px] md:absolute md:right-0 md:left-0 md:mx-auto">
           <Image src="/logo.svg" alt="1231" width={100}
@@ -34,19 +32,16 @@ export async function NavMain() {
                  unoptimized
                  priority={true}/>
         </Link>
-
         <div className="flex w-full items-center gap-7 md:hidden">
-          {navMainTags.map((v, i) => {
-            return <Link
-              key={i}
-              href="/"
-              className="capitalize relative transition-all decoration-t-hover-2 decoration-[2.5px] hover:text-t-hover-1
+          <Link
+            href="/"
+            className="capitalize relative transition-all decoration-t-hover-2 decoration-[2.5px] hover:text-t-hover-1
             hover:before:absolute hover:before:top-full hover:before:w-full hover:before:l-0 hover:before:h-[3px] hover:before:rounded-md hover:before:bg-t-hover-2
-            ">{v}</Link>;
-          })}
-          <NavInput/>
+            ">
+            Explore
+          </Link>
+          <SearchBar/>
         </div>
-
         <div className="flex w-auto gap-5 text-base h-[35px]">
           {isAuthorized
             ?
@@ -60,7 +55,8 @@ export async function NavMain() {
       <div
         className="relative top-0 w-full min-h-[60px] md:min-h-[45px]">
       </div>
-      {createProfileLink &&
+      {
+        createProfileLink &&
         <>
           <div
             className="fixed z-30 flex w-full items-center justify-center bg-t-pop-1 h-[25px]">
@@ -77,4 +73,4 @@ export async function NavMain() {
       }
     </>
   );
-}
+};

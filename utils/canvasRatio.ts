@@ -1,4 +1,4 @@
-function dataURItoBlob(dataURI: string) {
+const dataURItoBlob = (dataURI: string) => {
 // convert base64/URLEncoded data component to raw binary data held in a string
   let byteString;
   if (dataURI.split(',')[0].indexOf('base64') >= 0)
@@ -13,10 +13,9 @@ function dataURItoBlob(dataURI: string) {
     ia[i] = byteString.charCodeAt(i);
   }
   return new Blob([ia], {type: mimeString});
-}
+};
 
-export function canvasRatio(file: File, aspectRatio: number): Promise<File> {
-
+export const canvasRatio = (file: File, aspectRatio: number): Promise<File> => {
   const url = URL.createObjectURL(file);
 
   // we return a Promise that gets resolved with our canvas element
@@ -70,5 +69,4 @@ export function canvasRatio(file: File, aspectRatio: number): Promise<File> {
     // start loading our image
     inputImage.src = url;
   });
-
-}
+};

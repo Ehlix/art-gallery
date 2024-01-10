@@ -4,7 +4,7 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import {Database} from "@/lib/database.types";
 import {createClientComponentClient, User} from "@supabase/auth-helpers-nextjs";
-import AvatarNameFollow from "@/components/avatarNameFollow";
+import {AvatarNameFollow} from "@/components/avatarNameFollow";
 import Image from "next/image";
 import Link from "next/link";
 import {RiLoader3Line} from "react-icons/ri";
@@ -24,7 +24,7 @@ type Props = {
   dateStart: string
 };
 
-const RenderFollows = ({
+export const RenderFollows = ({
                          userFromPage,
                          followsCount,
                          className,
@@ -197,5 +197,3 @@ const RenderFollows = ({
     </>
   );
 };
-
-export default RenderFollows;

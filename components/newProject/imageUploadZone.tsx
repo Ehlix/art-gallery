@@ -1,14 +1,16 @@
 import * as React from 'react';
 import {useEffect, useRef, useState} from 'react';
-import {bytesToMb, renameFile, sortSelectedFiles} from "@/utils/utils";
 import Env from "@/lib/env";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import {RiLoader3Line} from "react-icons/ri";
-import RemoveConfirmation from "@/components/removeConfirmation";
+import {RemoveConfirmation} from "@/components/removeConfirmation";
 import {SelectedFileType} from "@/components/newProject/newProjectMain";
 import {cn} from "@/utils/twMergeClsx";
 import {v4} from "uuid";
+import {bytesToMb} from "@/utils/bytesToMb";
+import {renameFile} from "@/utils/renameFile";
+import {sortSelectedFiles} from "@/utils/sortSelectedFiles";
 
 type Props = {
   selectedFiles: SelectedFileType[]
@@ -17,7 +19,7 @@ type Props = {
 };
 
 
-export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: Props) {
+export const ImageUploadZone = ({uniquePath, selectedFiles, setSelectedFiles}: Props) => {
   const inputFile = useRef(null);
 
   const supabase = createClientComponentClient();
@@ -44,19 +46,20 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
     }
     setSelectedFiles([...newFiles]);
   };
+
   useEffect(() => {
     if (selectedFiles.length > 0) {
       console.log('start: ', selectedFiles);
       selectedFiles.map(async (target) => {
         if (target.status === 'notLoaded' && target?.file) {
           target.status = 'loading';
-          const {
-            data,
-            error
-          } = await supabase.storage.from(`${Env.PROJECTS_BUCKET}/cache`).upload(`${uniquePath}/${target.file.name}`, target.file, {
-            cacheControl: '3600',
-            upsert: false
-          });
+          const {data, error} = await supabase
+            .storage
+            .from(`${Env.PROJECTS_BUCKET}/cache`)
+            .upload(`${uniquePath}/${target.file.name}`, target.file, {
+              cacheControl: '3600',
+              upsert: false
+            });
           if (data) {
             console.log(data);
             target.status = 'loaded';
@@ -104,21 +107,21 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
   // }
 
 
-  function dragStartHandler(e: React.DragEvent<HTMLDivElement>, target: SelectedFileType) {
+  const dragStartHandler = (e: React.DragEvent<HTMLDivElement>, target: SelectedFileType) => {
     setCurrentTarget(target);
-  }
+  };
 
-  function dragEndHandler(e: React.DragEvent<HTMLDivElement>) {
+  const dragEndHandler = (e: React.DragEvent<HTMLDivElement>) => {
     e.currentTarget.style.border = '3px solid ' + '#888888';
 
-  }
+  };
 
-  function dragOverHandler(e: React.DragEvent<HTMLDivElement>) {
+  const dragOverHandler = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.currentTarget.style.border = '3px dashed ' + '#cc67ff';
-  }
+  };
 
-  function dropHandler(e: React.DragEvent<HTMLDivElement>, target: SelectedFileType) {
+  const dropHandler = (e: React.DragEvent<HTMLDivElement>, target: SelectedFileType) => {
     e.preventDefault();
     setSelectedFiles(selectedFiles.map(t => {
       if (t.id === target.id) {
@@ -130,7 +133,7 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
       return t;
     }));
     e.currentTarget.style.border = '3px solid ' + '#888888';
-  }
+  };
 
 
   // async function removeSelectedFile(e: React.MouseEvent<HTMLButtonElement>, target: SelectedFileType) {
@@ -222,7 +225,8 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
                 }
                 <div
                   className="pointer-events-none absolute top-0 left-0 h-full w-full shadow-black/40 shadow-[inset_-10px_100px_30px_-70px]"></div>
-                {isFullLoad &&
+                {
+                  isFullLoad &&
                   <RemoveConfirmation
                     className="absolute top-0 right-0 m-2 text-2xl text-t-error"
                     callback={confirmRemoveHandler}/>
@@ -234,4 +238,4 @@ export function ImageUploadZone({uniquePath, selectedFiles, setSelectedFiles}: P
       </div>
     </>
   );
-}
+};

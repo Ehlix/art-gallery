@@ -6,10 +6,7 @@ import React, {useState} from "react";
 import {cn} from "@/utils/twMergeClsx";
 import {useRouter} from "next/navigation";
 
-type Props = {};
-
-
-const FilterList = (props: Props) => {
+export const FilterList = () => {
   const router = useRouter();
   const [isDown, setIsDown] = useState<boolean>(false);
   const [starX, setStarX] = useState<number>(0);
@@ -131,5 +128,3 @@ const FilterList = (props: Props) => {
     </div>
   );
 };
-
-export default FilterList;

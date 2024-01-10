@@ -1,10 +1,10 @@
 import * as yup from 'yup';
-import {bytesToMb} from "@/utils/utils";
-import {SelectedFileType, Thumbnail} from "@/components/newProject/newProjectMain";
+import {bytesToMb} from "@/utils/bytesToMb";
+import {SelectedFileType, ThumbnailType} from "@/components/newProject/newProjectMain";
 
 export const newProjectSchema = yup.object({
   title: yup.string().min(5).max(50).required(),
-  thumbnail: yup.mixed<Thumbnail>().test('thumbnailLength', 'upload thumbnail', (thumbnail) => {
+  thumbnail: yup.mixed<ThumbnailType>().test('thumbnailLength', 'upload thumbnail', (thumbnail) => {
     return !!thumbnail;
   }).test('thumbnail', 'only JPEG, PNG image are allowed',
     (thumbnail) => {

@@ -6,20 +6,20 @@ import Link from "next/link";
 
 type Props = {};
 
-const LeftNavigation = (props: Props) => {
+export const LeftNavigation = (props: Props) => {
   const params = useParams();
   const aaa = [1, 2, 3];
   return (
     <>
-      <div className="grow flex flex-col py-5 gap-5">
+      <div className="flex grow flex-col gap-5 py-5">
         {
           !params.album
             ?
             <div
-              className="flex items-center gap-1 border rounded-md border-t-main px-2 py-2 bg-t-main-3">
+              className="flex items-center gap-1 rounded-md border px-2 py-2 border-t-main bg-t-main-3">
               <MdApps size={20}/>
               <div className="flex flex-col">
-                <div className="text-t-hover-1 flex gap-1 items-center">
+                <div className="flex items-center gap-1 text-t-hover-1">
                   <MdFolderOpen size={20}/>
                   <span>
                    All
@@ -35,10 +35,10 @@ const LeftNavigation = (props: Props) => {
             </div>
             :
             <Link href={'/projects'}
-                  className="flex items-center gap-1 border rounded-md border-t-main px-2 py-2">
+                  className="flex items-center gap-1 rounded-md border px-2 py-2 border-t-main">
               <MdApps size={20}/>
               <div className="flex flex-col">
-                <div className="flex gap-1 items-center">
+                <div className="flex items-center gap-1">
                   <MdFolder size={20}/>
                   <span>
                 All
@@ -59,10 +59,10 @@ const LeftNavigation = (props: Props) => {
               (params.album === v + '')
                 ?
                 <div
-                  className="flex items-center gap-1 border rounded-md border-t-main px-2 py-2 bg-t-main-3">
+                  className="flex items-center gap-1 rounded-md border px-2 py-2 border-t-main bg-t-main-3">
                   <MdApps size={20}/>
                   <div className="flex flex-col">
-                    <div className="text-t-hover-1 flex gap-1 items-center">
+                    <div className="flex items-center gap-1 text-t-hover-1">
                       <MdFolderOpen size={20}/>
                       <span>
                    {v}
@@ -79,10 +79,10 @@ const LeftNavigation = (props: Props) => {
                 :
                 <Link key={v}
                       href={`/projects/${v}`}
-                      className="flex items-center gap-1 border rounded-md border-t-main px-2 py-2">
+                      className="flex items-center gap-1 rounded-md border px-2 py-2 border-t-main">
                   <MdApps size={20}/>
                   <div className="flex flex-col">
-                    <div className="flex gap-1 items-center">
+                    <div className="flex items-center gap-1">
                       <MdFolder size={20}/>
                       <span>
                         {v}
@@ -100,16 +100,16 @@ const LeftNavigation = (props: Props) => {
           })
         }
         <button
-          className="border group rounded-md border-t-main px-2 hover:text-t-hover-1 hover:border-t-hover-1 py-1 flex items-center justify-center gap-1">
+          className="flex items-center justify-center gap-1 rounded-md border px-2 py-1 group border-t-main hover:text-t-hover-1 hover:border-t-hover-1">
           <MdAdd size={20}
-                 className="text-t-hover-2 group-hover:text-t-hover-3 transition-all duration-300"/>
+                 className="transition-all duration-300 text-t-hover-2 group-hover:text-t-hover-3"/>
           Create new album
         </button>
       </div>
       <button
-        className="border group rounded-md border-t-main px-4 hover:text-t-hover-1 hover:border-t-hover-1 py-1 flex items-center justify-start gap-1">
+        className="flex items-center justify-start gap-1 rounded-md border px-4 py-1 group border-t-main hover:text-t-hover-1 hover:border-t-hover-1">
         <MdDelete size={20}/>
-        <span className="grow flex items-start">
+        <span className="flex grow items-start">
           Trash
         </span>
         <span>
@@ -119,5 +119,3 @@ const LeftNavigation = (props: Props) => {
     </>
   );
 };
-
-export default LeftNavigation;

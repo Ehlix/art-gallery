@@ -1,5 +1,5 @@
 'use client';
-import RenderPictures from "@/components/renderPictures";
+import {RenderPictures} from "@/components/renderPictures";
 import React from "react";
 import {SupabaseClient, User,} from "@supabase/auth-helpers-nextjs";
 import {Database} from "@/lib/database.types";
@@ -18,10 +18,16 @@ type Props = {
   mode?: 'edit'
 };
 
-const UserMain = ({count, user, profile, dateStart, mode}: Props) => {
+export const UserMain = ({count, user, profile, dateStart, mode}: Props) => {
   const getArtworks = async (supabase: SupabaseClient, rangeFrom: number, step: number): Promise<Artwork[]> => {
     console.log('getArtworks');
-    const {data: artworks} = await supabase.from('artworks').select().eq('user_id', user?.id || '').order('created_at', {ascending: false}).range(rangeFrom, rangeFrom + step).lte('created_at', dateStart);
+    const {data: artworks} = await supabase
+      .from('artworks')
+      .select()
+      .eq('user_id', user?.id || '')
+      .order('created_at', {ascending: false})
+      .range(rangeFrom, rangeFrom + step)
+      .lte('created_at', dateStart);
     if (artworks && profile) {
       return artworks.map((v) => {
         return {...v, profile: profile};
@@ -39,5 +45,3 @@ const UserMain = ({count, user, profile, dateStart, mode}: Props) => {
     </>
   );
 };
-
-export default UserMain;

@@ -7,7 +7,7 @@ import {useIsMount} from "@/hooks/useIsMount";
 import {SocialObject} from "@/components/newProfile/newProfileMain";
 import {Tag, tags} from "@/lib/socialCreateTags";
 import {cn} from "@/utils/twMergeClsx";
-import {cutNameFromSite} from "@/utils/utils";
+import {cutNameFromSite} from "@/utils/cutNameFromSite";
 
 type Props = {
   social: SocialObject
@@ -15,7 +15,7 @@ type Props = {
   customClassName?: string
 };
 
-export function Social({social, customClassName, setSocial}: Props) {
+export const Social = ({social, customClassName, setSocial}: Props) => {
   const isMount = useIsMount();
   const [inputs, setInputs
   ] = useState<SocialObject>({
@@ -26,12 +26,12 @@ export function Social({social, customClassName, setSocial}: Props) {
     instagram: cutNameFromSite(social.instagram),
   });
 
-  function inputHandler(e: React.ChangeEvent<HTMLInputElement>, tag: Tag) {
+  const inputHandler = (e: React.ChangeEvent<HTMLInputElement>, tag: Tag) => {
     setInputs({...inputs, [tag]: e.currentTarget.value.trim()});
-  }
+  };
 
 
-  function validHandler(e: React.FormEvent<HTMLFormElement>, tag: Tag, type: 'site' | 'email' | 'text') {
+  const validHandler = (e: React.FormEvent<HTMLFormElement>, tag: Tag, type: 'site' | 'email' | 'text') => {
     e.preventDefault();
     if (!inputs[tag]) return;
 
@@ -57,17 +57,16 @@ export function Social({social, customClassName, setSocial}: Props) {
       setSocial({...social, [tag]: name});
     }
     return;
-  }
+  };
 
-  function changeHandler(tag: Tag) {
+  const changeHandler = (tag: Tag) => {
     setSocial({...social, [tag]: ''});
-  }
+  };
 
-  function deleteHandler(tag: Tag) {
+  const deleteHandler = (tag: Tag) => {
     setSocial({...social, [tag]: ''});
     setInputs({...social, [tag]: ''});
-  }
-
+  };
 
   return (
     <div
@@ -82,7 +81,6 @@ export function Social({social, customClassName, setSocial}: Props) {
             This fields is not required.
           </p>
         </div>
-
         <div className="flex flex-col gap-10">
           {tags.map((v) => {
             return (
@@ -139,8 +137,7 @@ export function Social({social, customClassName, setSocial}: Props) {
           })
           }
         </div>
-
       </div>
     </div>
   );
-}
+};

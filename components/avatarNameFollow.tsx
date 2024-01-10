@@ -14,7 +14,7 @@ type Props = {
   isFollow?: boolean
 };
 
-const AvatarNameFollow = ({
+export const AvatarNameFollow = ({
                             profile,
                             site,
                             currentUser,
@@ -84,5 +84,3 @@ const AvatarNameFollow = ({
     </div>
   );
 };
-
-export default AvatarNameFollow;

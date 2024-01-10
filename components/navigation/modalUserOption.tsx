@@ -2,20 +2,18 @@ import * as React from 'react';
 import {useRef} from 'react';
 import * as Separator from "@radix-ui/react-separator";
 import Link from "next/link";
-import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
-import {useRouter} from "next/navigation";
 import {
   MdFavorite,
   MdGroups,
   MdImage,
   MdLibraryBooks,
-  MdLogout,
   MdSchool,
   MdSettings
 } from "react-icons/md";
 import Image from "next/image";
 import {NavUser} from "@/components/navigation/userNavPanel";
 import {useClickOutside} from "@/hooks/useClickOutside";
+import {SignOutButton} from "@/components/navigation/signOutButton";
 
 const modalTags = [
   {title: 'My learning', icon: MdSchool, href: '/'},
@@ -33,15 +31,8 @@ type Props = {
   closeHandler: () => void
 }
 
-export function ModalUserOption({user, closeHandler}:Props) {
+export const ModalUserOption = ({user, closeHandler}: Props) => {
   const menuRef = useRef(null);
-  const supabase = createClientComponentClient();
-  const router = useRouter();
-  const logout = async () => {
-    await supabase.auth.signOut();
-    router.refresh();
-    router.push('/');
-  };
 
   useClickOutside(menuRef, () => {
     closeHandler();
@@ -50,7 +41,7 @@ export function ModalUserOption({user, closeHandler}:Props) {
   return (
     <div
       ref={menuRef}
-      className="absolute right-0 z-50 flex flex-col rounded-t-none shadow-black/25 shadow-[inset_0_-500px_150px_-200px] backdrop-blur-[10px] top-[60px] text-xl bg-t-main-2/80 rounded-bl-md w-[300px] p-3 text-t-hover-1 sm:bg-t-main-2 sm:backdrop-blur-[0px] sm:w-[100%] sm:rounded-none sm:shadow-black/30 md:top-[45px] overflow-x-hidden overflow-y-auto h-fit max-h-[92vh]">
+      className="absolute right-0 z-50 flex h-fit flex-col overflow-y-auto overflow-x-hidden rounded-t-none rounded-bl-md p-3 text-xl shadow-black/25 shadow-[inset_0_-500px_150px_-200px] backdrop-blur-[10px] top-[60px] bg-t-main-2/80 w-[300px] text-t-hover-1 max-h-[92vh] sm:bg-t-main-2 sm:backdrop-blur-[0px] sm:w-[100%] sm:rounded-none sm:shadow-black/30 md:top-[45px]">
       <Link
         href={`/${user?.site}`}
         className="text-t-hover-1/80 flex items-center justify-start transition-all w-full min-h-[50px] gap-3 hover:text-t-hover-1
@@ -92,8 +83,8 @@ export function ModalUserOption({user, closeHandler}:Props) {
             return (
               <Link key={i}
                     href={v.href}
-                    className="flex items-center justify-start transition-all w-full gap-3 rounded-md py-2 p-3 hover:bg-t-main/70">
-                 <v.icon className='mt-0.5'/>
+                    className="flex w-full items-center justify-start gap-3 rounded-md p-3 py-2 transition-all hover:bg-t-main/70">
+                <v.icon className="mt-0.5"/>
                 <span>
                   {v.title}
                 </span>
@@ -102,15 +93,7 @@ export function ModalUserOption({user, closeHandler}:Props) {
           }
         })}
       </div>
-
-      <button
-        onClick={logout}
-        className="flex items-center justify-start transition-all w-full gap-3 rounded-md py-2 p-3 hover:bg-t-main/70">
-          <MdLogout className='mt-0.5'/>
-        <span>
-          Sign out
-        </span>
-      </button>
+      <SignOutButton/>
     </div>
   );
-}
+};

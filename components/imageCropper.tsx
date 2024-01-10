@@ -1,6 +1,6 @@
 import {FC, useEffect, useRef, useState} from "react";
 import Cropper, {Area} from "react-easy-crop";
-import {loadImage} from "@/utils/helper";
+import {loadImage} from "@/utils/loadImageHelper";
 
 interface Props {
   source: string;
@@ -15,9 +15,7 @@ interface Props {
   onCrop(image: Blob): void;
 }
 
-function degreesToRadians(degrees: number): number {
-  return (degrees * Math.PI) / 180;
-}
+export const degreesToRadians = (degrees: number): number => (degrees * Math.PI) / 180;
 
 function rotateSize(width: number, height: number, rotation: number) {
   const rotRad = degreesToRadians(rotation);
@@ -30,15 +28,15 @@ function rotateSize(width: number, height: number, rotation: number) {
   };
 }
 
-const ImageCropper: FC<Props> = ({
-                                   source,
-                                   height,
-                                   width,
-                                   zoom,
-                                   rotation,
-                                   onCrop,
-                                   onZoomChange,
-                                 }) => {
+export const ImageCropper: FC<Props> = ({
+                                          source,
+                                          height,
+                                          width,
+                                          zoom,
+                                          rotation,
+                                          onCrop,
+                                          onZoomChange,
+                                        }) => {
   const [loading, setLoading] = useState(true);
   const [crop, setCrop] = useState({x: 0, y: 0, width, height});
   const [size, setSize] = useState({width: 0, height: 0});
@@ -156,5 +154,3 @@ const ImageCropper: FC<Props> = ({
     </div>
   );
 };
-
-export default ImageCropper;

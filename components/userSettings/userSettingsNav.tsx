@@ -77,7 +77,7 @@ const navTags: NavTag[] = [
   },
 ];
 
-export default function UserSettingsNav({profile, site, date}: Props) {
+export const UserSettingsNav = ({profile, site, date}: Props) => {
   const pathname = usePathname();
   const userDate = new Date(date);
   const userMember = userDate.toLocaleDateString();
@@ -86,22 +86,23 @@ export default function UserSettingsNav({profile, site, date}: Props) {
       <div className="flex gap-2">
         <Link href={`/${site}`}
               className="overflow-hidden rounded-full w-[80px] bg-t-main h-[80px]">
-          {(profile?.folder && profile?.avatar)
-            ?
-            <Image
-              className="h-full w-full object-cover"
-              src={`avatars/${profile.folder}/${profile.avatar}`}
-              alt="avatar"
-              height={500}
-              width={500}/>
-            :
-            <Image
-              unoptimized
-              className="h-full w-full object-cover"
-              src="/default_avatar.png"
-              alt="avatar"
-              height={500}
-              width={500}/>
+          {
+            (profile?.folder && profile?.avatar)
+              ?
+              <Image
+                className="h-full w-full object-cover"
+                src={`avatars/${profile.folder}/${profile.avatar}`}
+                alt="avatar"
+                height={500}
+                width={500}/>
+              :
+              <Image
+                unoptimized
+                className="h-full w-full object-cover"
+                src="/default_avatar.png"
+                alt="avatar"
+                height={500}
+                width={500}/>
           }
         </Link>
         <div className="flex w-fit flex-col justify-evenly gap-1 leading-none">
@@ -120,29 +121,30 @@ export default function UserSettingsNav({profile, site, date}: Props) {
         <Separator.Root
           decorative
           className="bg-t-main data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px my-1"/>
-        {navTags.map((v) => {
-          const current = pathname === `/user/settings/${v.link}`;
-          return (
-            <Fragment key={v.link}>
-              <Link
-                href={`${v.link}`}
-                className={cn("rounded-md flex items-center leading-none gap-1 p-3 px-3 hover:bg-t-main-3 hover:text-t-hover-1", {
-                  'bg-t-main-3 text-t-hover-1 border-l-[2px] border-l-t-hover-2 pl-3 rounded-l-sm': current
-                })}>
-                <v.icon/>
-                <span>
+        {
+          navTags.map((v) => {
+            const current = pathname === `/user/settings/${v.link}`;
+            return (
+              <Fragment key={v.link}>
+                <Link
+                  href={`${v.link}`}
+                  className={cn("rounded-md flex items-center leading-none gap-1 p-3 px-3 hover:bg-t-main-3 hover:text-t-hover-1", {
+                    'bg-t-main-3 text-t-hover-1 border-l-[2px] border-l-t-hover-2 pl-3 rounded-l-sm': current
+                  })}>
+                  <v.icon/>
+                  <span>
               {v.title}
               </span>
-              </Link>
-              {v.separator &&
-                <Separator.Root
-                  decorative
-                  className="bg-t-main data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px my-1"/>
-              }
-            </Fragment>
-          );
-        })}
+                </Link>
+                {v.separator &&
+                  <Separator.Root
+                    decorative
+                    className="bg-t-main data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px my-1"/>
+                }
+              </Fragment>
+            );
+          })}
       </div>
     </div>
   );
-}
+};

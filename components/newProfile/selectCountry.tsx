@@ -10,7 +10,7 @@ type Props = {
   setProfile: React.Dispatch<React.SetStateAction<ProfileObject>>
 };
 
-export function SelectCountry({country, setProfile}: Props) {
+export const SelectCountry = ({country, setProfile}: Props) => {
   const menuRef = useRef(null);
   const [open, setOpen] = useState<boolean>(false);
   const [searchCountry, setSearchCountry] = useState<string>('');
@@ -19,11 +19,11 @@ export function SelectCountry({country, setProfile}: Props) {
     if (open) setTimeout(() => setOpen(false), 170);
   });
 
-  function searchHandler(e: React.ChangeEvent<HTMLInputElement>) {
+  const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchCountry(e.currentTarget.value.trimStart());
-  }
+  };
 
-  function addCountryHandler(country: string) {
+  const addCountryHandler = (country: string) => {
     setProfile((prev) => {
       return {
         ...
@@ -32,7 +32,7 @@ export function SelectCountry({country, setProfile}: Props) {
       };
     });
     setOpen(false);
-  }
+  };
 
   return (
     <div className="relative w-full">
@@ -83,4 +83,4 @@ export function SelectCountry({country, setProfile}: Props) {
 
 
   );
-}
+};

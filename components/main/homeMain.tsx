@@ -2,9 +2,9 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
 import {Database} from "@/lib/database.types";
-import RenderPictures from "@/components/renderPictures";
+import {RenderPictures} from "@/components/renderPictures";
 import {createClientComponentClient, SupabaseClient} from "@supabase/auth-helpers-nextjs";
-import FilterList from "@/components/main/filterList";
+import {FilterList} from "@/components/main/filterList";
 import {useSearchParams} from "next/navigation";
 import {SUBJECTS} from "@/lib/categories_data";
 import {MdSentimentVeryDissatisfied} from "react-icons/md";
@@ -19,7 +19,7 @@ type Props = {
   dateStart: string
 }
 
-const HomeMain = ({dateStart}: Props) => {
+export const HomeMain = ({dateStart}: Props) => {
   const [filter, setFilter] = useState<string | null>(null);
   const [count, setCount] = useState<number>(0);
   const [notFounded, setNotFounded] = useState<boolean>(false);
@@ -34,22 +34,34 @@ const HomeMain = ({dateStart}: Props) => {
 
   useEffect(() => {
     setCount(0);
-    supabase.from('artworks').select('*', {count: 'exact'}).lte('created_at', dateStart).contains('subject', [filter]).then(({count}) => {
-      count === 0 ? setNotFounded(true) : setNotFounded(false);
-      setCount(count || 0);
-      ;
-    });
+    supabase
+      .from('artworks')
+      .select('*', {count: 'exact'})
+      .lte('created_at', dateStart)
+      .contains('subject', [filter])
+      .then(({count}) => {
+        count === 0 ? setNotFounded(true) : setNotFounded(false);
+        setCount(count || 0);
+      });
   }, [filter]);
 
 
   const getArtworks = async (supabase: SupabaseClient<Database>, rangeFrom: number, step: number, filter: string): Promise<Artwork[]> => {
     console.log('getArtworks');
     const newArtworks: Artwork[] = [];
-    const {data: artworks} = await supabase.from('artworks').select().range(rangeFrom, rangeFrom + step).lte('created_at', dateStart).contains('subject', [filter]);
+    const {data: artworks} = await supabase
+      .from('artworks')
+      .select()
+      .range(rangeFrom, rangeFrom + step)
+      .lte('created_at', dateStart)
+      .contains('subject', [filter]);
 
     if (artworks && (artworks.length > 0)) {
       for (const artwork of artworks) {
-        const {data: profile} = await supabase.from('profiles').select().eq('user_id', artwork.user_id);
+        const {data: profile} = await supabase
+          .from('profiles')
+          .select()
+          .eq('user_id', artwork.user_id);
         if (profile) {
           newArtworks.push({...artwork, profile: profile[0]});
         }
@@ -83,4 +95,3 @@ const HomeMain = ({dateStart}: Props) => {
     </div>
   );
 };
-export default HomeMain;

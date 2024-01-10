@@ -10,20 +10,22 @@ interface Props {
   onChange(value: number): void;
 }
 
-export default function AppSlider({
-                                    label,
-                                    value,
-                                    defaultValue,
-                                    max,
-                                    min,
-                                    onChange,
-                                  }: Props) {
+export const AppSlider = ({
+                            label,
+                            value,
+                            defaultValue,
+                            max,
+                            min,
+                            onChange,
+                          }: Props) => {
   const handleChange = (value: number | number[]) => {
     onChange(value as number);
   };
   return (
     <div>
-      <p>{label}</p>
+      <p>
+        {label}
+      </p>
       <div className="">
         <form>
           <Slider.Root
@@ -39,11 +41,11 @@ export default function AppSlider({
               <Slider.Range className="absolute h-full rounded-full bg-grad-1"/>
             </Slider.Track>
             <Slider.Thumb
-              className="block h-5 w-5 bg-grad-1 shadow-[0_2px_10px] shadow-t-hover-3 rounded-lg hover:bg-t-hover-3 focus:shadow-[0_0_0_5px] focus:shadow-t-hover-3/30 focus:outline-none"
+              className="block h-5 w-5 rounded-lg bg-grad-1 shadow-[0_2px_10px] shadow-t-hover-3 hover:bg-t-hover-3 focus:shadow-[0_0_0_5px] focus:shadow-t-hover-3/30 focus:outline-none"
             />
           </Slider.Root>
         </form>
       </div>
     </div>
   );
-}
+};

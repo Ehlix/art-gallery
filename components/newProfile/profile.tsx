@@ -36,13 +36,13 @@ export type ProfileObject = {
 
 const uniquePath = v4();
 
-export function Profile({
+export const Profile = ({
                           name,
                           setValue,
                           setPictures,
                           setLoading,
                           errors
-                        }: Props) {
+                        }: Props) => {
   const isMount = useIsMount();
   const [profile, setProfile
   ] = useState<ProfileObject>({
@@ -56,7 +56,14 @@ export function Profile({
     isMount && setValue('name', name, {shouldValidate: true});
   }, []);
 
-  function nameHandler(e: React.ChangeEvent<HTMLInputElement>) {
+  useEffect(() => {
+    if (isMount) {
+      return;
+    }
+    setValue('country', profile.country, {shouldValidate: true});
+  }, [profile.country]);
+
+  const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue('name', e.currentTarget.value.trimStart(), {shouldValidate: true});
     setProfile(prev => {
       return {
@@ -64,9 +71,9 @@ export function Profile({
         name: e.currentTarget.value.trimStart()
       };
     });
-  }
+  };
 
-  function headlineHandler(e: React.ChangeEvent<HTMLInputElement>) {
+  const headlineHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue('headline', e.currentTarget.value.trimStart(), {shouldValidate: true});
     setProfile(prev => {
       return {
@@ -74,9 +81,9 @@ export function Profile({
         headline: e.currentTarget.value.trimStart()
       };
     });
-  }
+  };
 
-  function cityHandler(e: React.ChangeEvent<HTMLInputElement>) {
+  const cityHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue('city', e.currentTarget.value.trimStart(), {shouldValidate: true});
     setProfile(prev => {
       return {
@@ -84,14 +91,7 @@ export function Profile({
         city: e.currentTarget.value.trimStart()
       };
     });
-  }
-
-  useEffect(() => {
-    if (isMount) {
-      return;
-    }
-    setValue('country', profile.country, {shouldValidate: true});
-  }, [profile.country]);
+  };
 
   return (
     <div
@@ -108,7 +108,6 @@ export function Profile({
             This is required fields.
           </p>
         </div>
-
         <div className="">
           <h3 className="flex mb-0.5 gap-0.5">
             <FaAsterisk size={10} title="Required" className="cursor-help"/>
@@ -175,4 +174,4 @@ export function Profile({
       </div>
     </div>
   );
-}
+};

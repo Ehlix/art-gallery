@@ -18,7 +18,6 @@ type UserNavTagType = {
 }
 
 
-
 type Props = {
   userNavData: {
     username: string
@@ -31,7 +30,7 @@ type Props = {
   }
 }
 
-const UserNav = ({userNavData}: Props) => {
+export const UserNav = ({userNavData}: Props) => {
   const path = usePathname();
   const userNavTags: UserNavTagType[] = [
     {
@@ -62,41 +61,43 @@ const UserNav = ({userNavData}: Props) => {
       count: true
     },
   ];
+
   return (
     <>
       <div
-        className="container sticky z-30 flex w-full select-none items-center justify-center gap-8 overflow-x-auto overflow-y-hidden py-2 text-base capitalize text-t-hover-1 bg-t-main-2 h-[45px] no-wrap content md:top-[45px] lg:h-[60px] lg:justify-start">
+        className="container sticky z-30 flex w-full select-none items-center justify-center gap-8 overflow-x-auto overflow-y-hidden py-2 text-base capitalize text-t-hover-1 bg-t-main-2 h-[45px] no-wrap content top-[55px] md:top-[45px] lg:h-[60px] lg:justify-start">
         <div className="flex h-full w-fit items-center gap-7">
-          {userNavTags.map((v) => {
-            const isCurrent = path === `/${userNavData.username}${v.link}`;
-            return (
-              isCurrent
-                ?
-                <div key={v.title}
-                     className="flex items-center text-xl transition-all text-t-hover-3">
+          {
+            userNavTags.map((v) => {
+              const isCurrent = path === `/${userNavData.username}${v.link}`;
+              return (
+                isCurrent
+                  ?
+                  <div key={v.title}
+                       className="flex items-center text-xl transition-all text-t-hover-3">
                   <span>
                     {v.title}
                   </span>
-                  {v.count &&
-                    <span className="ml-1 text-base text-t-hover-3">
+                    {v.count &&
+                      <span className="ml-1 text-base text-t-hover-3">
                     ({userNavData[v.title]})
                     </span>
-                  }
-                </div>
-                :
-                <Link key={v.title} href={`/${userNavData.username}${v.link}`}
-                      className="flex items-center text-xl transition-all decoration-t-hover-2 text-t-main decoration-[2.5px] hover:text-t-hover-1">
+                    }
+                  </div>
+                  :
+                  <Link key={v.title} href={`/${userNavData.username}${v.link}`}
+                        className="flex items-center text-xl transition-all decoration-t-hover-2 text-t-main decoration-[2.5px] hover:text-t-hover-1">
                   <span>
                     {v.title}
                   </span>
-                  {v.count &&
-                    <span className="ml-1 text-base text-t-main">
+                    {v.count &&
+                      <span className="ml-1 text-base text-t-main">
                     ({userNavData[v.title]})
                     </span>
-                  }
-                </Link>
-            );
-          })}
+                    }
+                  </Link>
+              );
+            })}
           {
             (userNavData.userId !== userNavData.currentUser?.id) &&
             <div
@@ -108,7 +109,7 @@ const UserNav = ({userNavData}: Props) => {
                 classNameFollow="bg-t-hover-2 hover:bg-t-hover-3 text-t-main-2 border-0 hover:text-t-main-2 m-0 px-2 w-[120px] disabled:bg-t-hover-2/70 disabled:text-t-main-2"
                 classNameUnFollow="border border-t-main/0 m-0 px-2 w-[120px] hover:border-t-error hover:bg-t-error/30 justify-center disabled:border-t-error"/>
               <button
-                className="flex h-[28px] items-center justify-center px-2 gap-2 rounded-sm transition-all duration-300 min-w-[100px] bg-t-hover-5 hover:bg-t-hover-6">
+                className="flex items-center justify-center gap-2 rounded-sm px-2 transition-all duration-300 h-[28px] min-w-[100px] bg-t-hover-5 hover:bg-t-hover-6">
                 <div className="text-xl pb-0.5">
                   <MdSend/>
                 </div>
@@ -123,5 +124,3 @@ const UserNav = ({userNavData}: Props) => {
     </>
   );
 };
-
-export  default UserNav

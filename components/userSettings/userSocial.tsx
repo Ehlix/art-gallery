@@ -2,16 +2,15 @@
 import React, {useState} from "react";
 import {SocialObject} from "@/components/newProfile/newProfileMain";
 import {Social} from "@/components/newProfile/social";
-import {cutNameFromSite} from "@/utils/utils";
+import {cutNameFromSite} from "@/utils/cutNameFromSite";
 
 type Props = {
   socialObject: SocialObject | null
 };
 
-export function UserSocial({socialObject}: Props) {
+export const UserSocial = ({socialObject}: Props) => {
   const [isLoading] = useState<boolean>(false);
-  const [social, setSocial
-  ] = useState<SocialObject>({
+  const [social, setSocial] = useState<SocialObject>({
     publicEmail: cutNameFromSite(socialObject?.publicEmail || ''),
     website: socialObject?.website || '',
     twitter: socialObject?.twitter || '',
@@ -31,4 +30,4 @@ export function UserSocial({socialObject}: Props) {
               customClassName="flex h-full flex-col gap-5 rounded-md p-10 text-lg bg-t-main/20 w-[70vw] md:w-full lg:w-[60vw] lg:p-5 lg:pb-10 sm:pb-10 md:pb-10"/>
     </div>
   );
-}
+};

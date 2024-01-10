@@ -11,7 +11,7 @@ interface RemoveConfirmation {
   className: string;
 }
 
-const RemoveConfirmation = ({className, callback}: RemoveConfirmation) => {
+export const RemoveConfirmation = ({className, callback}: RemoveConfirmation) => {
   const [isOpen, setOpen] = useState<boolean>(false);
 
 
@@ -73,4 +73,3 @@ const RemoveConfirmation = ({className, callback}: RemoveConfirmation) => {
     </AlertDialog.Root>
   );
 };
-export default RemoveConfirmation;

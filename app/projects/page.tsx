@@ -1,5 +1,5 @@
 import React from "react";
-import UserMain from "@/components/userMain/userMain";
+import {UserMain} from "@/components/userMain/userMain";
 import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
 import {Database} from "@/lib/database.types";
 import {cookies} from "next/headers";
@@ -10,8 +10,15 @@ const ProjectsPage = async () => {
   const date = new Date;
   const dateStart = date.toUTCString();
   const {data: user} = await supabase.auth.getUser();
-  const {count} = await supabase.from('artworks').select('*', {count: 'exact'}).lte('created_at', dateStart).eq('user_id', user.user?.id || '');
-  const {data: profiles} = await supabase.from('profiles').select().eq('user_id', user.user?.id || '');
+  const {count} = await supabase
+    .from('artworks')
+    .select('*', {count: 'exact'})
+    .lte('created_at', dateStart)
+    .eq('user_id', user.user?.id || '');
+  const {data: profiles} = await supabase
+    .from('profiles')
+    .select()
+    .eq('user_id', user.user?.id || '');
   const profile = profiles && profiles[0];
   if (!user.user || !profile) {
     redirect('/auth/sign-in');
@@ -26,5 +33,4 @@ const ProjectsPage = async () => {
     </>
   );
 };
-
 export default ProjectsPage;

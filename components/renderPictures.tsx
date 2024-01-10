@@ -1,13 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import * as React from "react";
 import {useEffect, useState} from "react";
 import {Database} from "@/lib/database.types";
 import {cn} from "@/utils/twMergeClsx";
 import {createClientComponentClient, SupabaseClient} from "@supabase/auth-helpers-nextjs";
 import {MdEdit} from "react-icons/md";
-import RemoveConfirmation from "@/components/removeConfirmation";
-import LoadingSpinner from "@/components/loadingSpinner";
+import {RemoveConfirmation} from "@/components/removeConfirmation";
+import {LoadingSpinner} from "@/components/loadingSpinner";
 
 
 type Profile = Database['public']['Tables']['profiles']['Row']
@@ -24,7 +23,13 @@ type Props = {
 };
 
 
-const RenderPictures = ({className, artworksCount, getArtworks, mode, filter}: Props) => {
+export const RenderPictures = ({
+                                 className,
+                                 artworksCount,
+                                 getArtworks,
+                                 mode,
+                                 filter
+                               }: Props) => {
   const supabase = createClientComponentClient<Database>();
   const [loading, setLoading] = useState<boolean>(true);
   const [rangeFrom, setRangeFrom] = useState<number>(0);
@@ -175,5 +180,3 @@ const RenderPictures = ({className, artworksCount, getArtworks, mode, filter}: P
     </>
   );
 };
-
-export default RenderPictures;

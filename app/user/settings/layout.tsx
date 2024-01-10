@@ -1,6 +1,6 @@
 import React, {Suspense} from "react";
 import {Metadata} from "next";
-import UserSettingsNav from "@/components/userSettings/userSettingsNav";
+import {UserSettingsNav} from "@/components/userSettings/userSettingsNav";
 import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
 import {cookies} from "next/headers";
 import {Database} from "@/lib/database.types";
@@ -17,7 +17,10 @@ type Props = {
 export default async function UserSettingLayout({children}: Props) {
   const supabase = createServerComponentClient<Database>({cookies});
   const {data: user} = await supabase.auth.getUser();
-  const {data: profiles} = await supabase.from('profiles').select().eq('user_id', user.user?.id || '');
+  const {data: profiles} = await supabase
+    .from('profiles')
+    .select()
+    .eq('user_id', user.user?.id || '');
   const profile = profiles && profiles[0];
 
   return (
@@ -25,8 +28,8 @@ export default async function UserSettingLayout({children}: Props) {
       <UserSettingsNav profile={profile} site={user.user?.user_metadata.site}
                        date={user.user?.created_at || ''}/>
       <Suspense>
-        <div className='grow'>
-        {children}
+        <div className="grow">
+          {children}
         </div>
       </Suspense>
     </section>

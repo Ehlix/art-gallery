@@ -11,7 +11,7 @@ import {useRouter} from "next/navigation";
 import 'react-toastify/dist/ReactToastify.css';
 
 
-export function SignIn() {
+export const SignIn = () => {
 
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -78,15 +78,16 @@ export function SignIn() {
           <button
             className="mt-2 flex items-center justify-center rounded-md font-medium leading-none transition-all duration-300 bg-t-hover-2 w-[150px] text-t-main-2 h-[40px] hover:bg-t-hover-3 disabled:bg-t-main disabled:text-t-hover-1"
             disabled={loading}>
-            {loading
-              ?
-              'Please await . . .'
-              :
-              'Sign in'
+            {
+              loading
+                ?
+                'Please await . . .'
+                :
+                'Sign in'
             }
           </button>
         </Form.Submit>
       </Form.Root>
     </>
   );
-}
+};

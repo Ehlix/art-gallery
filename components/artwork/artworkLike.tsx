@@ -10,16 +10,18 @@ type Props = {
   like: boolean
 };
 
-export function ArtworkLike({artworkId, currentUser, like}: Props) {
+export const ArtworkLike = ({artworkId, currentUser, like}: Props) => {
   const [isLoaded, setLoaded] = useState<boolean>(true);
   const [isLiked, setLiked] = useState<boolean>(like);
   const supabase = createClientComponentClient<Database>();
 
-  async function checkLikeStatus() {
-    const {data} = await supabase.from('artworks_likes').select().match({
-      artwork_id: artworkId,
-      user_id: currentUser?.id,
-    });
+  const checkLikeStatus = async () => {
+    const {data} = await supabase
+      .from('artworks_likes')
+      .select().match({
+        artwork_id: artworkId,
+        user_id: currentUser?.id,
+      });
     if (data && data[0]) {
       setLiked(true);
       setLoaded(true);
@@ -30,40 +32,46 @@ export function ArtworkLike({artworkId, currentUser, like}: Props) {
     setLiked(false);
     setLoaded(true);
     return null;
-  }
+  };
 
-  async function addLikeHandler(e: React.MouseEvent<HTMLButtonElement>) {
+  const addLikeHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (!artworkId || !currentUser) return;
 
     setLoaded(false);
-    const {error} = await supabase.from('artworks_likes').insert({
-      artwork_id: artworkId,
-      user_id: currentUser.id,
-    });
+    const {error} = await supabase
+      .from('artworks_likes')
+      .insert({
+        artwork_id: artworkId,
+        user_id: currentUser.id,
+      });
     if (error) {
       setLoaded(true);
       return;
     }
     console.log('like handler');
     checkLikeStatus().then();
-  }
+  };
 
-  async function removeLikeHandler(e: React.MouseEvent<HTMLButtonElement>) {
+  const removeLikeHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setLoaded(false);
-    const {data} = await supabase.from('artworks_likes').select().match({
-      artwork_id: artworkId,
-      user_id: currentUser?.id,
-    });
+    const {data} = await supabase
+      .from('artworks_likes')
+      .select().match({
+        artwork_id: artworkId,
+        user_id: currentUser?.id,
+      });
     if (data && data[0]) {
-      const {error} = await supabase.from('artworks_likes').delete().eq('id', data[0].id);
+      const {error} = await supabase
+        .from('artworks_likes')
+        .delete().eq('id', data[0].id);
       if (!error) {
         console.log('delete handler');
         checkLikeStatus().then();
       }
     }
-  }
+  };
 
   if (!currentUser) {
     return (
@@ -111,4 +119,4 @@ export function ArtworkLike({artworkId, currentUser, like}: Props) {
       </span>
       </button>
   );
-}
+};

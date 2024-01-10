@@ -6,7 +6,7 @@ type Props = {
   isLoading: boolean
 };
 
-const LoadingSpinner = ({isLoading}: Props) => {
+export const LoadingSpinner = ({isLoading}: Props) => {
   return (
     isLoading
       ?
@@ -23,5 +23,3 @@ const LoadingSpinner = ({isLoading}: Props) => {
       </div>
   );
 };
-
-export default LoadingSpinner;

@@ -14,7 +14,7 @@ import {useIsMount} from "@/hooks/useIsMount";
 import {useRouter} from "next/navigation";
 import {Database} from "@/lib/database.types";
 
-export type Thumbnail = {
+export type ThumbnailType = {
   id: string
   status: 'notLoaded' | 'loading' | 'loaded' | 'error'
   file: File | null
@@ -24,7 +24,7 @@ export type EditArtwork = {
   curUniquePath: string
   curTitle: string
   curDescription: string
-  curThumb: Thumbnail
+  curThumb: ThumbnailType
   curSelectedFile: SelectedFileType[]
   curChosenCategories: ChosenCategories
 }
@@ -43,11 +43,12 @@ type Props = {
   editArtwork?: EditArtwork
 }
 
-const NewProjectMain = ({editArtwork}: Props) => {
+export const NewProjectMain = ({editArtwork}: Props) => {
+  const supabase = createClientComponentClient<Database>();
   const [uniquePath] = useState(editArtwork?.curUniquePath || v4());
   const router = useRouter();
   const isMount = useIsMount();
-  const [thumbnail, setThumbnail] = useState<Thumbnail | null>(editArtwork?.curThumb || null);
+  const [thumbnail, setThumbnail] = useState<ThumbnailType | null>(editArtwork?.curThumb || null);
   const [selectedFiles, setSelectedFiles] = useState<SelectedFileType[]>(editArtwork?.curSelectedFile || []);
   const [title, setTitle] = useState<string>(editArtwork?.curTitle || '');
   const [description, setDescription] = useState<string>(editArtwork?.curDescription || '');
@@ -55,7 +56,6 @@ const NewProjectMain = ({editArtwork}: Props) => {
     medium: [],
     subject: []
   });
-  const supabase = createClientComponentClient<Database>();
 
   // * Validation project
   const {
@@ -89,15 +89,17 @@ const NewProjectMain = ({editArtwork}: Props) => {
         return;
       }
       if (editArtwork) {
-        const {error} = await supabase.from('artworks').update({
-          title: payload.title,
-          description: payload.description,
-          medium: payload.medium,
-          subject: payload.subject,
-          folder: uniquePath,
-          thumbnail: payload.thumbnail?.id,
-          files: payload.image?.map((v) => v.id),
-        }).eq('id', editArtwork.curArtworkId);
+        const {error} = await supabase
+          .from('artworks')
+          .update({
+            title: payload.title,
+            description: payload.description,
+            medium: payload.medium,
+            subject: payload.subject,
+            folder: uniquePath,
+            thumbnail: payload.thumbnail?.id,
+            files: payload.image?.map((v) => v.id),
+          }).eq('id', editArtwork.curArtworkId);
         if (!error) {
           const userLink = user.user?.user_metadata.site;
           router.push(`/${userLink}`);
@@ -210,5 +212,3 @@ const NewProjectMain = ({editArtwork}: Props) => {
     </div>
   );
 };
-
-export default NewProjectMain;

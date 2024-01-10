@@ -1,32 +1,33 @@
 import * as React from 'react';
 import {useEffect, useRef, useState} from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-import {Thumbnail} from "@/components/newProject/newProjectMain";
+import {ThumbnailType} from "@/components/newProject/newProjectMain";
 import {cn} from "@/utils/twMergeClsx";
-import CropImage from "@/components/cropImage";
+import {CropImage} from "@/components/cropImage";
 import Image from "next/image";
-import {bytesToMb, renameFile} from "@/utils/utils";
 import {v4} from "uuid";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 import Env from "@/lib/env";
+import {bytesToMb} from "@/utils/bytesToMb";
+import {renameFile} from "@/utils/renameFile";
 
 type Props = {
-  thumbnail: Thumbnail | null
-  setThumbnail: React.Dispatch<React.SetStateAction<Thumbnail | null>>
+  thumbnail: ThumbnailType | null
+  setThumbnail: React.Dispatch<React.SetStateAction<ThumbnailType | null>>
   uniquePath: string
 };
 
-export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
+export const Thumbnail = ({setThumbnail, thumbnail, uniquePath}: Props) => {
   const inputFile = useRef(null);
   const [open, setOpen] = useState<boolean>(false);
   const supabase = createClientComponentClient();
 
-  function clickHandler() {
+  const clickHandler = () => {
 // @ts-ignore
     inputFile.current.click();
-  }
+  };
 
-  async function imagesChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
+  const imagesChangeHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file: File | null = e.target.files && e.target.files[0];
     if (file) {
       if (bytesToMb(file.size) > 15) {
@@ -35,12 +36,12 @@ export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
       }
       const tName = v4();
       if (thumbnail?.file) {
-        const {
-          data,
-          error
-        } = await supabase.storage.from(Env.PROJECTS_BUCKET).remove([`cache/${uniquePath}/${thumbnail.file.name}`]);
+        const {data, error} = await supabase
+          .storage
+          .from(Env.PROJECTS_BUCKET)
+          .remove([`cache/${uniquePath}/${thumbnail.file.name}`]);
         if (data) {
-          const thumb: Thumbnail = {
+          const thumb: ThumbnailType = {
             id: `thumbnail_${tName}.jpg`,
             file: renameFile(file, `thumbnail_${tName}`),
             status: "notLoaded"
@@ -52,26 +53,26 @@ export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
         }
         return;
       }
-      const thumb: Thumbnail = {
+      const thumb: ThumbnailType = {
         id: `thumbnail_${tName}.jpg`,
         file: renameFile(file, `thumbnail_${tName}`),
         status: "notLoaded"
       };
       setThumbnail(thumb);
     }
-  }
+  };
 
-  const uploadThumb = async (thumbnail: Thumbnail) => {
+  const uploadThumb = async (thumbnail: ThumbnailType) => {
     if (thumbnail.status === 'notLoaded' && thumbnail.file) {
       thumbnail.status = 'loading';
       console.log('thumb upload start..');
-      const {
-        data,
-        error
-      } = await supabase.storage.from(`${Env.PROJECTS_BUCKET}/cache`).upload(`${uniquePath}/${thumbnail.file.name}`, thumbnail.file, {
-        cacheControl: '3600',
-        upsert: false
-      });
+      const {data, error} = await supabase
+        .storage
+        .from(`${Env.PROJECTS_BUCKET}/cache`)
+        .upload(`${uniquePath}/${thumbnail.file.name}`, thumbnail.file, {
+          cacheControl: '3600',
+          upsert: false
+        });
       if (data) {
         console.log(data);
         setThumbnail({
@@ -79,13 +80,11 @@ export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
           status: "loaded"
         });
         console.log('thumb uploaded');
-
       }
       if (error) {
         console.log(error);
       }
     }
-
   };
   useEffect(() => {
     if (thumbnail?.status === 'notLoaded' && thumbnail.file) {
@@ -160,4 +159,4 @@ export function Thumbnail({setThumbnail, thumbnail, uniquePath}: Props) {
         accept="image/,.png,.jpg,.jpeg"/>
     </div>
   );
-}
+};

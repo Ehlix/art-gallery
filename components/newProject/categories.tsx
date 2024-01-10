@@ -12,11 +12,11 @@ type Props = {
   errors: any
 };
 
-export function Categories({chosenCategories, setChosenCategories, errors}: Props) {
+export const Categories = ({chosenCategories, setChosenCategories, errors}: Props) => {
   const [searchSubject, setSearchSubject] = useState<string>('');
   const [currentSubject, setCurrentSubject] = useState<Subject | null>(null);
 
-  function categoriesChangeHandler(e: React.ChangeEvent<HTMLInputElement>, v: string) {
+  const categoriesChangeHandler = (e: React.ChangeEvent<HTMLInputElement>, v: string) => {
     if (e.currentTarget.checked) {
       const newMedium = [...chosenCategories.medium, v];
       setChosenCategories({...chosenCategories, medium: [...newMedium]});
@@ -27,32 +27,32 @@ export function Categories({chosenCategories, setChosenCategories, errors}: Prop
         medium: [...filterCategories]
       });
     }
-  }
+  };
 
-  function onMouseOverHandler(v: Subject) {
+  const onMouseOverHandler = (v: Subject) => {
     setCurrentSubject({...v});
-  }
+  };
 
   // function onMouseLeaveHandler() {
   //   setCurrentSubject(null);
   // }
 
 
-  function addSubjectHandler(v: Subject) {
+  const addSubjectHandler = (v: Subject) => {
     if (!chosenCategories.subject.includes(v.name) && chosenCategories.subject.length < 3) {
       const newSubject = [...chosenCategories.subject, v.name];
       setChosenCategories({...chosenCategories, subject: newSubject});
     }
-  }
+  };
 
-  function removeSubjectHandler(v: string) {
+  const removeSubjectHandler = (v: string) => {
     const newSubject = chosenCategories.subject.filter(t => t !== v);
     setChosenCategories({...chosenCategories, subject: newSubject});
-  }
+  };
 
-  function searchHandler(e: React.ChangeEvent<HTMLInputElement>) {
+  const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchSubject(e.currentTarget.value.trimStart());
-  }
+  };
 
   return (
     <div className="flex flex-col gap-2 rounded-md p-2 px-4 bg-t-main-3">
@@ -63,28 +63,29 @@ export function Categories({chosenCategories, setChosenCategories, errors}: Prop
         Medium
       </h4>
       <div className="flex flex-wrap gap-2">
-        {MEDIUM.map((v) => {
-          const disableStatus = chosenCategories.medium.length >= 3 && !(chosenCategories?.medium as string[]).includes(v.name);
-          return (
-            <label
-              key={v.params}
-              className={cn("select-none cursor-pointer flex items-center justify-start outline-none transition-all gap-3 rounded-md px-3 p-2 border-t-main border hover:bg-t-main/25 focus:bg-t-main/25 focus:border focus:outline-none", {'hover:bg-t-main/0 cursor-auto border-t-main/50': disableStatus})}>
-              <input
-                disabled={disableStatus}
-                className="cursor-pointer appearance-none rounded-full border p-0 group group-aria-disabled:bg-t-error h-[15px] w-[15px] border-t-main checked:bg-t-hover-2 checked:border-none disabled:border-t-main/20 disabled:cursor-auto"
-                type="checkbox"
-                id={v.name}
-                value={v.name}
-                tabIndex={-1000}
-                checked={(chosenCategories?.medium as string[]).includes(v.name)}
-                onChange={e => categoriesChangeHandler(e, v.name)}/>
-              <span
-                className={cn(' text-t-hover-1 capitalize', {'text-t-main': disableStatus})}>
+        {
+          MEDIUM.map((v) => {
+            const disableStatus = chosenCategories.medium.length >= 3 && !(chosenCategories?.medium as string[]).includes(v.name);
+            return (
+              <label
+                key={v.params}
+                className={cn("select-none cursor-pointer flex items-center justify-start outline-none transition-all gap-3 rounded-md px-3 p-2 border-t-main border hover:bg-t-main/25 focus:bg-t-main/25 focus:border focus:outline-none", {'hover:bg-t-main/0 cursor-auto border-t-main/50': disableStatus})}>
+                <input
+                  disabled={disableStatus}
+                  className="cursor-pointer appearance-none rounded-full border p-0 group group-aria-disabled:bg-t-error h-[15px] w-[15px] border-t-main checked:bg-t-hover-2 checked:border-none disabled:border-t-main/20 disabled:cursor-auto"
+                  type="checkbox"
+                  id={v.name}
+                  value={v.name}
+                  tabIndex={-1000}
+                  checked={(chosenCategories?.medium as string[]).includes(v.name)}
+                  onChange={e => categoriesChangeHandler(e, v.name)}/>
+                <span
+                  className={cn(' text-t-hover-1 capitalize', {'text-t-main': disableStatus})}>
                 {v.name}
               </span>
-            </label>
-          );
-        })}
+              </label>
+            );
+          })}
       </div>
       <span className="text-t-error">
         {errors.medium?.message}
@@ -95,22 +96,22 @@ export function Categories({chosenCategories, setChosenCategories, errors}: Prop
 
       <div className="flex flex-col">
         <div className="mb-2 flex flex-wrap gap-2">
-          {chosenCategories?.subject.map((v => {
-            return (
-              <div key={v}
-                   className="flex h-fit items-center gap-1 rounded-sm border px-3 text-base capitalize border-t-main bg-t-main/20 text-t-main">
-                <span>{v}</span>
-                <button onClick={() => removeSubjectHandler(v)}
-                        className="ml-1 flex items-center justify-center gap-1 caz-20 border-t-main">
+          {
+            chosenCategories?.subject.map((v => {
+              return (
+                <div key={v}
+                     className="flex h-fit items-center gap-1 rounded-sm border px-3 text-base capitalize border-t-main bg-t-main/20 text-t-main">
+                  <span>{v}</span>
+                  <button onClick={() => removeSubjectHandler(v)}
+                          className="ml-1 flex items-center justify-center gap-1 caz-20 border-t-main">
                 <span className="text-t-error pb-0.5">
                   <MdClose/>
                 </span>
-                </button>
-              </div>
-            );
-          }))}
+                  </button>
+                </div>
+              );
+            }))}
         </div>
-
         <input
           className="z-20 flex w-full appearance-none items-center justify-center leading-none outline-none border-t-main border-2 border-b-0 rounded-b-none bg-t-main-2 shadow-t-main h-[35px] rounded-t-md px-2 text-base
            text-t-hover-1 placeholder:text-t-main/40 focus:border-t-main"
@@ -118,7 +119,6 @@ export function Categories({chosenCategories, setChosenCategories, errors}: Prop
           placeholder="search subject"
           onChange={searchHandler}
           value={searchSubject.trimStart()}/>
-
         <div
           className="relative flex w-full rounded-md rounded-t-none border-2 border-t-main h-[600px]">
           <div className="h-full min-w-[200px]">
@@ -138,36 +138,36 @@ export function Categories({chosenCategories, setChosenCategories, errors}: Prop
                     <span>
                       {v.name}
                     </span>
-                    {subjectStatus
-                      ?
-                      <button onClick={() => removeSubjectHandler(v.name)}
-                              className="z-20 ml-1 flex items-center justify-center gap-1 rounded-md border px-2 border-t-main bg-t-main-2 h-[35px]">
+                    {
+                      subjectStatus
+                        ?
+                        <button onClick={() => removeSubjectHandler(v.name)}
+                                className="z-20 ml-1 flex items-center justify-center gap-1 rounded-md border px-2 border-t-main bg-t-main-2 h-[35px]">
                         <span className="text-t-error pb-0.5">
                           <MdClose/>
                         </span>
-                        <span className="md:hidden">
+                          <span className="md:hidden">
                           Remove
                         </span>
-                      </button>
-                      :
-                      <button
-                        disabled={chosenCategories.subject.length >= 3}
-                        className="z-20 ml-1 flex items-center justify-center gap-1 rounded-md border px-2 border-t-main bg-t-main-2 h-[35px] disabled:opacity-20"
-                        onClick={() => addSubjectHandler(v)}>
+                        </button>
+                        :
+                        <button
+                          disabled={chosenCategories.subject.length >= 3}
+                          className="z-20 ml-1 flex items-center justify-center gap-1 rounded-md border px-2 border-t-main bg-t-main-2 h-[35px] disabled:opacity-20"
+                          onClick={() => addSubjectHandler(v)}>
                         <span className="text-t-hover-2 pb-0.5">
                           <MdAdd/>
                         </span>
-                        <span className="md:hidden">
+                          <span className="md:hidden">
                           Add
                         </span>
-                      </button>
+                        </button>
                     }
                   </div>
                 );
               })}
             </div>
           </div>
-
 
           <div
             className="flex h-full w-full gap-5 overflow-y-scroll border-l-2 p-5 border-t-main">
@@ -227,4 +227,4 @@ export function Categories({chosenCategories, setChosenCategories, errors}: Prop
       <span className="text-t-error">{errors.subject?.message}</span>
     </div>
   );
-}
+};

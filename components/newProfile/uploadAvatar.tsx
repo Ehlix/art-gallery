@@ -1,13 +1,14 @@
 import * as React from "react";
 import {useEffect, useRef, useState} from "react";
 import {MdArrowUpward} from "react-icons/md";
-import {bytesToMb, renameFile} from "@/utils/utils";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 import Env from "@/lib/env";
 import {v4} from "uuid";
 import Image from "next/image";
 import {canvasRatio} from "@/utils/canvasRatio";
 import {NewProfilePictures} from "@/components/newProfile/newProfileMain";
+import {bytesToMb} from "@/utils/bytesToMb";
+import {renameFile} from "@/utils/renameFile";
 
 type Props = {
   uniquePath: string
@@ -22,17 +23,22 @@ type Avatar = {
   status: "error" | "notLoaded" | "loading" | "loaded"
 }
 
-export function UploadAvatar({uniquePath, setPictures, setLoading, currentAvatar}: Props) {
+export const UploadAvatar = ({
+                               uniquePath,
+                               setPictures,
+                               setLoading,
+                               currentAvatar
+                             }: Props) => {
   const supabase = createClientComponentClient();
   const inputFile = useRef(null);
   const [avatar, setAvatar] = useState<Avatar | null>(null);
 
-  function clickHandler() {
+  const clickHandler = () => {
 // @ts-ignore
     inputFile.current.click();
-  }
+  };
 
-  async function imagesChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
+  const imagesChangeHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputFile: File | null = e.target.files && e.target.files[0];
     if (inputFile) {
       if (bytesToMb(inputFile.size) > 15) {
@@ -40,12 +46,11 @@ export function UploadAvatar({uniquePath, setPictures, setLoading, currentAvatar
         return;
       }
       const file = await canvasRatio(inputFile, 1);
-
       if (avatar) {
-        const {
-          data,
-          error
-        } = await supabase.storage.from(Env.PROJECTS_BUCKET).remove([`cache/${uniquePath}/${avatar.file.name}`]);
+        const {data, error} = await supabase
+          .storage
+          .from(Env.PROJECTS_BUCKET)
+          .remove([`cache/${uniquePath}/${avatar.file.name}`]);
         if (data) {
           const newAvatar: Avatar = {
             id: v4(),
@@ -66,7 +71,7 @@ export function UploadAvatar({uniquePath, setPictures, setLoading, currentAvatar
       };
       setAvatar(newAvatar);
     }
-  }
+  };
 
   useEffect(() => {
     if (avatar?.status === 'notLoaded') {
@@ -74,12 +79,13 @@ export function UploadAvatar({uniquePath, setPictures, setLoading, currentAvatar
         setLoading(true);
         setAvatar({...avatar, status: 'loading'});
         console.log('avatar start loading..');
-        const {
-          data, error
-        } = await supabase.storage.from(`${Env.PROJECTS_BUCKET}/cache`).upload(`${uniquePath}/${avatar.file.name}`, avatar.file, {
-          cacheControl: '3600',
-          upsert: false
-        });
+        const {data, error} = await supabase
+          .storage
+          .from(`${Env.PROJECTS_BUCKET}/cache`)
+          .upload(`${uniquePath}/${avatar.file.name}`, avatar.file, {
+            cacheControl: '3600',
+            upsert: false
+          });
         if (data) {
           console.log(data);
           setAvatar({
@@ -138,4 +144,4 @@ export function UploadAvatar({uniquePath, setPictures, setLoading, currentAvatar
       />
     </div>
   );
-}
+};

@@ -7,23 +7,22 @@ import {usePathname} from "next/navigation";
 import {NavUser} from "@/components/navigation/userNavPanel";
 
 
-export function UserNavLogo({user}: { user: NavUser }) {
-
+export const UserNavLogo = ({user}: { user: NavUser }) => {
   const [open, setOpen] = useState<boolean>(false);
   const path = usePathname();
 
-function closeHandler() {
-    if (open) setTimeout(() => setOpen(false), 170);
-  }
 
   useEffect(() => {
     if (open) setTimeout(() => setOpen(false), 0);
   }, [path]);
 
+  const closeHandler = () => {
+    if (open) setTimeout(() => setOpen(false), 170);
+  };
 
-  function buttonHandler() {
+  const buttonHandler = () => {
     setOpen(!open);
-  }
+  };
 
   return (
     <>
@@ -49,10 +48,9 @@ function closeHandler() {
             className="rounded-full object-cover object-center w-[40px] h-[40px]"/>
         }
       </button>
-
       {open &&
-          <ModalUserOption closeHandler={closeHandler} user={user}/>
+        <ModalUserOption closeHandler={closeHandler} user={user}/>
       }
     </>
   );
-}
+};

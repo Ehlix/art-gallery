@@ -1,20 +1,20 @@
 import * as React from "react";
 import {useCallback, useEffect, useState} from "react";
-import ImageCropper from "@/components/imageCropper";
-import AppSlider from "@/components/appSlider";
-import {Thumbnail} from "@/components/newProject/newProjectMain";
+import {AppSlider} from "@/components/appSlider";
+import {ThumbnailType} from "@/components/newProject/newProjectMain";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 import {v4} from "uuid";
 import Env from "@/lib/env";
+import {ImageCropper} from "@/components/imageCropper";
 
 interface Props {
   uniquePath: string;
-  setThumbnail: React.Dispatch<React.SetStateAction<Thumbnail | null>>;
-  thumbnail: Thumbnail | null;
+  setThumbnail: React.Dispatch<React.SetStateAction<ThumbnailType | null>>;
+  thumbnail: ThumbnailType | null;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function CropImage({thumbnail, uniquePath, setThumbnail, setOpen}: Props) {
+export const CropImage = ({thumbnail, uniquePath, setThumbnail, setOpen}: Props) => {
   const [remoteImage, setRemoteImage] = useState("");
   const [localImage, setLocalImage] = useState("");
   const [zoom, setZoom] = useState(1);
@@ -116,4 +116,4 @@ export default function CropImage({thumbnail, uniquePath, setThumbnail, setOpen}
       </button>
     </div>
   );
-}
+};

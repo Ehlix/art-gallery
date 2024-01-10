@@ -11,7 +11,7 @@ import * as React from "react";
 import {useState} from "react";
 
 
-export function SignUp() {
+export const SignUp = () => {
 
   const [loading, setLoading] = useState<boolean>(false);
   const supabase = createClientComponentClient();
@@ -146,4 +146,4 @@ export function SignUp() {
       </Form.Root>
     </>
   );
-}
+};
