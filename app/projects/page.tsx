@@ -25,11 +25,10 @@ const ProjectsPage = async () => {
   }
   return (
     <>
-      <UserMain dateStart={dateStart}
-                user={user.user}
-                profile={profile}
-                count={count || 0}
-                mode={'edit'}/>
+      <UserMain
+        user={user.user}
+        profile={profile}
+        mode={'edit'}/>
     </>
   );
 };
