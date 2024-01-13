@@ -18,7 +18,8 @@ export const ArtworkLike = ({artworkId, currentUser, like}: Props) => {
   const checkLikeStatus = async () => {
     const {data} = await supabase
       .from('artworks_likes')
-      .select().match({
+      .select()
+      .match({
         artwork_id: artworkId,
         user_id: currentUser?.id,
       });
@@ -58,14 +59,16 @@ export const ArtworkLike = ({artworkId, currentUser, like}: Props) => {
     setLoaded(false);
     const {data} = await supabase
       .from('artworks_likes')
-      .select().match({
+      .select()
+      .match({
         artwork_id: artworkId,
         user_id: currentUser?.id,
       });
     if (data && data[0]) {
       const {error} = await supabase
         .from('artworks_likes')
-        .delete().eq('id', data[0].id);
+        .delete()
+        .eq('id', data[0].id);
       if (!error) {
         console.log('delete handler');
         checkLikeStatus().then();

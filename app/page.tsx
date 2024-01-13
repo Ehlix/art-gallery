@@ -1,16 +1,13 @@
 import {HomeMain} from "@/components/main/homeMain";
 import {Suspense} from "react";
 
-const HomePage = async () => {
-  const date = new Date;
-  const dateStart = date.toUTCString();
-
-  return (
+const HomePage = async () =>
+  (
     <section className="container relative">
       <Suspense>
-        <HomeMain dateStart={dateStart}/>
+        <HomeMain/>
       </Suspense>
     </section>
   );
-};
+
 export default HomePage;

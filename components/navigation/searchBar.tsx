@@ -36,26 +36,38 @@ export const SearchBar = () => {
 
 
   useEffect(() => {
-    if (isMount) {
+    if (isMount || debounceSearch.length < 3) {
       return;
     }
     setResult([]);
     supabase
       .from('profiles')
       .select()
-      .eq('site', debounceSearch)
+      .or(`site.ilike.%${debounceSearch}%, name.ilike.%${debounceSearch}%`)
       .then((res) => {
-      const profiles = res.data;
-      if (profiles) {
-        setResult(profiles);
-        setOpen(!!profiles.length);
-      }
-    });
+        const profiles = res.data;
+        if (profiles) {
+          setResult(profiles);
+          setOpen(!!profiles.length);
+        }
+      });
+    // supabase
+    //   .from('profiles')
+    //   .select()
+    //   .ilike('name', `%${debounceSearch}%`)
+    //   .then((res)=>{
+    //     console.log(res.data)
+    //     const profiles = res.data;
+    //     if (profiles) {
+    //       setResult(prev => [...prev,...profiles]);
+    //       setOpen(!!profiles.length);
+    //     }
+    //   })
   }, [debounceSearch]);
 
   const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    setSearch(e.target.value);
+    setSearch(e.target.value.trimStart());
   };
 
   const focusHandler = () => search && setOpen(true);
@@ -106,7 +118,7 @@ export const SearchBar = () => {
                   }
                 </div>
                 <span className="w-full">
-                  {`${v.site} (${v.site})`}
+                  {`${v.name} (${v.site})`}
                 </span>
               </Link>
             )

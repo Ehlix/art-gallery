@@ -13,18 +13,13 @@ type Props = {
 type User = Database['public']['Tables']['users']['Row']
 const UserPage = async ({params}: Props) => {
   const supabase = createServerComponentClient<Database>({cookies});
-  const date = new Date;
-  const dateStart = date.toUTCString();
+
   const {data: users} = await supabase
     .from('users')
     .select()
     .eq('metadata->>site', params.username);
   const user: User | null = users ? users[0] : null;
-  const {count} = await supabase
-    .from('artworks')
-    .select('*', {count: 'exact'})
-    .lte('created_at', dateStart)
-    .eq('user_id', user?.id || '');
+
   const {data: profiles} = await supabase
     .from('profiles')
     .select()
@@ -32,10 +27,10 @@ const UserPage = async ({params}: Props) => {
   const profile = profiles && profiles[0];
 
 
-  if (user && count && profile) {
+  if (user && profile) {
     return (
       <div className="container relative h-full">
-        <UserMain dateStart={dateStart} user={user} profile={profile} count={count}/>
+        <UserMain user={user} profile={profile}/>
       </div>
     );
   }

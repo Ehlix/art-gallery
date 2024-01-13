@@ -15,11 +15,9 @@ type Artwork = Database['public']['Tables']['artworks']['Row'] & {
   profile: Database['public']['Tables']['profiles']['Row']
 }
 
-type Props = {
-  dateStart: string
-}
 
-export const HomeMain = ({dateStart}: Props) => {
+export const HomeMain = () => {
+  const [dateStart] = useState(new Date().toUTCString());
   const [filter, setFilter] = useState<string | null>(null);
   const [count, setCount] = useState<number>(0);
   const [notFounded, setNotFounded] = useState<boolean>(false);

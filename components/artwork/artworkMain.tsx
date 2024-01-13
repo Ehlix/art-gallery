@@ -8,7 +8,7 @@ import {MdClose, MdFullscreen} from "react-icons/md";
 import {AvatarNameFollow} from "@/components/avatarNameFollow";
 import {ArtworkLike} from "@/components/artwork/artworkLike";
 import {ArtworkBookmark} from "@/components/artwork/artworkBookmark";
-import {ArtworkComments} from "@/components/artwork/artworkComments";
+import {ArtworkComments} from "@/components/artwork/artworkComment";
 import React from "react";
 import Image from "next/image";
 
