@@ -13,20 +13,16 @@ type Props = {
 type User = Database['public']['Tables']['users']['Row']
 const UserPage = async ({params}: Props) => {
   const supabase = createServerComponentClient<Database>({cookies});
-
   const {data: users} = await supabase
     .from('users')
     .select()
     .eq('metadata->>site', params.username);
   const user: User | null = users ? users[0] : null;
-
   const {data: profiles} = await supabase
     .from('profiles')
     .select()
     .eq('user_id', user?.id || '');
   const profile = profiles && profiles[0];
-
-
   if (user && profile) {
     return (
       <div className="container relative h-full">

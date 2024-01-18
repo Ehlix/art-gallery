@@ -54,7 +54,7 @@ export const UploadAvatar = ({
         if (data) {
           const newAvatar: Avatar = {
             id: v4(),
-            file: renameFile(file, `avatar_${v4()}.jpg`),
+            file: renameFile(file, `avatar_${v4()}`),
             status: "notLoaded"
           };
           setAvatar(newAvatar);
@@ -66,7 +66,7 @@ export const UploadAvatar = ({
       }
       const newAvatar: Avatar = {
         id: v4(),
-        file: renameFile(file, `avatar_${v4()}.jpg`),
+        file: renameFile(file, `avatar_${v4()}`),
         status: "notLoaded"
       };
       setAvatar(newAvatar);

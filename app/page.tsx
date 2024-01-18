@@ -1,4 +1,4 @@
-import {HomeMain} from "@/components/main/homeMain";
+import {HomeMain} from "@/components/home/homeMain";
 import {Suspense} from "react";
 
 const HomePage = async () =>

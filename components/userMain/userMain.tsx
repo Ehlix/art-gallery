@@ -31,9 +31,8 @@ export const UserMain = ({user, profile, mode}: Props) => {
       .from('artworks')
       .select('*', {count: 'exact'})
       .lte('created_at', dateStart)
-      .eq('user_id', user?.id || '').then(({count}) => {
-      setCount(count || 0);
-    });
+      .eq('user_id', user?.id || '')
+      .then(({count}) => setCount(count || 0));
   }, []);
 
   const getArtworks = async (supabase: SupabaseClient, rangeFrom: number, step: number): Promise<Artwork[]> => {

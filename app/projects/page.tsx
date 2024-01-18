@@ -7,14 +7,7 @@ import {redirect} from "next/navigation";
 
 const ProjectsPage = async () => {
   const supabase = createServerComponentClient<Database>({cookies});
-  const date = new Date;
-  const dateStart = date.toUTCString();
   const {data: user} = await supabase.auth.getUser();
-  const {count} = await supabase
-    .from('artworks')
-    .select('*', {count: 'exact'})
-    .lte('created_at', dateStart)
-    .eq('user_id', user.user?.id || '');
   const {data: profiles} = await supabase
     .from('profiles')
     .select()

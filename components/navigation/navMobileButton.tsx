@@ -6,7 +6,6 @@ import {PiList, PiX} from "react-icons/pi";
 import {SearchBar} from "@/components/navigation/searchBar";
 import {useClickOutside} from "@/hooks/useClickOutside";
 import {usePathname} from "next/navigation";
-import {SignOutButton} from "@/components/navigation/signOutButton";
 
 type Status = {
   isAuthorized: boolean;
@@ -50,20 +49,17 @@ export const NavMobileButton = ({isAuthorized}: Status) => {
           <div className="flex items-center justify-center gap-5">
             <SearchBar/>
             {
-              isAuthorized
-                ?
-                <SignOutButton/>
-                :
-                <Link href="/auth/signup"
-                      onClick={() => setOpen(false)}
-                      className="flex items-center justify-center gap-1 rounded-md transition-all min-w-[100px] text-t-hover-4 hover:text-t-hover-1 md:text-base">
-                  <div className="text-xl pb-0.5">
-                    <MdCreate/>
-                  </div>
-                  <span>
+              !isAuthorized &&
+              <Link href="/auth/signup"
+                    onClick={() => setOpen(false)}
+                    className="flex items-center justify-center gap-1 rounded-md transition-all min-w-[100px] text-t-hover-4 hover:text-t-hover-1 md:text-base">
+                <div className="text-xl pb-0.5">
+                  <MdCreate/>
+                </div>
+                <span>
                   Sing up
                 </span>
-                </Link>
+              </Link>
             }
           </div>
           <Link href="/"

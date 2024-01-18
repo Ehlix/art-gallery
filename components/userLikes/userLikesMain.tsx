@@ -1,7 +1,10 @@
 'use client';
 import {RenderPictures} from "@/components/renderPictures";
-import React from "react";
-import {SupabaseClient,} from "@supabase/auth-helpers-nextjs";
+import React, {useEffect, useState} from "react";
+import {
+  createClientComponentClient,
+  SupabaseClient,
+} from "@supabase/auth-helpers-nextjs";
 import {Database} from "@/lib/database.types";
 
 type User = Database['public']['Tables']['users']['Row']
@@ -12,11 +15,23 @@ type Artwork = Database['public']['Tables']['artworks']['Row'] & {
 
 type Props = {
   user: User
-  count: number
-  dateStart: string
 };
 
-export const UserLikesMain = ({user, count, dateStart}: Props) => {
+export const UserLikesMain = ({user}: Props) => {
+  const supabase = createClientComponentClient<Database>();
+  const [dateStart] = useState(new Date().toUTCString());
+  const [count, setCount] = useState<number>(0);
+
+  useEffect(() => {
+    setCount(0);
+    supabase
+      .from('artworks_likes')
+      .select('*', {count: 'exact'})
+      .eq('user_id', user?.id || '')
+      .lte('created_at', dateStart)
+      .then(({count}) => setCount(count || 0));
+  }, []);
+
   const getArtworks = async (supabase: SupabaseClient, rangeFrom: number, step: number): Promise<Artwork[]> => {
     const newArtworks: Artwork[] = [];
     console.log('getArtworks');
@@ -46,9 +61,11 @@ export const UserLikesMain = ({user, count, dateStart}: Props) => {
     }
     return newArtworks || [];
   };
-  return (
-    <>
-      <RenderPictures artworksCount={count} getArtworks={getArtworks}/>
-    </>
-  );
+  if (count) {
+    return (
+      <>
+        <RenderPictures artworksCount={count} getArtworks={getArtworks}/>
+      </>
+    );
+  }
 };

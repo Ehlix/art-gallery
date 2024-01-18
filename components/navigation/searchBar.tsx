@@ -87,7 +87,7 @@ export const SearchBar = () => {
              placeholder="Search"
              className="h-full w-full grow rounded-full border-2 pl-9 text-base outline-none transition duration-200 bg-t-main-2 border-t-main placeholder:text-t-main/30 hover:border-t-hover-1 focus:border-t-hover-2 focus:box-decoration-clone"/>
       <div
-        className={cn(' p-3 left-0 top-full z-10 rounded-md text-t-main text-lg items-start justify-center flex flex-col mt-2 bg-t-main-3 absolute w-full h-50', {
+        className={cn('p-3 left-0 top-full z-10 rounded-md text-t-main text-lg items-start justify-center flex flex-col mt-2 bg-t-main-3 absolute w-full h-50', {
           'hidden': !open,
         })}>
         {

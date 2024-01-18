@@ -53,7 +53,8 @@ export const UserAboutMain = ({profile}: Props) => (
         <h3 className="mb-5 text-4xl text-t-hover-1">
           Contact
         </h3>
-        {profile.social?.publicEmail &&
+        {
+          profile.social?.publicEmail &&
           <div
             className="mb-3 flex items-center rounded-md p-3 px-5 bg-t-main/20">
             {profile.social?.publicEmail}
@@ -61,18 +62,20 @@ export const UserAboutMain = ({profile}: Props) => (
         }
         <div
           className="flex items-center gap-5 rounded-md p-3 px-5 text-lg text-t-hover-1 bg-t-main/20">
-          {socTags.map((v) => {
-            const href = profile.social[v.title];
-            if (!href) return;
-            return (
-              <a
-                target="_blank"
-                key={v.title}
-                href={href}>
-                <v.icon size={25}/>
-              </a>
-            );
-          })}
+          {
+            socTags.map((v) => {
+              const href = profile.social[v.title];
+              if (!href) return;
+              return (
+                <a
+                  target="_blank"
+                  key={v.title}
+                  href={href}
+                className='hover:text-t-hover-6 transition-all duration-300'>
+                  <v.icon size={25}/>
+                </a>
+              );
+            })}
         </div>
       </div>
     }

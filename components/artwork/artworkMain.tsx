@@ -9,46 +9,26 @@ import {AvatarNameFollow} from "@/components/avatarNameFollow";
 import {ArtworkLike} from "@/components/artwork/artworkLike";
 import {ArtworkBookmark} from "@/components/artwork/artworkBookmark";
 import {ArtworkComments} from "@/components/artwork/artworkComment";
-import React from "react";
+import React, {useState} from "react";
 import Image from "next/image";
+import {artworkCreateAt} from "@/utils/artworkCreateAt";
 
 type ArtType = Database['public']['Tables']['artworks']['Row']
 
 
 type Props = {
   artwork: ArtType
-  artworkProfileData: Database['public']['Tables']['profiles']['Row']
+  profile: Database['public']['Tables']['profiles']['Row']
   currentUser: User | null
   currentUserSocialActivity: CurrentUserSocialActivity
-  thisProfileUser: Database['public']['Tables']['users']['Row'] | null
 };
 export const ArtworkMain = ({
                               artwork,
-                              artworkProfileData,
+                              profile,
                               currentUser,
                               currentUserSocialActivity,
-                              thisProfileUser
                             }: Props) => {
-  const createdAt = (): string => {
-    const dateNow = new Date();
-    const dateCreate = new Date(artwork.created_at);
-    const month = dateNow.getMonth() - dateCreate.getMonth();
-
-    if (month <= 0) {
-      const day = dateNow.getDate() - dateCreate.getDate();
-      if (day <= 0) {
-        return 'Posted today';
-      }
-      if (day === 1) {
-        return 'Posted yesterday';
-      }
-      return `Posted ${day} days ago`;
-    }
-    if (month === 1) {
-      return 'Posted last month';
-    }
-    return `Posted ${month} months ago`;
-  };
+  const [createdAt] = useState(artworkCreateAt(artwork.created_at));
 
 
   return (
@@ -90,16 +70,14 @@ export const ArtworkMain = ({
           <div
             className="absolute top-0 right-0 p-2 transition duration-300 hover:text-t-hover-1">
             <Link
-              // @ts-expect-error
-              href={`/${thisProfileUser?.metadata?.site || '/'}`}
+              href={`/${profile.site}`}
             >
               <MdClose size={25}/>
             </Link>
           </div>
 
-          <AvatarNameFollow profile={artworkProfileData}
-            // @ts-expect-error
-                            site={thisProfileUser?.metadata?.site || "/"}
+          <AvatarNameFollow profile={profile}
+                            site={profile.site}
                             currentUser={currentUser}
                             isFollow={!!currentUserSocialActivity.follow}/>
           <div className="flex flex-wrap justify-between gap-5">
@@ -121,7 +99,7 @@ export const ArtworkMain = ({
             </p>
           </div>
           <p className="text-sm italic">
-            {createdAt()}
+            {createdAt}
           </p>
         </div>
 
@@ -134,15 +112,17 @@ export const ArtworkMain = ({
             Tags
           </span>
           <div className="flex gap-2">
-            {artwork.medium?.map((v) => {
-              return (
-                <Link href="/"
-                      key={v}
-                      className="rounded-sm p-1 px-2 text-lg leading-none transition-all duration-300 bg-t-main/80 text-t-main-2 hover:bg-t-hover-4">
-                  {`#${v}`}
-                </Link>
-              );
-            })}
+            {
+              artwork.medium?.map((v) => {
+                return (
+                  <Link href="/"
+                        key={v}
+                        className="rounded-sm p-1 px-2 text-lg leading-none transition-all duration-300 bg-t-main/80 text-t-main-2 hover:bg-t-hover-4">
+                    {`#${v}`}
+                  </Link>
+                );
+              })
+            }
           </div>
         </div>
       </div>

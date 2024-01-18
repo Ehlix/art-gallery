@@ -12,21 +12,14 @@ type Props = {
 
 const LikesPage = async ({params}: Props) => {
   const supabase = createServerComponentClient<Database>({cookies});
-  const date = new Date;
-  const dateStart = date.toUTCString();
   const {data: users} = await supabase
     .from('users')
     .select()
     .eq('metadata->>site', params.username);
   const user = users?.length ? users[0] : null;
-  const {count} = await supabase
-    .from('artworks_likes')
-    .select('*', {count: 'exact'})
-    .eq('user_id', user?.id || '')
-    .lte('created_at', dateStart);
-  if (user && count) {
+  if (user) {
     return (
-      <UserLikesMain dateStart={dateStart} user={user} count={count}/>
+      <UserLikesMain user={user}/>
     );
   }
 };

@@ -1,4 +1,3 @@
-import {Metadata} from "next";
 import {UserNav} from "@/components/userMain/userNav";
 import React, {Suspense} from "react";
 import {notFound, redirect} from "next/navigation";
@@ -18,11 +17,6 @@ export type HeaderDataType = {
   isCurrentUserPage: boolean
 }
 
-export const metadata: Metadata = {
-  title: 'Art',
-  description: 'App gallery',
-};
-
 type Props = {
   children: React.ReactNode
   params: { username: string }
@@ -38,24 +32,19 @@ const UserLayout = async ({
     .from('users')
     .select()
     .eq('metadata->>site', params.username);
-
-  // @ts-ignore
-  if (!users || users.length <= 0 || users[0].metadata?.site !== params.username) {
-    return notFound();
-  }
-  const user = users?.length === 1 ? users[0] : null;
+  const user = users && users[0];
 
   const {data: profiles} = await supabase
     .from('profiles')
     .select()
-    .eq('user_id', user?.id || '');
+    .eq('site', params.username);
   const profile = profiles && profiles[0];
 
-  if (!profile && (!currentUser.user || currentUser.user?.id !== user?.id)) {
-    return notFound();
-  }
   if (!profile && (currentUser.user?.id === user?.id)) {
-    redirect('/user/create-profile');
+    return redirect('/user/create-profile');
+  }
+  if (!profile) {
+    return notFound();
   }
 
   const headerData: HeaderDataType = {
@@ -96,8 +85,7 @@ const UserLayout = async ({
     });
 
   const userNavData = {
-    // @ts-ignore
-    username: user?.metadata?.site,
+    username: profile.site,
     likes: likes?.length || 0,
     following: following?.length || 0,
     followers: followers?.length || 0,

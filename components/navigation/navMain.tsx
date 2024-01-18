@@ -15,7 +15,8 @@ export const NavMain = async () => {
   const isAuthorized = data?.session !== null;
   const {data: profile} = await supabase
     .from('profiles')
-    .select().eq('user_id', data?.session?.user.id || '');
+    .select()
+    .eq('user_id', data?.session?.user.id || '');
   const createProfileLink = !!data.session && !!profile && !profile[0];
   console.log('Authorized: ', isAuthorized);
   return (
@@ -32,22 +33,36 @@ export const NavMain = async () => {
                  unoptimized
                  priority={true}/>
         </Link>
-        <div className="flex w-full items-center gap-7 md:hidden">
-          <Link
-            href="/"
-            className="capitalize relative transition-all decoration-t-hover-2 decoration-[2.5px] hover:text-t-hover-1
+        <div className="relative flex w-full items-center gap-7 md:hidden">
+          <div className="relative flex justify-center group">
+            <Link
+              href="/"
+              className="capitalize relative decoration-t-hover-2 decoration-[2.5px] hover:text-t-hover-1
             hover:before:absolute hover:before:top-full hover:before:w-full hover:before:l-0 hover:before:h-[3px] hover:before:rounded-md hover:before:bg-t-hover-2
             ">
-            Explore
-          </Link>
+              Explore
+            </Link>
+            <div className="absolute top-full -mt-2 hidden flex-col group-hover:flex">
+              <div
+                className="p-3 px-5 gap-3 flex-col flex bg-t-main-3 mt-4 rounded-md hover:*:text-t-hover-1">
+                <Link href={'/?sort_by=trending'}>Trending</Link>
+                <Link href={'/?sort_by=latest'}>Latest</Link>
+                {
+                  isAuthorized &&
+                  <Link href={'/?sort_by=following'}>Following</Link>
+                }
+              </div>
+            </div>
+          </div>
           <SearchBar/>
         </div>
         <div className="flex w-auto gap-5 text-base h-[35px]">
-          {isAuthorized
-            ?
-            <UserNavPanel/>
-            :
-            <AuthButton/>
+          {
+            isAuthorized
+              ?
+              <UserNavPanel/>
+              :
+              <AuthButton/>
           }
         </div>
       </nav>

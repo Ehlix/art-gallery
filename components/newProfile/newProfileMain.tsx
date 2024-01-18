@@ -31,9 +31,10 @@ export type NewProfilePictures = {
 }
 
 export const NewProfileMain = ({name}: { name: string }) => {
-  const router = useRouter();
   const supabase = createClientComponentClient();
+  const router = useRouter();
   const [pictures, setPictures] = useState<NewProfilePictures>({});
+  const [isLoading, setLoading] = useState<boolean>(false);
   const [resume, setResume
   ] = useState<ResumeObject>({
     hiring: [],
@@ -48,7 +49,7 @@ export const NewProfileMain = ({name}: { name: string }) => {
     facebook: '',
     instagram: '',
   });
-  // * Validation project
+  // * Validation profile
   const {
     handleSubmit,
     formState: {errors},
@@ -56,7 +57,6 @@ export const NewProfileMain = ({name}: { name: string }) => {
   } = useForm<CreateProfileType>({
     resolver: yupResolver(createProfileSchema),
   });
-  const [isLoading, setLoading] = useState<boolean>(false);
 
   const moveHandler = async (): Promise<{
     avatar: { path: string } | null,
@@ -67,20 +67,23 @@ export const NewProfileMain = ({name}: { name: string }) => {
       const {data: avatar} = await supabase
         .storage
         .from(Env.PROJECTS_BUCKET)
-        .copy(`cache/${pictures.folderId}/${pictures.avatarId}`, `avatars/${pictures.folderId}/${pictures.avatarId}`);
+        .copy(
+          `cache/${pictures.folderId}/${pictures.avatarId}`,
+          `avatars/${pictures.folderId}/${pictures.avatarId}`
+        );
       const {data: cover} = await supabase
         .storage
         .from(Env.PROJECTS_BUCKET)
-        .copy(`cache/${pictures.folderId}/${pictures.coverId}`, `avatars/${pictures.folderId}/${pictures.coverId}`);
+        .copy(
+          `cache/${pictures.folderId}/${pictures.coverId}`,
+          `avatars/${pictures.folderId}/${pictures.coverId}`
+        );
       console.log('copied!', avatar, cover);
-      return new Promise((resolve) => {
-        resolve({avatar: avatar, cover: cover});
-      });
+      return {avatar: avatar, cover: cover};
     }
-    return new Promise((resolve) => {
-      resolve({avatar: null, cover: null});
-    });
+    return {avatar: null, cover: null};
   };
+
   const onSubmit = (payload: CreateProfileType) => {
     setLoading(true);
     moveHandler().then(async (res) => {
@@ -93,7 +96,7 @@ export const NewProfileMain = ({name}: { name: string }) => {
           headline: payload.headline,
           city: payload.city,
           country: payload.country,
-          folder: (res.avatar && res.cover) ? pictures.folderId : '',
+          folder: (res.avatar || res.cover) ? pictures.folderId : '',
           avatar: res.avatar ? pictures.avatarId : '',
           cover: res.cover ? pictures.coverId : '',
           resume: resume,

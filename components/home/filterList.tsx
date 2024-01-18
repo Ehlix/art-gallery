@@ -4,7 +4,7 @@ import Image from "next/image";
 import {MdAllInclusive, MdArrowLeft, MdArrowRight} from "react-icons/md";
 import React, {useState} from "react";
 import {cn} from "@/utils/twMergeClsx";
-import {useRouter} from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
 
 export const FilterList = () => {
   const router = useRouter();
@@ -12,6 +12,7 @@ export const FilterList = () => {
   const [starX, setStarX] = useState<number>(0);
   const [scrollLeft, setScrollLeft] = useState<number>(0);
   const [isDragged, setIsDragged] = useState<boolean>(false);
+  const searchParams = useSearchParams();
 
   const positionIncrease = () => {
     const slider = document.getElementById('slider');
@@ -53,14 +54,16 @@ export const FilterList = () => {
       slider.scrollLeft = scrollLeft - step;
     }
   };
-
+  console.log()
   const filterChangeHandler = (e: React.MouseEvent<HTMLButtonElement>, x: string) => {
     if (isDragged) {
       e.stopPropagation();
       setIsDragged(false);
       return;
     }
-    router.push(`/?subject=${x}`);
+    const params = new URLSearchParams(searchParams);
+    params.set('subject', x)
+    router.replace(`/?${params.toString()}`)
   };
 
   return (

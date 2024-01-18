@@ -15,14 +15,13 @@ export type CurrentUserSocialActivity = {
   follow: Database['public']['Tables']['users_followers']['Row'] | null
 }
 
-export default async function ArtworkPage({params}: Props) {
+const ArtworkPage = async ({params}: Props) => {
   const supabase = createServerComponentClient<Database>({cookies});
 
   const {data: artwork} = await supabase
     .from('artworks')
     .select()
     .eq('id', params.id);
-
   if (!artwork || artwork.length <= 0 || artwork[0].id !== +params.id) {
     return notFound();
   }
@@ -32,7 +31,6 @@ export default async function ArtworkPage({params}: Props) {
     .from('users')
     .select()
     .eq('id', userId);
-
   if (!user || user.length <= 0) {
     return notFound();
   }
@@ -42,7 +40,6 @@ export default async function ArtworkPage({params}: Props) {
     .select()
     .eq('user_id', user && user[0].id);
   const profile = profiles && profiles[0];
-
   if (!profile) {
     return notFound();
   }
@@ -84,10 +81,10 @@ export default async function ArtworkPage({params}: Props) {
     <section className="container relative h-full">
       <ArtworkMain
         artwork={artwork[0]}
-        artworkProfileData={profile}
-        thisProfileUser={user[0]}
+        profile={profile}
         currentUser={currentUser}
         currentUserSocialActivity={currentUserSocialActivity}/>
     </section>
   );
-}
+};
+export default ArtworkPage

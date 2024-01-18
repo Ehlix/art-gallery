@@ -54,7 +54,7 @@ export const UploadCover = ({
         if (data) {
           const newAvatar: Cover = {
             id: v4(),
-            file: renameFile(file, `cover_${v4()}.jpg`),
+            file: renameFile(file, `cover_${v4()}`),
             status: "notLoaded"
           };
           setCover(newAvatar);
@@ -66,7 +66,7 @@ export const UploadCover = ({
       }
       const newAvatar: Cover = {
         id: v4(),
-        file: renameFile(file, `cover_${v4()}.jpg`),
+        file: renameFile(file, `cover_${v4()}`),
         status: "notLoaded"
       };
       setCover(newAvatar);

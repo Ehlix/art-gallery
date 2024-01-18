@@ -15,6 +15,10 @@
     button {
         @apply transition duration-300
     }
+
+    a {
+        @apply transition duration-300
+    }
 }
 
 * {
