@@ -1,27 +1,28 @@
 'use client';
 import * as React from "react";
 import {UserEmail} from "@/components/userSettings/userEmail";
-import {UserTimezone} from "@/components/userSettings/userTimezone";
+import {UserPassword} from "@/components/userSettings/userPassword";
 
-type Props = {};
+type Props = {
+  email: string
+};
 
-export const UserGeneral = (props: Props) => (
+export const UserGeneral = ({email}: Props) => (
   <div className="flex flex-col items-center gap-5 md:items-center">
     <div
       className="flex h-fit flex-col items-center gap-5 rounded-md p-10 text-lg bg-t-main/20 w-[70vw] md:w-full lg:w-[60vw] lg:p-5">
-      <div className="flex w-full shrink grow flex-col justify-between gap-5">
+      <div className="flex w-full shrink grow flex-col justify-between gap-7">
         <div className="flex flex-col leading-none gap-0.5">
           <h3
             className="mb-2 text-4xl font-bold -tracking-tight text-t-hover-1">
             General
           </h3>
           <p>
-            Email, timezone, language, social media integration, browsing experience.
+            Email, password, deactivate account.
           </p>
         </div>
-        <UserEmail email={'qwe@qwe.ru'}/>
-        <UserTimezone/>
-        <UserTimezone/>
+        <UserEmail email={email}/>
+        <UserPassword/>
         <div>
           <h3 className="mb-1 flex gap-1 text-xl text-t-error">
             Danger Zone

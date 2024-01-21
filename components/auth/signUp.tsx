@@ -9,12 +9,13 @@ import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 import {useRouter} from "next/navigation";
 import * as React from "react";
 import {useState} from "react";
+import {Database} from "@/lib/database.types";
 
 
 export const SignUp = () => {
 
   const [loading, setLoading] = useState<boolean>(false);
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient<Database>();
   const router = useRouter();
   const {
     register,
@@ -83,7 +84,7 @@ export const SignUp = () => {
             <input
               className={(errors.email && "border-t-error focus:border-t-error hover:border-t-error ")}
               type="email"
-              placeholder="serunov@email.com"
+              placeholder="example@email.com"
               {...register("email")}/>
           </Form.Control>
           <span className="text-sm text-t-error">
@@ -91,7 +92,7 @@ export const SignUp = () => {
           </span>
         </Form.Field>
 
-        <Form.Field className="" name="email">
+        <Form.Field className="" name="password">
           <Form.Label
             className="text-base font-medium text-t-hover-1">
             * Password
@@ -108,7 +109,7 @@ export const SignUp = () => {
           </span>
         </Form.Field>
 
-        <Form.Field className="" name="email">
+        <Form.Field className="" name="confirm password">
           <Form.Label
             className="text-base font-medium text-t-hover-1">
             * Confirm password
@@ -122,7 +123,8 @@ export const SignUp = () => {
             />
           </Form.Control>
           <span className="text-sm text-t-error">
-            {errors.passwordConfirm
+            {
+              errors.passwordConfirm
               ?
               'password not equals'
               :
@@ -135,7 +137,8 @@ export const SignUp = () => {
           <button
             className="mt-2 flex items-center justify-center rounded-md px-2 font-medium leading-none transition-all duration-300 bg-t-hover-2 w-[150px] text-t-main-2 h-[40px] hover:bg-t-hover-3 disabled:bg-t-main disabled:text-t-hover-1"
             disabled={loading}>
-            {loading
+            {
+              loading
               ?
               'Loading..'
               :

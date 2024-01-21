@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import React, {Suspense} from "react";
 import {NavMobileButton} from "@/components/navigation/navMobileButton";
 import {SearchBar} from "@/components/navigation/searchBar";
 import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
@@ -8,6 +8,7 @@ import {UserNavPanel} from "@/components/navigation/userNavPanel";
 import {AuthButton} from "@/components/navigation/authButton";
 import Image from "next/image";
 import {Database} from "@/lib/database.types";
+import NavSuspense from "@/components/navigation/navSuspense";
 
 export const NavMain = async () => {
   const supabase = createServerComponentClient<Database>({cookies});
@@ -20,7 +21,7 @@ export const NavMain = async () => {
   const createProfileLink = !!data.session && !!profile && !profile[0];
   console.log('Authorized: ', isAuthorized);
   return (
-    <>
+    <Suspense fallback={<NavSuspense/>}>
       <nav
         className="container fixed top-0 z-40 flex w-full select-none items-center justify-between gap-7 no-wrap text-t-main bg-t-main-2 h-[60px] md:h-[45px]">
         <NavMobileButton isAuthorized={isAuthorized}/>
@@ -66,7 +67,6 @@ export const NavMain = async () => {
           }
         </div>
       </nav>
-
       <div
         className="relative top-0 w-full min-h-[60px] md:min-h-[45px]">
       </div>
@@ -86,6 +86,6 @@ export const NavMain = async () => {
           </div>
         </>
       }
-    </>
+    </Suspense>
   );
 };

@@ -15,7 +15,6 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import Env from "@/lib/env";
 import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 import {useRouter} from "next/navigation";
-import {useIsMount} from "@/hooks/useIsMount";
 
 type ProfileObj = Database['public']['Tables']['profiles']['Row']
 
@@ -33,7 +32,6 @@ const uniquePath = v4();
 export const UserProfile = ({profileObject}: Props) => {
   const supabase = createClientComponentClient<Database>();
   const router = useRouter();
-  const isMount = useIsMount();
   const [isLoading, setLoading] = useState<boolean>(false);
   const [pictures, setPictures] = useState<NewProfilePictures>({});
   const [profile, setProfile

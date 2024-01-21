@@ -9,7 +9,7 @@
     }
 
     textarea {
-        @apply w-full appearance-none leading-none outline-none transition-colors duration-300 bg-t-main-2 border-2 border-t-main min-h-[105px] max-h-[400px] rounded-md p-2 text-base text-t-hover-1 placeholder:text-t-main/40 focus:border-t-hover-1 md:min-h-[100px]
+        @apply w-full appearance-none leading-5 outline-none transition-colors duration-300 bg-t-main-2 border-2 border-t-main min-h-[105px] max-h-[400px] rounded-md p-2 text-base text-t-hover-1 placeholder:text-t-main/40 focus:border-t-hover-1 md:min-h-[100px]
     }
 
     button {

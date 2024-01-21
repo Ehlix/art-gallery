@@ -1,6 +1,6 @@
 'use client';
 import {RenderPictures} from "@/components/renderPictures";
-import React, {useEffect, useState} from "react";
+import React, {Suspense, useEffect, useState} from "react";
 import {
   createClientComponentClient,
   SupabaseClient,
@@ -54,12 +54,10 @@ export const UserMain = ({user, profile, mode}: Props) => {
 
   if (count > 0) {
     return (
-      <>
         <RenderPictures artworksCount={count}
                         getArtworks={getArtworks}
                         mode={mode}
                         className={mode && 'grid-cols-8 gap-2 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7'}/>
-      </>
     );
   }
 };

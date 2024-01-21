@@ -1,5 +1,5 @@
 import {UserNav} from "@/components/userMain/userNav";
-import React, {Suspense} from "react";
+import React from "react";
 import {notFound, redirect} from "next/navigation";
 import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
 import {cookies} from "next/headers";
@@ -98,9 +98,7 @@ const UserLayout = async ({
     <section>
       <UserHeader headerData={headerData}/>
       <UserNav userNavData={userNavData}/>
-      <Suspense>
-        {children}
-      </Suspense>
+      {children}
     </section>
   );
 };

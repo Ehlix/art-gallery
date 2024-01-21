@@ -31,5 +31,4 @@ const UserPage = async ({params}: Props) => {
     );
   }
 };
-
 export default UserPage;

@@ -1,6 +1,5 @@
 'use client';
 import {
-  MdLock,
   MdNote,
   MdNotifications,
   MdPerson,
@@ -69,12 +68,12 @@ const navTags: NavTag[] = [
     link: 'messaging',
     separator: false,
   },
-  {
-    title: 'Password',
-    icon: MdLock,
-    link: 'password',
-    separator: false,
-  },
+  // {
+  //   title: 'Password',
+  //   icon: MdLock,
+  //   link: 'password',
+  //   separator: false,
+  // },
 ];
 
 export const UserSettingsNav = ({profile, site, date}: Props) => {
@@ -128,8 +127,9 @@ export const UserSettingsNav = ({profile, site, date}: Props) => {
               <Fragment key={v.link}>
                 <Link
                   href={`${v.link}`}
-                  className={cn("rounded-md flex items-center leading-none gap-1 p-3 px-3 hover:bg-t-main-3 hover:text-t-hover-1", {
-                    'bg-t-main-3 text-t-hover-1 border-l-[2px] border-l-t-hover-2 pl-3 rounded-l-sm': current
+                  className={cn("rounded-md border-[2px] bg-t-main-2 border-t-main-2 flex items-center leading-none gap-1 p-3 px-3 hover:bg-t-main-3 hover:text-t-hover-1 ", {
+                    'border-t-main-3 bg-t-main-3 text-t-hover-1 border-l-t-hover-2 pl-3 rounded-l-sm md:border-t-main-3 md:rounded-md md:rounded-b-sm md:border-b-t-hover-2': current,
+                    'hover:border-t-main-3': !current,
                   })}>
                   <v.icon/>
                   <span>
