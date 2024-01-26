@@ -6,8 +6,6 @@ import {NextResponse} from 'next/server';
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
   const supabase = createMiddlewareClient({req, res});
-  // const supabase = createMiddlewareClient<Database>({req, res});
-  // const supabase = createServerComponentClient({cookies});
   const {data: user} = await supabase.auth.getUser();
   if (!user.user) {
     return NextResponse.redirect(new URL('/auth/sign-in', req.url));
@@ -19,9 +17,9 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL('/user/create-profile', req.url))
     }
   }
-  return NextResponse.next();
+  return res;
 }
 
 export const config = {
-  matcher: ['/project/new', '/projects', '/project/[id]']
+  matcher: ['/project/new', '/projects', '/project/[id]','/user/settings/general', '/user/settings/profile', '/user/settings/social', '/user/settings/resume']
 };

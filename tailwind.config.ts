@@ -20,6 +20,8 @@ const config: Config = {
         't-hover-5': '#71C2FF',
         't-hover-6': '#7fdaff',
         't-error': '#d02d1e',
+        't-shadow-1': '#00000050',
+        't-shadow-2': '#00000070',
       },
       backgroundImage: {
         'grad-1': "linear-gradient(175deg, rgba(189,113,255,1) 0%, rgba(198,94,255,1) 18%, rgba(197,93,255,1) 39%, rgba(205,96,255,1) 71%, rgba(190,116,255,1) 100%)",
