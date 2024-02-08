@@ -1,18 +1,16 @@
 import React from "react";
-import {notFound} from "next/navigation";
+import { notFound } from "next/navigation";
 
 type Props = {
-  params: { album: string }
+  params: { album: string };
 };
 
-const FolderPage = ({params}: Props) => {
-  return notFound()
+const FolderPage = ({ params }: Props) => {
+  return notFound();
   return (
     <>
-      <div className="h-[70px] flex">
-        <h3 className="py-5 text-t-hover-1 text-2xl">
-          {params.album}
-        </h3>
+      <div className="flex h-[70px]">
+        <h3 className="py-5 text-2xl text-t-hover-1">{params.album}</h3>
       </div>
     </>
   );

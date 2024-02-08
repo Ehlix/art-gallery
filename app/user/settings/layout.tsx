@@ -16,8 +16,10 @@ type Props = {
 }
 
 const UserSettingLayout = async ({children}: Props) => {
-  cookies();
-  const supabase = createServerComponentClient<Database>({cookies});
+  const cookiesStore = cookies();
+  const supabase = createServerComponentClient<Database>({
+    cookies: () => cookiesStore,
+  });
   const {data: user} = await supabase.auth.getUser();
   const {data: profiles} = await supabase
     .from('profiles')

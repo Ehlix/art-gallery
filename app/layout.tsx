@@ -1,23 +1,23 @@
-import './globals.css';
-import type { Metadata } from 'next';
-import { Heebo } from 'next/font/google';
-import { NavMain } from '@/components/navigation/navMain';
-import { cn } from '@/utils/twMergeClsx';
-import React, { Suspense } from 'react';
-import NavLoading from './navLoading';
+import "./globals.css";
+import type { Metadata } from "next";
+import { Nunito_Sans } from "next/font/google";
+import { NavMain } from "@/components/navigation/navMain";
+import { cn } from "@/utils/twMergeClsx";
+import React, { Suspense } from "react";
+import NavLoading from "./navLoading";
 
-const mainFont = Heebo({ subsets: ['latin'], weight: ['400'] });
+const mainFont = Nunito_Sans({ subsets: ["latin"], weight: ["400"] });
 
 export const metadata: Metadata = {
-  title: 'Art',
-  description: 'Art gallery',
+  title: "Art",
+  description: "Art gallery",
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => (
-  <html lang="en">
+  <html lang="en" className={mainFont.className}>
     <body
       className={cn(
-        'text-xl relative mr-[calc(-1*(100vw-100%))] w-full h-screen flex flex-col overflow-x-hidden '
+        "relative mr-[calc(-1*(100vw-100%))] flex h-screen w-full flex-col overflow-x-hidden text-xl ",
       )}
     >
       <header>
